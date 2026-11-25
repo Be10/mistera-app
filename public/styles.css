@@ -1,0 +1,937 @@
+:root{--navy:#010e31;--navy2:#071a38;--cream:#f6e8cd;--muted:#a9c0d2;--gold:#e7c18b;--outline:rgba(237,207,157,.4);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--cream);background:var(--navy);color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0;padding:0;min-height:100%;background:var(--navy)}body{overflow-x:hidden}button{font:inherit;cursor:pointer}button:focus-visible,.hotspot:focus-visible,.tree-target:focus-visible{outline:3px solid #f6e1a4;outline-offset:3px}button[disabled]{opacity:.55;cursor:not-allowed}[hidden]{display:none!important}
+.topbar{position:absolute;top:0;left:0;width:100%;z-index:30;display:flex;align-items:center;gap:12px;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 12px) max(14px,env(safe-area-inset-right,0px)) 8px max(14px,env(safe-area-inset-left,0px));background:linear-gradient(180deg,rgba(1,14,49,.8),transparent);pointer-events:none}.topbar>*{pointer-events:auto}.brand-name{font:700 clamp(16px,4vw,21px) Georgia,serif;letter-spacing:.22em;color:var(--gold)}.brand-sub{font-size:10px;letter-spacing:.04em;color:var(--muted);margin-top:2px}.progress-wrap{display:grid;text-align:center}.progress-wrap span:first-child{font-size:18px;font-weight:600;letter-spacing:.035em}.progress-caption{font-size:10px;color:var(--muted)}.icon-btn{border:1px solid var(--outline);background:#0c2445a6;border-radius:50%;color:var(--cream);width:40px;height:40px;display:grid;place-items:center;backdrop-filter:blur(8px)}
+.stage{position:relative;isolation:isolate;display:flex;flex-direction:column;min-height:100dvh;align-items:center;justify-content:center;overflow:hidden;background:var(--navy)}.sky-extension{flex:1 0 0;min-height:0;width:100%;position:relative;z-index:0}.scene-frame{position:relative;flex:0 0 auto;isolation:isolate;width:min(100%,560px);aspect-ratio:941 / 1672;overflow:visible;z-index:1}.base-village,.scene-frame>.stars,.scene-frame>.clouds,.scene-frame>.trees,.scene-frame>svg{position:absolute;inset:0;width:100%;height:100%}.base-village{z-index:3;object-fit:fill;pointer-events:none;display:block}.stars{z-index:1;pointer-events:none}.star-dot{position:absolute;border-radius:50%;background:#e8f4fd;box-shadow:0 0 3px #b8dcfa;animation:twinkle var(--twinkle,8s) ease-in-out infinite alternate;animation-delay:var(--delay,0s)}.star-dot.highlight{background:#f8e1aa;box-shadow:0 0 7px #c8b981}.moon{position:absolute;z-index:1;left:75%;top:5.1%;width:12%;max-width:90px;pointer-events:none;filter:drop-shadow(0 0 17px rgba(177,211,255,.22));animation:moon-pulse 12s ease-in-out infinite}.moon img{width:100%;height:auto;display:block}.clouds{z-index:2;pointer-events:none;overflow:hidden;clip-path:inset(-15% 0 68% 0);-webkit-mask-image:none;mask-image:none}.cloud{position:absolute;left:-70%;width:clamp(160px,60%,390px);height:auto;opacity:.77;animation:cloud-travel var(--speed,180s) linear infinite;animation-delay:var(--delay,0s);will-change:transform;filter:brightness(.75) saturate(.82)}.smoke-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:8;pointer-events:none}.house-art-layers{z-index:5;pointer-events:none}.tree-art-layers{z-index:7;pointer-events:none}.house-art-layers,.tree-art-layers{position:absolute;inset:0;width:100%;height:100%}.lit-house-art,.final-tree-art{position:absolute;max-width:none;display:block;object-fit:fill;opacity:0;transition:opacity 1.5s ease;pointer-events:none}.lit-house-art.is-visible,.final-tree-art.is-visible{opacity:1}.trees{z-index:6;pointer-events:none}.pino{position:absolute;transform-origin:50% 100%;max-width:none}.targets-overlay{z-index:9;overflow:visible;touch-action:pan-y}.hotspot{stroke:transparent;stroke-width:3;fill:transparent;cursor:pointer;transition:stroke .3s,fill .3s;pointer-events:all;outline:none}.hotspot.active{stroke:rgba(252,213,134,.95);stroke-width:5;fill:rgba(249,198,94,.065);filter:drop-shadow(0 0 7px rgba(255,199,83,.72));animation:active-pulse 2.8s ease-in-out infinite}.hotspot.opened{stroke:rgba(255,204,124,.0)}.hotspot:hover{stroke:rgba(246,211,153,.8);fill:rgba(238,182,94,.07)}.tree-target{fill:transparent;pointer-events:all;cursor:pointer;outline:none}.tree-target.locked{pointer-events:none}.tree-target.active{stroke:#ffe0a1;stroke-width:4;filter:drop-shadow(0 0 11px #ffd88c);animation:active-pulse 2.5s ease-in-out infinite}.debug-targets .hotspot{stroke:#74e5ed!important;stroke-width:3;fill:rgba(93,207,236,.18)!important}.debug-targets .house-number{display:block}.house-number{display:none;pointer-events:none;font:500 24px system-ui;fill:#fff;paint-order:stroke;stroke:#0c2042;stroke-width:4px}
+.snow-extension{position:relative;z-index:10;width:min(100%,560px);min-height:0;flex:1 0 0;pointer-events:none;overflow:visible}.snow-extension img{position:absolute;left:0;top:-65px;width:100%;height:auto;display:block;opacity:1;object-fit:cover;object-position:top}.snow-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:11;pointer-events:none;contain:layout paint}
+.action-bar{max-width:560px;padding:24px 18px 38px;margin:0 auto;text-align:center;background:linear-gradient(180deg,#010e31,#071932)}.section-eyebrow{color:var(--gold);font-size:10px;letter-spacing:.13em;font-weight:700}.next-label{font:16px/1.5 Georgia,serif;max-width:340px;margin:9px auto 17px}.primary-btn,.ghost-btn,.secondary-btn,.danger-btn{border-radius:10px;min-height:44px;padding:11px 18px;margin:4px;transition:filter .2s}.primary-btn{border:1px solid #e4be83;background:linear-gradient(180deg,#f0d2a4,#dcb275);color:#243047;font-weight:700}.ghost-btn{background:transparent;color:var(--cream);border:1px solid var(--outline)}.secondary-btn{border:1px solid var(--outline);background:#18365b;color:var(--cream)}.danger-btn{border:1px solid #bf8888;background:#5c2831;color:#fff}.primary-btn:hover,.ghost-btn:hover{filter:brightness(1.12)}.small-note{font-size:11px;line-height:1.6;color:#9fb7c9;margin:18px auto 0;max-width:380px}.day-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:16px}.day-list button{padding:9px 2px;border:1px solid #486283;color:#dbe1e8;background:#0c2347;border-radius:7px;min-height:44px;font-size:12px}.day-list button.opened{background:#234c44;color:#f6db9a;border-color:#4f8c70}.day-list button.available{border-color:#edc990;background:#3d4161;color:white}.day-list button:disabled{opacity:.6}
+.settings{position:fixed;z-index:50;top:calc(env(safe-area-inset-top,0px) + 64px);right:10px;width:min(300px,calc(100vw - 20px));padding:16px;background:rgba(6,25,54,.97);box-shadow:0 14px 50px #0009;border:1px solid rgba(231,193,139,.28);border-radius:14px;backdrop-filter:blur(18px)}.settings-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.settings-heading button{border:0;background:transparent;color:#eee;font-size:22px}.settings label{display:flex;align-items:center;gap:10px;font-size:13px;padding:7px 0}.settings label input{accent-color:#d9ba8e}.settings .secondary-btn,.settings .danger-btn{width:100%;margin:6px 0}.settings p{font-size:11px;color:var(--muted);line-height:1.5}
+.surprise-dialog{color:#f6eddd;background:#0d2547;border:1px solid #b99561;border-radius:18px;padding:0;max-width:min(400px,calc(100vw - 28px));width:100%;box-shadow:0 25px 80px #000b}.surprise-dialog::backdrop{background:rgba(1,10,29,.78);backdrop-filter:blur(4px)}.dialog-inner{text-align:center;padding:24px 18px 27px}.dialog-ornament{color:var(--gold);font-size:32px}.dialog-kicker{color:#dabd8c;letter-spacing:.13em;font-size:10px;font-weight:700}.dialog-inner h2{font:25px Georgia,serif;margin:12px 0;color:#ffe9bc}.dialog-inner p{line-height:1.7;color:#dfdeec;font-size:14px}.dialog-actions{margin-top:21px}.toast{position:fixed;z-index:60;bottom:calc(22px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 30px);padding:11px 18px;border-radius:12px;background:#173b5f;color:#f2e7d1;border:1px solid #d1ac79;box-shadow:0 12px 30px #0008;text-align:center;font-size:13px}
+.no-clouds .clouds,.no-snow .snow-canvas,.no-trees .trees,.no-smoke .smoke-canvas{display:none!important}.no-motion .star-dot,.no-motion .moon,.no-motion .cloud,.no-motion .hotspot.active{animation:none!important}
+@keyframes twinkle{0%,100%{opacity:.1;transform:scale(.7)}50%{opacity:.65;transform:scale(1.2)}}@keyframes moon-pulse{0%,100%{filter:drop-shadow(0 0 7px rgba(171,208,255,.18));opacity:.94}50%{filter:drop-shadow(0 0 21px rgba(171,208,255,.32));opacity:1}}@keyframes cloud-travel{from{transform:translateX(0)}to{transform:translateX(400%)}}@keyframes active-pulse{0%,100%{opacity:.6}50%{opacity:1}}
+@media (min-width:650px){.stage{padding:0 12px}.topbar{padding-left:22px;padding-right:22px}.snow-extension{max-width:560px}.action-bar{padding-bottom:50px}}
+@media (max-width:370px){.brand-sub{font-size:9px}.topbar{gap:7px}.progress-wrap span:first-child{font-size:16px}.icon-btn{width:36px;height:36px}.action-bar{padding:22px 12px 30px}.day-list{gap:4px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+
+/* V3: chimney editor shortcut and user-adjustable smoke density. */
+.settings label.smoke-visibility{padding:9px 0 2px;justify-content:space-between}.settings input[type="range"]{display:block;width:100%;margin:3px 0 12px;accent-color:#e2c28d}.calibration-link{display:block;text-decoration:none;text-align:center;font-size:13px;font-weight:600;padding:13px 10px;margin:9px 0 3px}.settings p.calibration-hint{margin:4px 0 13px;font-size:11px;line-height:1.45}
+.settings{max-height:calc(100dvh - env(safe-area-inset-top,0px) - 83px);overflow-y:auto;overscroll-behavior:contain}
+/* MISTERA V4: the stage is the entire visible page, no bottom toolbars. */
+html,body,#app { min-height:100%; }
+.stage { min-height:100dvh; }
+.scene-frame { aspect-ratio:941 / 1671; }
+.topbar { gap:8px; }
+.topbar .test-btn { flex:0 0 auto; }
+.test-btn { min-height:38px; display:flex;align-items:center;gap:7px;padding:7px 10px;background:rgba(9,34,65,.82);border:1px solid var(--outline);color:var(--cream);border-radius:999px;backdrop-filter:blur(12px);font-weight:600;font-size:11px;letter-spacing:.01em; }
+.test-btn:hover { background:rgba(26,62,99,.97); }
+#stage .scene-frame .tree-art-layers { z-index:7; }
+.tree-off,.tree-on { position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none; }
+.tree-off { opacity:1;transition:opacity 1.5s ease; }
+.tree-on { opacity:0;transition:opacity 1.5s ease; }
+.tree-off.is-hidden { opacity:0; }
+.tree-on.is-visible { opacity:1; }
+.lit-house-art { transition:opacity 1.3s ease; image-rendering:auto; }
+.settings { width:min(340px,calc(100vw - 18px)); top:calc(env(safe-area-inset-top,0px) + 64px);right:9px;max-height:calc(100dvh - 77px);overflow-y:auto;overscroll-behavior:contain; }
+.settings .panel-group { border-top:1px solid rgba(230,204,161,.19);margin:12px 0 0;padding:10px 0 0; }
+.settings .settings-label { font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#e8c692;padding:2px 0 5px; }
+.settings .control-intro { margin:0 0 12px; }
+.settings .next-label { font:13px/1.4 Georgia,serif;margin:6px 0 9px;max-width:100%;color:#e7e6de; }
+.settings .primary-btn,.settings .secondary-btn,.settings .danger-btn { width:100%;display:block;margin:5px 0;padding:9px 10px;min-height:40px;font-size:12px; }
+.settings .range-heading { justify-content:space-between;font-size:12px; }
+.settings input[type=range] { width:100%;margin:2px 0 10px;accent-color:#e1c18d; }
+.settings .day-list { grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;margin:9px 0 12px; }
+.settings .day-list button { min-height:35px;font-size:12px;padding:4px; }
+.settings p.small-note { margin:14px 0 0;padding-top:11px;border-top:1px solid rgba(238,215,182,.18); }
+.toast { position:fixed;bottom:auto;top:calc(env(safe-area-inset-top,0px) + 68px);font-size:12px; }
+.debug-targets .hotspot { stroke:#78eff5!important;stroke-width:2!important;fill:rgba(44,171,187,.11)!important; }
+.tree-target { cursor:pointer; }
+.tree-target.locked { pointer-events:none; }
+.tree-target.active { fill:rgba(251,210,122,.035); }
+.no-motion .tree-target.active {animation:none!important;}
+@media(max-width:370px) { .brand-name{font-size:15px;letter-spacing:.17em}.brand-sub{font-size:8px}.test-btn{min-height:36px;padding:7px 8px;font-size:10px;gap:4px}.progress-wrap span:first-child{font-size:15px}.settings { top:calc(env(safe-area-inset-top,0px) + 57px);} }
+@media(prefers-reduced-motion:reduce){.tree-off,.tree-on,.lit-house-art{transition:none!important}}
+
+/* V5: No fade mask on cloud layer. Clouds enter/leave by natural clipping at the viewport edges. */
+.clouds{-webkit-mask-image:none!important;mask-image:none!important;}
+/* Smoke is ABOVE every house-art and tree-art layer and BELOW interactive SVG. */
+#stage .scene-frame .smoke-canvas{z-index:8;}
+/* No geometric/elliptical placeholder for the final tree. */
+.tree-target.active{stroke:transparent!important;stroke-width:0!important;fill:transparent!important;filter:none!important;animation:none!important;}
+.tree-art-layers::before{content:none!important;display:none!important;}
+/* After day 24 is discovered, only the dark tree's silhouette emits a very gentle glow. */
+.tree-art-layers.is-ready .tree-off{
+  animation:tree-silhouette-pulse 5.5s ease-in-out infinite;
+  filter:drop-shadow(0 0 2px rgba(249,207,136,.22)) drop-shadow(0 0 7px rgba(249,207,136,.12));
+}
+@keyframes tree-silhouette-pulse{
+  0%,100%{filter:drop-shadow(0 0 2px rgba(249,207,136,.14)) drop-shadow(0 0 5px rgba(249,207,136,.07));}
+  50%{filter:drop-shadow(0 0 4px rgba(249,207,136,.40)) drop-shadow(0 0 11px rgba(249,207,136,.18));}
+}
+.no-motion .tree-art-layers.is-ready .tree-off{animation:none!important;filter:drop-shadow(0 0 4px rgba(249,207,136,.22));}
+@media(prefers-reduced-motion:reduce){.tree-art-layers.is-ready .tree-off{animation:none!important;filter:drop-shadow(0 0 4px rgba(249,207,136,.22));}}
+
+/* MISTERA V6: constellation typography drawn with connected SVG stars. */
+.scene-frame > .constellation-layer {
+  position:absolute; left:0; top:0; width:100%; height:17.95%;
+  z-index:1; display:block; overflow:visible; pointer-events:none;
+  opacity:0; transition:opacity 1s ease;
+}
+.scene-frame > .constellation-layer.is-visible { opacity:1; }
+.constellation-letter { animation: constellation-breathe 10.7s ease-in-out infinite;
+  animation-delay:var(--constellation-delay,0s); }
+.constellation-stroke { fill:none; stroke:rgba(244,208,143,.76); stroke-width:1.65;
+  stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:4 3.2; }
+.constellation-star { fill:#f7dfae; stroke:rgba(255,233,187,.45); stroke-width:.6;
+  animation: constellation-shimmer var(--spark-duration,6s) ease-in-out infinite alternate;
+  animation-delay:var(--spark-delay,0s); }
+.constellation-star.bright { fill:#fff1bf; filter:drop-shadow(0 0 4px rgba(251,217,134,.88)); }
+@keyframes constellation-breathe {0%,8%,100%{opacity:.08}21%,55%{opacity:.97}66%{opacity:.82}77%{opacity:.25}89%{opacity:.6}}
+@keyframes constellation-shimmer{0%,100%{opacity:.5}42%{opacity:1}75%{opacity:.7}}
+.constellation-input-label{display:block!important;font-size:12px!important;color:#dfcfb1!important;padding:8px 0 6px!important}
+#constellation-input{width:100%;min-height:40px;padding:10px 11px;border:1px solid rgba(230,193,139,.52);border-radius:8px;
+  background:#0b2244;color:#fff0cd;font-size:13px;letter-spacing:.035em;outline-offset:2px}
+#constellation-input:focus-visible{outline:2px solid #f0cf8d}
+.settings .constellation-actions{display:grid;grid-template-columns:1fr auto;gap:6px;margin-top:7px}
+.settings .constellation-actions button{width:auto!important;margin:0!important;padding:8px 10px;min-height:40px}
+.settings .constellation-hint,.settings .constellation-help{font-size:11px;line-height:1.45;margin:7px 0;color:#b7c8dd}
+.no-motion .constellation-letter,.no-motion .constellation-star{animation:none!important;opacity:1!important}
+@media(prefers-reduced-motion:reduce){.constellation-letter,.constellation-star{animation:none!important;opacity:1!important}}
+/* Small one-pixel right-edge raster seam: overpaint inside the frame, never distort hotspots. */
+.scene-frame > .base-village{width:calc(100% + 1px);left:0}
+
+/* MISTERA V7 - tiny seam repair behind the unmodified right-hand mountain PNG. */
+.scene-frame > .mountain-edge-underlay {
+  position:absolute; inset:0; width:100%; height:100%; z-index:2;
+  pointer-events:none; display:block; overflow:visible;
+}
+/* The snow illustration's transparent central ridge now begins INSIDE the village,
+   not below it. Scale offset with viewport width, clamp at the max scene width. */
+.stage .snow-extension img {
+  top:clamp(-145px, -25vw, -80px);
+}
+/* Keep the sky's original star lettering subtle, smaller, but slightly hand-placed. */
+.constellation-stroke { stroke-width:1.36; stroke-dasharray:3.9 3.8; stroke:rgba(244,209,147,.66); }
+.constellation-star { stroke-width:.36; }
+.constellation-star.bright { filter:drop-shadow(0 0 2.65px rgba(251,217,134,.70)); }
+@media (prefers-reduced-motion:reduce){ .constellation-letter,.constellation-star{animation:none!important;opacity:1!important;} }
+
+.constellation-letter{animation-duration:var(--constellation-period,10.7s);}
+
+
+/* MISTERA V8 — viewport-locked presentation; no full-page vertical scrolling. */
+html,body,#app {width:100%;height:100%;min-height:0;max-height:100%;overflow:hidden;overscroll-behavior:none;}
+main {height:100%;max-height:100%;overflow:hidden;}
+#stage.stage {
+  height:100dvh;min-height:0;max-height:100dvh;
+  overflow:hidden;align-items:center;justify-content:center;
+}
+#stage .scene-frame {
+  width:min(100vw, 560px, 56.31dvh);
+  max-height:100dvh;
+  aspect-ratio:941 / 1671;
+  flex:0 0 auto;
+}
+#stage .sky-extension,#stage .snow-extension {flex:1 1 0;min-height:0;}
+/* The snow extension's inline-size is the same as the village image.
+   V7 raised the image from -65px to about -25vw. V8 halves that extra rise,
+   with a tiny overlap safeguard so the center never reveals a background gap. */
+#stage .snow-extension {container-type:inline-size;}
+#stage .snow-extension img {
+  top:min(clamp(-105px, calc(-32.5px - 12.5cqw), -72.5px), calc(-19.4cqw - 3px));
+}
+/* SVG constellation lettering now has independently timed, nearly imperceptible light variations. */
+.scene-frame > .constellation-layer {
+  opacity:0;transition:opacity 3.6s ease-in-out;
+}
+.scene-frame > .constellation-layer.is-visible {opacity:1;}
+.constellation-letter {animation:none!important;opacity:1!important;}
+.constellation-stroke {
+  stroke:#e8cf97;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:none;stroke-width:.7px;vector-effect:non-scaling-stroke;
+  opacity:var(--line-base,.52);
+  animation:constellation-line-breath var(--line-period,38s) ease-in-out infinite;
+  animation-delay:var(--line-delay,-9s);
+}
+.constellation-star,.constellation-star.bright {
+  fill:var(--star-color,#f5e4bb);stroke:none;stroke-width:0;
+  filter:drop-shadow(0 0 .8px rgba(239,211,159,.27));
+  opacity:var(--star-base,.77);
+  animation:constellation-star-breath var(--star-period,36s) ease-in-out infinite;
+  animation-delay:var(--star-delay,-12s);
+}
+.constellation-star.bright {filter:drop-shadow(0 0 1.2px rgba(242,220,179,.34));}
+@keyframes constellation-line-breath {
+  0%,100%{opacity:var(--line-base,.52)}
+  38%{opacity:var(--line-bright,.60)}
+  74%{opacity:var(--line-soft,.45)}
+}
+@keyframes constellation-star-breath {
+  0%,100%{opacity:var(--star-base,.76)}
+  34%{opacity:var(--star-bright,.88)}
+  70%{opacity:var(--star-soft,.66)}
+}
+.no-motion .constellation-stroke,.no-motion .constellation-star{animation:none!important;opacity:var(--line-base,.68)!important;}
+@media (prefers-reduced-motion:reduce){
+  .constellation-stroke,.constellation-star {animation:none!important;opacity:.76!important;}
+  .scene-frame > .constellation-layer{transition:none!important;}
+}
+/* Short phones: keep the moon clear of the compact header without touching the art. */
+@media (max-height:730px) {
+  #stage .scene-frame .moon {top:9%;}
+}
+
+/* === MISTERA V9: adaptive celestial stage, without vertical scrolling === */
+#stage .sky-panel {
+  position:absolute;z-index:4;isolation:isolate;overflow:hidden;
+  pointer-events:none;contain:layout paint;left:0;top:0;
+  width:100%;height:180px;
+}
+.sky-panel>.stars,.sky-panel>.clouds,.sky-panel>.constellation-layer,
+.sky-panel>.fireworks-canvas {position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.sky-panel>.stars{z-index:1;}
+.sky-panel>.constellation-layer{
+  z-index:3;display:block;overflow:visible;
+  opacity:0;transition:opacity 5.3s ease-in-out;
+}
+.sky-panel>.constellation-layer.is-visible{opacity:1;}
+.sky-panel>.moon {
+  position:absolute;z-index:2;left:77%;top:50%;
+  transform:translateY(-50%);width:min(12%,calc(var(--sky-height,120px)*.72));
+  max-width:70px;height:auto;pointer-events:none;
+  filter:drop-shadow(0 0 15px rgba(177,211,255,.20));
+}
+.sky-panel>.moon img{display:block;width:100%;height:auto;}
+.sky-panel>.clouds{
+  z-index:4;clip-path:none;-webkit-mask-image:none!important;
+  mask-image:none!important;overflow:hidden;
+}
+.sky-panel .cloud {left:-70%;}
+.sky-panel>.fireworks-canvas{
+  z-index:5;display:block;opacity:1;mix-blend-mode:screen;
+}
+/* The moon and letters are laid out by JavaScript in the real transparent sky
+   between the header (when present) and the first pixels of the mountains. */
+
+/* Warm, understated glow directly BEHIND the animated tree's star. */
+.tree-art-layers>.tree-star-aura{
+  position:absolute;z-index:1;pointer-events:none;
+  left:48.9%;top:43.3%;width:15.5%;aspect-ratio:1;
+  transform:translate(-50%,-50%) scale(.9);
+  border-radius:50%;opacity:0;
+  background:radial-gradient(circle,rgba(255,242,185,.45) 0%,
+    rgba(252,205,112,.28) 25%,rgba(245,174,74,.09) 49%,transparent 74%);
+  filter:blur(5px);
+}
+.tree-art-layers>.tree-off,.tree-art-layers>.tree-on{z-index:2;}
+.tree-art-layers.is-finished>.tree-star-aura{
+  opacity:.83;animation:tree-star-aura-pulse 9.5s ease-in-out infinite;
+}
+@keyframes tree-star-aura-pulse{
+  0%,100%{opacity:.61;transform:translate(-50%,-50%) scale(.91)}
+  46%{opacity:.96;transform:translate(-50%,-50%) scale(1.16)}
+  76%{opacity:.72;transform:translate(-50%,-50%) scale(1.04)}
+}
+/* Tiny colored points: no lights on the star, no electrical wires. */
+.tree-art-layers>.tree-festive-points{
+  position:absolute;inset:0;z-index:3;width:100%;height:100%;
+  pointer-events:none;opacity:0;transition:opacity 2.9s ease;
+}
+.tree-art-layers.is-finished>.tree-festive-points{opacity:1;}
+.tree-festive-points .tree-twinkle{
+  fill:var(--light-color,#f3c17e);
+  opacity:var(--light-low,.22);
+  filter:drop-shadow(0 0 1.35px var(--light-color,#f3c17e));
+  animation:tree-light-breath var(--light-duration,6s) ease-in-out infinite;
+  animation-delay:var(--light-delay,-2s);
+}
+@keyframes tree-light-breath{
+  0%,100%{opacity:var(--light-low,.22)}
+  32%{opacity:var(--light-mid,.52)}
+  61%{opacity:var(--light-high,.78)}
+  83%{opacity:var(--light-low,.22)}
+}
+/* The message never flashes as a whole: each node/stroke is independent. */
+.sky-panel .constellation-stroke{animation:constellation-line-breath var(--line-period,38s) ease-in-out infinite;}
+.sky-panel .constellation-star{animation:constellation-star-breath var(--star-period,34s) ease-in-out infinite;}
+@keyframes constellation-line-breath {
+  0%,100%{opacity:var(--line-base,.49)}
+  18%{opacity:var(--line-soft,.34)}
+  41%{opacity:var(--line-bright,.63)}
+  67%{opacity:var(--line-base,.49)}
+  88%{opacity:var(--line-soft,.34)}
+}
+@keyframes constellation-star-breath {
+  0%,100%{opacity:var(--star-base,.68)}
+  12%{opacity:var(--star-soft,.45)}
+  34%{opacity:var(--star-base,.68)}
+  57%{opacity:var(--star-bright,.90)}
+  71%{opacity:var(--star-base,.68)}
+  90%{opacity:var(--star-soft,.45)}
+}
+.no-motion .tree-twinkle,.no-motion .tree-star-aura,
+.no-motion .sky-panel .constellation-star,.no-motion .sky-panel .constellation-stroke{
+  animation:none!important;
+}
+.no-motion .tree-art-layers.is-finished>.tree-star-aura{opacity:.7;}
+.no-motion .tree-art-layers.is-finished .tree-twinkle{opacity:var(--light-mid,.5);}
+@media (prefers-reduced-motion:reduce){
+  .tree-art-layers.is-finished>.tree-star-aura{animation:none!important;opacity:.7;}
+  .tree-twinkle,.sky-panel .constellation-star,.sky-panel .constellation-stroke{animation:none!important;}
+  .sky-panel>.constellation-layer{transition:none!important;}
+}
+/* Toggleable clean header preview. Production can permanently enable this CSS mode. */
+.clean-preview .topbar{justify-content:flex-end;background:transparent;}
+.clean-preview .topbar .brand,.clean-preview .topbar .progress-wrap{display:none;}
+
+
+/* ===== MISTERA V10 — true parallax layers and unclipped clouds ===== */
+/* The entire village and all its hotspots keep the same geometry. */
+#stage .sky-panel {z-index:2;overflow:hidden;}
+#stage .cloud-atmosphere {
+  position:absolute;z-index:3;pointer-events:none;
+  width:100%;height:300px;top:0;left:0;
+  overflow:visible;contain:layout;
+}
+#stage .cloud-atmosphere .clouds {
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;overflow:visible;clip-path:none;
+  -webkit-mask-image:none!important;mask-image:none!important;
+}
+#stage .cloud-atmosphere .cloud {
+  height:auto;pointer-events:none;will-change:transform;
+}
+#stage .scene-frame {z-index:5;}
+#stage .scene-frame .fireworks-flight-plane {
+  position:absolute;z-index:6;left:0;top:0;width:100%;height:100%;
+  overflow:visible;pointer-events:none;
+}
+#stage .scene-frame .fireworks-flight-plane .fireworks-canvas {
+  position:absolute;inset:0;display:block;width:100%;height:100%;
+  pointer-events:none;mix-blend-mode:screen;
+}
+/* Two separate halos BEHIND the finished watercolor tree, not painted over it. */
+#stage .tree-art-layers > .tree-warm-aura {
+  position:absolute;left:49.6%;top:56.2%;width:36%;aspect-ratio:1 / 1.13;
+  z-index:0;border-radius:50%;opacity:0;pointer-events:none;
+  transform:translate(-50%,-50%) scale(.92);
+  background:radial-gradient(ellipse at center,
+    rgba(255,214,138,.20) 0%, rgba(242,175,96,.13) 30%,
+    rgba(227,132,69,.047) 55%,transparent 78%);
+  filter:blur(11px);
+}
+#stage .tree-art-layers.is-finished>.tree-warm-aura{
+  animation:tree-warm-breath 15.6s ease-in-out infinite;
+}
+@keyframes tree-warm-breath {
+  0%,100% {opacity:.52;transform:translate(-50%,-50%) scale(.94)}
+  46%{opacity:.86;transform:translate(-50%,-50%) scale(1.095)}
+  78%{opacity:.62;transform:translate(-50%,-50%) scale(1.02)}
+}
+#stage .tree-art-layers.is-finished>.tree-star-aura{
+  animation:tree-star-aura-pulse 10.8s ease-in-out infinite;
+}
+/* Additional lights preserve distinct red, evergreen, warm-gold tones. */
+#stage .tree-twinkle{
+  filter:drop-shadow(0 0 1.65px var(--light-color,#f3c17e));
+}
+.no-motion #stage .tree-art-layers.is-finished>.tree-warm-aura{
+  animation:none!important;opacity:.65;
+}
+@media(prefers-reduced-motion:reduce){
+  #stage .tree-art-layers.is-finished>.tree-warm-aura{animation:none!important;opacity:.65;}
+}
+
+/* V11: less compositing cost while preserving the existing 284 individual lights.
+   Opacity animates directly; color and size of all points are retained. */
+#stage .tree-twinkle {filter:none;}
+#stage .tree-festive-points {will-change:opacity;}
+#stage .cloud-atmosphere .cloud {backface-visibility:hidden;}
+
+
+/* ===== MISTERA V12: stars above the next house / wreath navigation ===== */
+/* No lit border or pulsing outline on the houses. The star alone marks availability. */
+#stage .targets-overlay .hotspot.active,
+#stage .targets-overlay .hotspot.active:hover,
+#stage .targets-overlay .hotspot:hover {
+  stroke:transparent!important;stroke-width:0!important;fill:transparent!important;
+  filter:none!important;animation:none!important;
+}
+#stage .house-ready-stars {position:absolute;inset:0;width:100%;height:100%;z-index:10;pointer-events:none;overflow:visible;}
+#stage .ready-house-star {position:absolute;width:clamp(28px,8.6%,46px);height:auto;
+  display:block;transform:translate(-50%,-50%);pointer-events:none;
+  filter:drop-shadow(0 0 4px rgba(255,221,123,.37));
+  animation:ready-star-breath 6.3s ease-in-out infinite;
+}
+@keyframes ready-star-breath {
+  0%,100% {opacity:.05;transform:translate(-50%,-50%) translateY(2px) scale(.94);}
+  28% {opacity:.94;transform:translate(-50%,-50%) translateY(-3px) scale(1.015);}
+  54% {opacity:.78;transform:translate(-50%,-50%) translateY(-5px) scale(1.0);}
+  78% {opacity:.24;transform:translate(-50%,-50%) translateY(-1px) scale(.96);}
+}
+.advent-navigation {position:fixed;z-index:42;left:50%;bottom:calc(9px + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%);width:max-content;max-width:calc(100vw - 24px);pointer-events:none;}
+.advent-navigation > * {pointer-events:auto;}
+.wreath-nav-toggle {display:grid;place-items:center;position:relative;margin:0 auto;width:76px;height:76px;
+  padding:0;border:0;background:transparent;isolation:isolate;outline-offset:3px;
+  touch-action:manipulation;}
+.wreath-nav-toggle img {width:100%;height:100%;display:block;object-fit:contain;
+  filter:drop-shadow(0 3px 5px rgba(0,0,0,.33));transform-origin:50% 48%;}
+.wreath-nav-toggle.is-wiggling img {animation:wreath-wiggle .38s cubic-bezier(.3,.05,.64,.95) both;}
+@keyframes wreath-wiggle {0%,100%{transform:rotate(0)}18%{transform:rotate(-6deg)}46%{transform:rotate(6deg)}73%{transform:rotate(-3deg)}}
+.advent-dock {width:min(332px,calc(100vw - 28px));padding:16px 20px 14px;
+  text-align:center;border-radius:20px;border:1px solid rgba(224,189,127,.67);
+  background:linear-gradient(168deg,rgba(11,33,62,.995),rgba(4,21,47,.995));
+  box-shadow:0 10px 34px rgba(0,6,22,.6), inset 0 1px rgba(255,246,216,.07);
+  color:#f8eedc;animation:dock-rise .24s ease-out both;}
+@keyframes dock-rise {from{opacity:.35;transform:translateY(7px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.advent-dock .dock-heading {margin:0 0 12px;color:#eacb99;font:700 10px/1.2 system-ui,sans-serif;letter-spacing:.19em;}
+.gift-countdown {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin:0 auto;max-width:260px;}
+.gift-countdown .time-column {display:flex;flex-direction:column;gap:2px;align-items:center;min-width:0;}
+.gift-countdown strong {font:normal 31px/1.05 Georgia,serif;letter-spacing:.025em;color:#fff0cd;font-variant-numeric:tabular-nums;}
+.gift-countdown span {font:500 11px/1.5 system-ui,sans-serif;color:#c9d1da;}
+.advent-dock .countdown-note {margin:10px 0 2px;font:10px/1.5 system-ui,sans-serif;color:#a7b9c9;}
+.dock-divider {height:1px;margin:11px auto 11px;width:92%;background:linear-gradient(90deg,transparent,rgba(230,194,133,.48),transparent);}
+.voucher-open {position:relative;margin:0 auto;min-height:80px;min-width:150px;padding:0 8px;
+  display:flex;flex-direction:column;gap:0;align-items:center;justify-content:center;
+  color:#f8e4bb;background:transparent;border:0;border-radius:12px;}
+.voucher-open img {display:block;width:104px;height:70px;object-fit:contain;transform-origin:center;}
+.voucher-open span:not(.voucher-count) {font:500 11px/1.2 system-ui,sans-serif;color:inherit;}
+.voucher-open:disabled {opacity:.62;cursor:not-allowed;filter:saturate(.62);}
+.voucher-open:not(:disabled):hover img {filter:drop-shadow(0 0 4px rgba(255,225,173,.25));}
+.voucher-open.is-wiggling img {animation:ticket-tilt .36s ease-in-out both;}
+@keyframes ticket-tilt {0%,100%{transform:rotate(0)}45%{transform:rotate(9deg)}75%{transform:rotate(3deg)}}
+.voucher-count {position:absolute;right:18px;top:2px;border-radius:99px;
+  background:#c88e57;color:#0b213e;padding:2px 6px;font:700 10px/1.1 system-ui,sans-serif;}
+.advent-dock .voucher-hint {margin:5px 0 0;font:10px/1.45 system-ui,sans-serif;color:#a8bfd2;}
+.voucher-list {display:flex;flex-direction:column;gap:9px;max-height:min(300px,45dvh);overflow-y:auto;}
+.voucher-list article {padding:10px;text-align:left;border:1px solid rgba(228,191,128,.33);border-radius:10px;
+  background:rgba(255,249,228,.06);font-size:13px;}
+.voucher-list strong {display:block;color:#f6e6bf;}
+.voucher-list span {display:block;margin-top:4px;font-size:11px;color:#bbccd6;}
+@media(max-width:390px){.wreath-nav-toggle{width:69px;height:69px}.advent-dock{padding:14px 16px 13px}}
+@media(prefers-reduced-motion:reduce){.ready-house-star,.wreath-nav-toggle.is-wiggling img,.voucher-open.is-wiggling img,.advent-dock{animation:none!important;}
+  .ready-house-star {opacity:.86;transform:translate(-50%,-50%)}}
+.no-motion .ready-house-star,.no-motion .wreath-nav-toggle.is-wiggling img,.no-motion .voucher-open.is-wiggling img,.no-motion .advent-dock{animation:none!important;}
+.no-motion .ready-house-star{opacity:.86;transform:translate(-50%,-50%);}
+
+
+/* ===== MISTERA V13: synchronized star / warm light (native Web Animations API) ===== */
+#stage .ready-star-marker {
+  position:absolute;width:clamp(28px,8.6%,46px);aspect-ratio:1;
+  opacity:.05;transform:translate(-50%,-50%);transform-origin:50% 50%;
+  pointer-events:none;isolation:isolate;will-change:transform,opacity;
+}
+#stage .ready-star-marker .ready-house-star {
+  inset:0;left:0;top:0;position:absolute;width:100%;height:100%;
+  object-fit:contain;transform:none;animation:none!important;
+  z-index:3;filter:drop-shadow(0 0 3px rgba(255,226,154,.32));
+}
+#stage .ready-star-marker .ready-star-light {
+  position:absolute;z-index:1;top:62%;left:50%;width:350%;height:355%;
+  transform:translateX(-50%);transform-origin:50% 0;
+  pointer-events:none;mix-blend-mode:screen;
+  background:linear-gradient(180deg,rgba(255,239,169,.36) 0%,rgba(255,221,150,.16) 35%,rgba(255,200,110,.055) 65%,transparent 100%);
+  clip-path:polygon(49.5% 0%,50.5% 0%,98% 97%,2% 97%);
+  filter:blur(5px);opacity:.78;
+}
+#stage .ready-star-marker .ready-star-halo {
+  position:absolute;z-index:2;top:62%;left:50%;width:300%;height:320%;
+  transform:translateX(-50%);pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(ellipse at 50% 19%, rgba(255,221,143,.26) 0%,rgba(255,217,130,.11) 30%,transparent 72%);
+  filter:blur(8px);opacity:.82;
+}
+#stage .ready-star-marker.on-tree .ready-star-light {height:415%;opacity:.53;}
+#stage .ready-star-marker.on-tree .ready-star-halo {height:410%;opacity:.68;}
+#stage .ready-star-marker:not(.on-tree) .ready-star-light {opacity:.75;}
+/* No extra animation cycles: light inherits the same opacity and motion as the star. */
+.no-motion #stage .ready-star-marker {opacity:.90!important;transform:translate(-50%,-50%)!important;will-change:auto;}
+@media(prefers-reduced-motion:reduce){
+  #stage .ready-star-marker {opacity:.90!important;transform:translate(-50%,-50%)!important;will-change:auto;}
+}
+/* ===== MISTERA V13: compact dock and an explicit close affordance ===== */
+.advent-dock {position:relative;}
+.advent-dock .dock-close {
+  position:absolute;top:6px;right:7px;display:grid;place-items:center;
+  width:29px;height:29px;border:0;border-radius:50%;background:transparent;
+  color:#d9c7aa;font:400 22px/1 system-ui,sans-serif;opacity:.85;
+  cursor:pointer;transition:background-color .18s ease,opacity .18s ease;
+}
+.advent-dock .dock-close:hover,.advent-dock .dock-close:focus-visible {
+  background:rgba(252,232,190,.13);opacity:1;outline-offset:2px;
+}
+.voucher-section[hidden] {display:none!important;}
+.voucher-section {animation:dock-vouchers-enter .3s ease-out both;}
+@keyframes dock-vouchers-enter {from{opacity:.15;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.voucher-section{animation:none!important;}}
+.no-motion .voucher-section{animation:none!important;}
+
+/* ===== MISTERA V14 — delicately smaller wreath; natural, barely perceptible light ===== */
+.wreath-nav-toggle{width:68px;height:68px;}
+@media(max-width:390px){.wreath-nav-toggle{width:62px;height:62px;}}
+#stage .ready-star-marker .ready-star-light{
+  top:68%;left:50%;width:305%;height:310%;opacity:.33;
+  clip-path:none;filter:blur(15px);
+  background:radial-gradient(ellipse 57% 94% at 50% 1%,
+    rgba(255,238,175,.12) 0%,rgba(255,225,153,.055) 32%,
+    rgba(255,215,142,.018) 58%,transparent 87%);
+}
+#stage .ready-star-marker .ready-star-halo{
+  top:71%;width:285%;height:310%;opacity:.36;filter:blur(17px);
+  background:radial-gradient(ellipse at 50% 14%,
+    rgba(255,233,166,.085) 0%,rgba(255,220,145,.029) 34%,transparent 77%);
+}
+#stage .ready-star-marker.on-tree .ready-star-light{height:370%;opacity:.27;}
+#stage .ready-star-marker.on-tree .ready-star-halo{height:350%;opacity:.28;}
+#stage .ready-star-marker:not(.on-tree) .ready-star-light{opacity:.33;}
+.sky-panel .constellation-heart{pointer-events:none;}
+.sky-panel .constellation-heart .heart-dot.satellite{filter:none;stroke:none;}
+@media(prefers-reduced-motion:reduce){.sky-panel .constellation-heart .heart-dot{animation:none!important;}}
+.no-motion .sky-panel .constellation-heart .heart-dot{animation:none!important;}
+/* Development-only music status, never presented on the final scene. */
+.music-status{font:11px/1.5 system-ui,sans-serif;color:#c7d6e0;margin:8px 0 0;}
+
+
+/* ===== MISTERA V15 — continuous viewport edges and softer active-star pulse ===== */
+/* Letterbox areas on short/extra-wide phones are extensions of the SAME scene,
+   never exposed page background. Keep the interactive, unstretched PNG intact. */
+#stage.stage{background:#081a39;isolation:isolate;}
+#stage.stage::before{
+  content:"";position:absolute;inset:-18px;z-index:0;pointer-events:none;
+  background-image:url('assets/aldea-base.png');
+  background-position:center center;background-repeat:no-repeat;
+  background-size:cover;
+  opacity:.40;
+  filter:blur(18px) brightness(.63) saturate(.70);
+  transform:scale(1.03);
+  -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 8%,transparent 30%,transparent 70%,#000 92%,#000 100%);
+  mask-image:linear-gradient(90deg,#000 0%,#000 8%,transparent 30%,transparent 70%,#000 92%,#000 100%);
+}
+#stage .scene-frame>.base-village{
+  left:-1.25px;top:-1px;
+  width:calc(100% + 2.5px);height:calc(100% + 2px);
+  max-width:none;max-height:none;
+}
+#stage .snow-extension{background:linear-gradient(180deg,transparent,rgba(23,43,78,.68));}
+#stage .snow-extension img{min-width:calc(100% + 2px);left:-1px;}
+.wreath-nav-toggle img{
+  filter:brightness(.82) saturate(.87) drop-shadow(0 3px 4px rgba(0,0,0,.28));
+}
+#stage .ready-star-marker .ready-star-light{
+  top:63%;left:50%;width:305%;height:320%;
+  opacity:.93;mix-blend-mode:screen;
+  clip-path:none;filter:blur(12px);
+  background:radial-gradient(ellipse 59% 88% at 50% 10%,
+    rgba(255,241,173,.235) 0%,rgba(255,223,151,.125) 31%,
+    rgba(255,207,126,.046) 63%,transparent 91%);
+}
+#stage .ready-star-marker .ready-star-halo{
+  top:67%;width:260%;height:260%;opacity:.72;
+  filter:blur(14px);
+  background:radial-gradient(ellipse at 50% 22%,
+    rgba(255,231,152,.16) 0%,rgba(255,213,135,.067) 38%,transparent 83%);
+}
+#stage .ready-star-marker.on-tree .ready-star-light{height:370%;opacity:.77;}
+#stage .ready-star-marker.on-tree .ready-star-halo{height:345%;opacity:.63;}
+#stage .ready-star-marker:not(.on-tree) .ready-star-light{opacity:.93;}
+@keyframes ready-star-breath{
+  0%,100%{opacity:.54;transform:translate(-50%,-50%) translateY(1px) scale(.985);}
+  30%{opacity:.94;transform:translate(-50%,-50%) translateY(-1.7px) scale(1.005);}
+  65%{opacity:.78;transform:translate(-50%,-50%) translateY(-2.6px) scale(1);}
+}
+#stage .ready-star-marker:not(.on-tree){filter:none;}
+#stage .sky-panel>.constellation-layer{
+  transition:opacity 2.2s ease-in-out;
+}
+.no-motion #stage .ready-star-marker{opacity:.82!important;}
+@media(prefers-reduced-motion:reduce){#stage .ready-star-marker{opacity:.82!important;}}
+
+
+/* V15 mobile-only featherless edge continuation: mirrors the last pixels of
+   the original, no dark vertical gutters; behind every interactive layer. */
+#stage .scene-edge-bleed{
+  position:absolute;z-index:4;display:block;pointer-events:none;
+  background-image:url('assets/aldea-base.png');
+  background-repeat:no-repeat;
+  transform:scaleX(-1);transform-origin:center center;
+}
+#stage .scene-edge-bleed[hidden]{display:none!important;}
+#stage .scene-edge-left{background-position:left top;}
+#stage .scene-edge-right{background-position:right top;}
+/* Diffuse the mirrored sliver so no duplicate roof or fence reads as another house. */
+#stage .scene-edge-bleed{filter:blur(5.5px) brightness(.91);opacity:.95;}
+
+
+/* ===== MISTERA V16: stable viewport, no exposed lateral or bottom seams ===== */
+/* 100svh preserves the image scale when mobile browser chrome collapses/expands;
+   100dvh lets the atmospheric / snow background cover the CURRENT viewport. */
+#stage.stage{width:100%;min-width:100%;height:100dvh;min-height:100svh;max-height:100dvh;
+  overflow:clip;background:#0b1c3e;}
+#stage .scene-frame{width:min(100vw,560px,56.31svh);max-width:100%;
+  flex:0 0 auto;position:relative;}
+#stage .sky-extension{
+  flex:0 0 max(0px,calc((100svh - (min(100vw,560px,56.31svh) * 1.77577))/2));
+  min-height:0;
+}
+#stage .snow-extension{flex:1 0 0;min-height:0;}
+/* Overpaint a few CSS pixels of the underlying stage, eliminating fractional-pixel
+   raster seams on DPR=1, 1.5, 2, 3 without changing the hit map. */
+#stage .scene-frame>.base-village{
+  left:-2px;top:-2px;width:calc(100% + 4px);height:calc(100% + 5px);
+}
+#stage .scene-edge-bleed{filter:none;opacity:1;image-rendering:auto;}
+#stage .scene-edge-left,#stage .scene-edge-right{will-change:auto;}
+#stage .snow-extension{background:linear-gradient(180deg,#19355f 0%,#24416d 70%,#2b466e 100%);}
+#stage .snow-extension img{left:-2px;width:calc(100% + 4px);min-width:calc(100% + 4px);}
+#stage.stage::after{
+  content:"";position:absolute;left:0;right:0;bottom:-2px;height:5px;
+  z-index:13;pointer-events:none;background:linear-gradient(180deg,rgba(31,54,95,0),#243d6a);
+}
+/* Brighter star, soft downward light reaching the roof, no hard beam edges. */
+#stage .ready-star-marker .ready-house-star{
+  filter:brightness(1.17) drop-shadow(0 0 6px rgba(255,233,162,.70));
+}
+#stage .ready-star-marker .ready-star-light{
+  top:62%;width:320%;height:375%;opacity:1;filter:blur(12px);
+  background:radial-gradient(ellipse 61% 88% at 50% 8%,
+    rgba(255,239,175,.39) 0%,rgba(255,224,153,.23) 27%,
+    rgba(255,208,136,.097) 62%,transparent 92%);
+}
+#stage .ready-star-marker .ready-star-halo{
+  top:65%;width:280%;height:345%;opacity:.92;filter:blur(13px);
+  background:radial-gradient(ellipse 60% 75% at 50% 19%,
+    rgba(255,228,157,.28) 0%,rgba(252,218,143,.11) 40%,transparent 88%);
+}
+#stage .ready-star-marker.on-tree .ready-star-light{height:390%;opacity:.85;}
+#stage .ready-star-marker.on-tree .ready-star-halo{height:385%;opacity:.80;}
+#stage .ready-star-marker:not(.on-tree) .ready-star-light{opacity:1;}
+@keyframes ready-star-breath{
+  0%,100%{opacity:.62;transform:translate(-50%,-50%) translateY(1px) scale(.989)}
+  32%{opacity:1;transform:translate(-50%,-50%) translateY(-1.8px) scale(1.008)}
+  68%{opacity:.85;transform:translate(-50%,-50%) translateY(-2.6px) scale(1)}
+}
+@media(prefers-reduced-motion:reduce){#stage .ready-star-marker{opacity:.88!important;}}
+.no-motion #stage .ready-star-marker{opacity:.88!important;}
+/* Angular constellation hearts follow the same gentle star and line breathing. */
+.sky-panel .constellation-heart .heart-segment{stroke-linecap:butt;stroke-linejoin:miter;}
+
+/* V16 final pixel-profile extensions: neither houses nor roofs are mirrored.
+   These two 48px-derived edge profiles have exact alpha from the source borders. */
+#stage .scene-edge-bleed{transform:none!important;filter:none!important;opacity:1!important;
+  background-position:center top!important;background-size:100% 100%!important;
+  background-repeat:no-repeat!important;}
+#stage .scene-edge-left{background-image:url('assets/ui/continuacion-left-v16.png')!important;}
+#stage .scene-edge-right{background-image:url('assets/ui/continuacion-right-v16.png')!important;}
+#stage.stage{background:linear-gradient(180deg,#010e31 0%,#071733 26%,#142b4f 57%,#253f67 100%);}
+
+/* ===========================================================================
+   MISTERA V17 — Midnight atelier. Elegant Christmas UI without extra fonts.
+   Palette: midnight sapphire, wine, antique gold and warm ivory.
+   Decorative layers do not intercept pointers or change villa geometry.
+   =========================================================================== */
+:root{
+  --m17-ivory:#fff1d7;--m17-gold:#efc687;--m17-wine:#7d3045;
+  --m17-ink:#071429;--m17-royal:#172d4c;
+  --m17-serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif;
+  --m17-sans:"Trebuchet MS","Segoe UI",Arial,sans-serif;
+}
+.topbar .brand-name{font-family:var(--m17-serif);font-size:21px;letter-spacing:.18em;
+  background:linear-gradient(110deg,#fff6db 0%,#dcb16e 48%,#fff0cc 85%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 1px 14px rgba(245,191,108,.08);}
+.topbar .brand-sub{font-family:var(--m17-serif);font-style:italic;letter-spacing:.015em;color:#e1dece;}
+.topbar .test-btn{font-family:var(--m17-sans);font-weight:700;
+  background:linear-gradient(135deg,rgba(26,44,69,.93),rgba(5,20,43,.88));
+  border:1px solid rgba(238,196,133,.55);box-shadow:inset 0 0 0 1px rgba(255,255,255,.045),0 9px 24px rgba(0,4,20,.29);}
+.topbar .progress-wrap span:first-child{font-family:var(--m17-serif);color:#f9e9c6;}
+/* Wreath remains watercolor; subdued so it supports the composition. */
+.wreath-nav-toggle img{filter:brightness(.69) saturate(.78) drop-shadow(0 3px 5px rgba(0,0,0,.38))!important;}
+.wreath-nav-toggle:hover img,.wreath-nav-toggle:focus-visible img{filter:brightness(.83) saturate(.85) drop-shadow(0 4px 8px rgba(0,0,0,.38))!important;}
+/* The dock is a tailored invitation, not a generic dark card. */
+.advent-dock{
+  position:relative;width:min(374px,calc(100vw - 26px));max-width:100%;
+  padding:21px 23px 16px;border-radius:23px;
+  border:1px solid rgba(244,201,139,.75);
+  background:
+    radial-gradient(ellipse at 18% 9%,rgba(163,92,83,.12),transparent 43%),
+    radial-gradient(ellipse at 94% 92%,rgba(51,85,134,.22),transparent 48%),
+    linear-gradient(148deg,rgba(20,43,72,.985) 0%,rgba(7,22,47,.985) 43%,rgba(21,27,46,.99) 100%);
+  color:var(--m17-ivory);
+  box-shadow:0 18px 44px rgba(0,6,26,.63),0 0 0 3px rgba(7,19,39,.38),
+   inset 0 1px 0 rgba(255,243,210,.14),inset 0 0 34px rgba(7,10,25,.32);
+  isolation:isolate;overflow:hidden;
+}
+.advent-dock::before{
+  content:"";position:absolute;inset:6px;border-radius:18px;
+  border:1px solid rgba(223,185,132,.18);pointer-events:none;z-index:-1;
+}
+.advent-dock::after{
+  content:"";position:absolute;left:12%;right:12%;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,#ffedc0,transparent);pointer-events:none;
+}
+.dock-controls{position:absolute;z-index:4;left:15px;right:15px;top:10px;height:34px;
+  display:flex;justify-content:space-between;align-items:center;pointer-events:none;}
+.advent-dock .dock-control{
+  position:static;display:flex;align-items:center;justify-content:center;
+  box-sizing:border-box;margin:0;padding:0;width:33px;height:33px;line-height:1;
+  border:1px solid rgba(224,191,142,.32);border-radius:50%;
+  background:linear-gradient(160deg,rgba(92,63,78,.37),rgba(9,27,54,.65));
+  color:#f5dfb4;opacity:1;pointer-events:auto;
+  cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .2s ease;
+}
+.advent-dock .dock-control svg{display:block;flex:none;width:18px;height:18px;overflow:visible;}
+.advent-dock .dock-control svg[hidden]{display:none!important;}
+.advent-dock .dock-control:hover,.advent-dock .dock-control:focus-visible{
+  background:rgba(156,99,76,.38);border-color:rgba(255,229,179,.8);
+  transform:translateY(-1px);outline:2px solid rgba(255,217,151,.25);outline-offset:2px;
+}
+.dock-ambient-sound[aria-pressed="true"]{color:#b7bac8;border-color:rgba(165,162,168,.34);}
+.advent-dock .dock-crest{display:flex;align-items:center;justify-content:center;gap:10px;
+  margin:0 auto 10px;font-size:12px;color:var(--m17-gold);opacity:.88;}
+.dock-crest .crest-line{width:43px;height:1px;background:linear-gradient(90deg,transparent,rgba(236,196,143,.56));}
+.dock-crest .crest-line:last-child{transform:rotate(180deg);}
+.advent-dock .dock-heading{
+  max-width:290px;min-height:26px;margin:0 auto 12px;
+  font:700 10.5px/1.4 var(--m17-sans);letter-spacing:.12em;
+  color:#f4d8a6;text-align:center;text-wrap:balance;
+  text-shadow:0 1px 6px rgba(235,181,118,.12);
+}
+.gift-countdown{max-width:280px;gap:8px;}
+.gift-countdown .time-column{gap:2px;position:relative;}
+.gift-countdown .time-column+ .time-column::before{
+  content:"";position:absolute;left:-7px;top:11px;height:34px;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(231,189,126,.25),transparent);
+}
+.gift-countdown strong{
+  font-family:var(--m17-serif);font-size:35px;font-weight:500;
+  letter-spacing:.01em;line-height:1.04;color:#fff1d4;
+  background:linear-gradient(150deg,#fff9e9 0%,#ffe8b9 35%,#d6a55e 71%,#fff3d4 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:none;font-feature-settings:"tnum" 1;
+}
+.gift-countdown .time-column span{font:500 12px/1.5 var(--m17-serif);
+  font-style:italic;color:#dbcbb6;letter-spacing:.015em;}
+.advent-dock .countdown-note{
+  margin:11px 0 2px;font:500 10px/1.6 var(--m17-sans);
+  color:#bfc6d1;letter-spacing:.015em;text-align:center;
+}
+.countdown-note.is-ready{color:#f6d49e!important;}
+.advent-dock .dock-bottom-ornament{margin:10px auto 0;text-align:center;
+  color:rgba(225,192,149,.66);font:11px/1 var(--m17-serif);letter-spacing:.33em;}
+.advent-dock .dock-divider{margin:14px auto 10px;
+  background:linear-gradient(90deg,transparent,rgba(238,190,119,.67),transparent);}
+.advent-dock .voucher-open{color:#fbe9c8;font-family:var(--m17-serif);font-style:italic;}
+.advent-dock .voucher-open span:not(.voucher-count){font:italic 12px/1.3 var(--m17-serif);}
+.advent-dock .voucher-hint{color:#bac6ce;}
+/* The tree's central/lower crown receives a warm diffuse pool, visible in the
+   waiting state and brighter after the reveal, without a hard circular edge. */
+#stage .tree-art-layers>.tree-warm-aura{
+  left:49.55%;top:63.8%;width:48%;aspect-ratio:1/1.05;
+  background:radial-gradient(ellipse 54% 59% at 50% 46%,
+    rgba(255,222,146,.32) 0%,rgba(255,197,119,.21) 29%,
+    rgba(249,160,90,.095) 54%,rgba(234,135,70,.024) 77%,transparent 100%);
+  filter:blur(23px);
+}
+#stage .tree-art-layers.is-finished>.tree-warm-aura{animation:tree-warm-breath 14s ease-in-out infinite;}
+#stage .tree-art-layers.is-awaiting-final>.tree-warm-aura{animation:tree-waiting-breath 11s ease-in-out infinite;}
+@keyframes tree-waiting-breath{
+  0%,100%{opacity:.23;transform:translate(-50%,-50%) scale(.96)}
+  50%{opacity:.46;transform:translate(-50%,-50%) scale(1.055)}
+}
+@keyframes tree-warm-breath{
+  0%,100%{opacity:.68;transform:translate(-50%,-50%) scale(.96)}
+  52%{opacity:.97;transform:translate(-50%,-50%) scale(1.12)}
+}
+@media(prefers-reduced-motion:reduce){
+  #stage .tree-art-layers.is-awaiting-final>.tree-warm-aura{opacity:.38;animation:none;}
+  #stage .tree-art-layers.is-finished>.tree-warm-aura{opacity:.8;animation:none;}
+}
+.no-motion #stage .tree-art-layers.is-awaiting-final>.tree-warm-aura{opacity:.38;animation:none;}
+/* A locked tree remains tappable to show the wait countdown; no open animation. */
+#stage .tree-target.locked{pointer-events:auto!important;cursor:pointer;}
+#stage .tree-target.locked:focus-visible{outline:2px solid #f1cb88;}
+/* Test controls and dialogs: material and typography match the dock. */
+.settings{
+  font-family:var(--m17-sans);border-radius:20px;
+  background:linear-gradient(145deg,rgba(21,42,68,.985),rgba(6,20,42,.985) 52%,rgba(34,28,48,.985));
+  border:1px solid rgba(237,197,138,.66);
+  box-shadow:0 24px 68px rgba(0,0,16,.75),inset 0 0 0 1px rgba(255,239,204,.09);
+  scrollbar-color:#9b7856 #0d1d38;
+}
+.settings-heading{padding-bottom:10px;border-bottom:1px solid rgba(218,173,113,.22);}
+.settings-heading strong{font:600 19px/1.2 var(--m17-serif);color:#ffedca;letter-spacing:.035em;}
+.settings-heading button{display:grid;place-items:center;width:30px;height:30px;
+  border:1px solid rgba(222,190,147,.32);border-radius:50%;color:#f6d8aa;}
+.settings .settings-label{font:700 11px/1.4 var(--m17-sans);letter-spacing:.14em;color:#f1c98c;}
+.settings .panel-group{border-top:1px solid rgba(244,208,153,.18);padding-top:14px;margin-top:14px;}
+.settings .primary-btn,.dialog-actions .primary-btn{
+  background:linear-gradient(135deg,#b78a57,#76523c 65%,#815341);
+  color:#fff2d9;border:1px solid #f2c785;border-radius:11px;
+  box-shadow:inset 0 1px rgba(255,250,218,.26),0 6px 15px rgba(0,0,0,.20);
+  font:700 12px/1.35 var(--m17-sans);letter-spacing:.025em;
+}
+.settings .secondary-btn,.dialog-actions .secondary-btn,.voucher-dialog .secondary-btn{
+  background:linear-gradient(140deg,rgba(31,62,89,.87),rgba(15,35,61,.88));
+  border:1px solid rgba(213,176,122,.46);border-radius:10px;
+  color:#e8d8be;font:600 12px/1.35 var(--m17-sans);
+}
+.settings .danger-btn{background:linear-gradient(125deg,#642c3a,#3b1e2b);
+  color:#f5d9d9;border:1px solid rgba(206,140,140,.56);border-radius:10px;}
+.settings select,.settings input[type=text]{width:100%;border:1px solid rgba(232,199,151,.42);
+  color:#f3e7cf;background:#102a4a;border-radius:9px;padding:10px 9px;
+  font-family:var(--m17-sans);font-size:12px;outline-offset:2px;}
+.settings select:focus-visible,.settings input:focus-visible{outline:2px solid #f4d3a0;}
+.settings .demo-date-label{padding:5px 0 4px;font:italic 12px var(--m17-serif);color:#ead6b8;}
+.settings p,.settings .constellation-hint{color:#bec9d9;}
+.surprise-dialog{
+  background:radial-gradient(circle at 80% 5%,rgba(116,55,60,.20),transparent 48%),
+    linear-gradient(145deg,#142c4b,#091a34 72%,#211d30);
+  border:1px solid rgba(239,193,124,.76);border-radius:23px;
+  box-shadow:0 26px 86px #000b,inset 0 0 0 5px rgba(6,20,43,.44),inset 0 0 0 6px rgba(240,199,134,.15);
+  color:#f8eed9;
+}
+.surprise-dialog::backdrop{background:rgba(2,8,25,.78);backdrop-filter:blur(5px);}
+.surprise-dialog .dialog-inner{padding:30px 23px 25px;}
+.surprise-dialog .dialog-kicker{font:700 10px/1.5 var(--m17-sans);color:#f0c48a;letter-spacing:.19em;}
+.surprise-dialog .dialog-inner h2{font:500 29px/1.2 var(--m17-serif);color:#ffedc4;}
+.surprise-dialog .dialog-inner p{font:14px/1.7 var(--m17-serif);color:#e2d9cf;}
+.surprise-dialog .dialog-actions{display:grid;gap:8px;}
+.toast{background:linear-gradient(130deg,rgba(37,57,82,.97),rgba(24,32,53,.98));
+  color:#f8e4c4;border:1px solid rgba(241,202,146,.82);
+  box-shadow:0 14px 39px rgba(0,0,0,.5);font:13px/1.4 var(--m17-serif);}
+@media(max-width:390px){
+  .advent-dock{padding:20px 15px 14px;border-radius:21px;}
+  .advent-dock .dock-heading{max-width:265px;font-size:10px;}
+  .dock-controls{left:12px;right:12px;}
+  .gift-countdown strong{font-size:31px;}
+  .advent-dock .dock-crest{margin-bottom:11px;}
+}
+@media(prefers-reduced-motion:reduce){.advent-dock,.dock-control,.voucher-section{animation:none!important;transition:none!important;}}
+
+/* V18: clean release scene (only Test button persists). */
+#stage .tree-target.is-secret{display:none!important;pointer-events:none!important;visibility:hidden!important;}
+.topbar{justify-content:flex-end!important;}
+.topbar #settings-button{margin-left:auto;}
+.topbar .brand,.topbar .progress-wrap{display:none!important;}
+.advent-dock .countdown-note{font:italic 12px/1.55 var(--m17-serif);color:#d9c5a5;text-wrap:balance;}
+
+/* MISTERA V20 — editable surprise draft previews (local-only, unpublished). */
+.editor-access-panel{padding:14px 12px;margin:14px 0 8px;border:1px solid rgba(227,187,124,.38);border-radius:13px;background:linear-gradient(135deg,rgba(27,50,75,.65),rgba(67,40,51,.42));}
+.editor-access-panel p{font:12px/1.5 system-ui,sans-serif;color:#d8d2c4;margin:7px 0 13px}
+.editor-access-link{display:inline-flex!important;align-items:center;justify-content:center;min-height:42px;text-decoration:none;}
+.surprise-draft-content{max-height:min(49vh,420px);overflow:auto;overscroll-behavior:contain;text-align:left;margin:12px 0;padding:12px;border:1px solid rgba(225,187,116,.29);border-radius:12px;background:rgba(4,15,39,.53)}
+.surprise-draft-content[hidden]{display:none!important}
+.surprise-draft-content h3{font:600 16px Georgia,serif;color:#f7dfae;margin:10px 0 5px}
+.surprise-draft-content p{white-space:pre-line;font:13px/1.6 Georgia,serif;color:#eae0cd;margin:7px 0}
+.surprise-draft-content .draft-note{font:italic 11px/1.35 system-ui,sans-serif;color:#c0ae92}
+.surprise-draft-content .draft-media{display:grid;gap:8px;margin:12px 0}
+.surprise-draft-content .draft-media img{max-width:100%;border-radius:7px}
+.surprise-draft-content .draft-media audio,.surprise-draft-content .draft-media video{width:100%;max-width:100%}
+.surprise-draft-content .draft-voucher{border-left:2px solid #dec48e;padding-left:8px}
+
+/* MISTERA V21 -- one geometric scale for all stellar constellations. */
+#stage .sky-panel>.constellation-layer{transform:none;transform-origin:center center;}
+/* Inactive audio must be a SLASHED speaker, never a detached letter X. */
+#advent-dock .ambient-icon-off .ambient-slash{stroke:#e8b5a3;stroke-linecap:round;}
+#advent-dock .ambient-icon-off{overflow:visible;}
+
+/* V22: horizontal positions are controlled only by positionSky/safeZone, never by the temporary developer button. */
+
+
+/* ===== MISTERA V24 — lossless, coordinate-locked villa compositor =====
+ * The V15/V16 edge-bleed rules must NEVER stretch/shift the illustrated base.
+ * The base and 24 windows-on house crops now paint inside a single SVG viewBox
+ * (941 x 1671), with the exact same transform on every screen size.
+ * Preserve edge/fractional-pixel fixes OUTSIDE this compositor only.
+ */
+#stage .scene-frame > svg.village-compositor {
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:none;
+  max-height:none;
+  overflow:visible;
+  transform:none;
+  z-index:5;
+  pointer-events:none;
+  image-rendering:auto;
+}
+#stage svg.village-compositor > image.base-village-image {
+  opacity:1;
+  image-rendering:auto;
+  pointer-events:none;
+}
+#stage svg.village-compositor > image.lit-house-art {
+  position:static;
+  display:inline;
+  opacity:0;
+  image-rendering:auto;
+  pointer-events:none;
+  transition:opacity 1.3s ease;
+}
+#stage svg.village-compositor > image.lit-house-art.is-visible {opacity:1;}
+@media(prefers-reduced-motion:reduce){
+  #stage svg.village-compositor > image.lit-house-art{transition:none;}
+}
+.no-motion #stage svg.village-compositor > image.lit-house-art{transition:none;}
+
+/* MISTERA V30 — crown: gentle permanent motion and a separate opening gesture.
+   The docking transition is animated by Anime.js/WAAPI on the button only. */
+.wreath-nav-toggle[hidden] {display:none !important;}
+.wreath-nav-toggle:not([hidden]):not(.is-wiggling) img {
+  animation:mistera-wreath-idle-v30 5.1s ease-in-out infinite;
+}
+@keyframes mistera-wreath-idle-v30 {
+  0%,100% {transform:rotate(0deg);}
+  27% {transform:rotate(-1.65deg);}
+  56% {transform:rotate(1.65deg);}
+  82% {transform:rotate(-.45deg);}
+}
+@media (prefers-reduced-motion:reduce) {
+  .wreath-nav-toggle:not(.is-wiggling) img {animation:none !important;transform:none !important;}
+}
+.no-motion .wreath-nav-toggle:not(.is-wiggling) img {animation:none !important;transform:none !important;}
+
+
+/* V32: responsive interactions. The WAAPI dock animation is the only entrance
+   animation (the old CSS dock-rise otherwise ran on top of it). */
+.advent-dock{animation:none;}
+.wreath-nav-toggle.is-wiggling img{animation-duration:.22s;}
+.voucher-open.is-wiggling img{animation-duration:.24s;}
+#stage svg.village-compositor > image.lit-house-art{transition-duration:.85s;}
+.tree-off,.tree-on{transition-duration:1.05s;}
+@media (prefers-reduced-motion:reduce){
+  #stage svg.village-compositor > image.lit-house-art,.tree-off,.tree-on{transition-duration:0s;}
+}
+
+/* V33: entry discovered on day 01; hidden entirely until the ticket is unlocked. */
+.cinema-ticket-section[hidden]{display:none!important}
+.cinema-ticket-access{display:flex;align-items:center;justify-content:center;gap:10px;min-height:49px;width:100%;padding:9px 12px;border:1px solid rgba(232,192,128,.4);border-radius:12px;background:linear-gradient(145deg,rgba(29,59,85,.7),rgba(11,32,62,.8));color:#f8e3bc;font:600 12px/1.4 Georgia,serif;cursor:pointer;transition:border-color .2s,transform .2s}
+.cinema-ticket-access:hover{border-color:#f3d49b;transform:translateY(-1px)}
+.cinema-ticket-access:focus-visible{outline:2px solid #ffe1a5;outline-offset:3px}
+.cinema-ticket-access svg{flex:0 0 21px}
+
+/* V34: consistent icon centering and no intrusive scrollbar tracks. */
+.advent-dock .dock-control,.advent-dock .dock-close,.surprise-dialog .surprise-close{display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;line-height:1!important;}
+.advent-dock .dock-control svg,.advent-dock .dock-close svg{display:block;flex:none;transform:none;}
+.advent-dock{scrollbar-width:none;} .advent-dock::-webkit-scrollbar{display:none;}
+.topbar #settings-button{display:none!important;}
+.advent-dock.is-settings > :not(.dock-controls):not(.dock-settings-panel){display:none!important;}
+.advent-dock .dock-settings-panel[hidden]{display:none!important;}
+.dock-settings-panel{min-height:170px;display:grid;gap:11px;padding:24px 2px 5px;animation:dock-rise .18s ease-out both;}
+.dock-settings-panel h2{font:500 22px Georgia,serif;margin:0 0 7px;color:#f4d8a6;}
+.dock-setting-row{width:100%;min-height:49px;border:1px solid rgba(236,192,127,.33);background:rgba(19,44,74,.60);border-radius:12px;padding:9px 12px;color:#f9ecd2;display:flex;align-items:center;gap:12px;text-align:left;}
+.dock-setting-row svg{width:20px;height:20px;flex:none;display:block;}
+.dock-setting-row .setting-value{margin-left:auto;color:#e5c28a;font-size:11px;}
+.dock-settings-panel details{font:11px system-ui,sans-serif;color:#c0ad93;text-align:left;margin-top:5px;}
+.dock-settings-panel summary{cursor:pointer;padding:10px;list-style:none;}
+.dock-settings-panel summary::before{content:'✦';margin-right:8px;}
+.dock-settings-panel .test-btn{margin:3px 0 4px;width:100%;justify-content:center;}
+.dock-sync-text{font:11px/1.5 system-ui,sans-serif;color:#c8bbab;text-align:left;margin:1px 0;}
+.dock-sync-row{display:flex;gap:7px;}
+.dock-sync-row input{width:100%;min-width:0;background:#08182f;color:#e9d0a6;border:1px solid rgba(237,194,131,.40);border-radius:9px;padding:8px;font:11px system-ui,sans-serif;}
+.dock-sync-row button{flex:none;background:#233955;color:#ffedcd;border:1px solid #bca070;border-radius:8px;padding:8px;font-size:11px;}
+
+.topbar{display:none!important;}
+
+.dock-settings-panel button:disabled,.dock-settings-panel input:disabled{opacity:.45;cursor:not-allowed;}

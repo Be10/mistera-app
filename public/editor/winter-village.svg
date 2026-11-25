@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 414" role="img" aria-label="Pueblito navideño ilustrado en perspectiva, ventanas doradas y gatitos bajo un cielo azul noche">
+<defs>
+ <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff7e7"/><stop offset=".62" stop-color="#e9eaf0"/><stop offset="1" stop-color="#d3ddeb"/></linearGradient>
+ <linearGradient id="royal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8e4154"/><stop offset=".48" stop-color="#bb6876"/><stop offset="1" stop-color="#592d50"/></linearGradient>
+ <linearGradient id="jade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a5d1c6"/><stop offset=".65" stop-color="#70aaa0"/><stop offset="1" stop-color="#3e7b7a"/></linearGradient>
+ <linearGradient id="parchment" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#ffe3bb"/><stop offset=".65" stop-color="#ebbc9e"/><stop offset="1" stop-color="#cf8b85"/></linearGradient>
+ <linearGradient id="cream" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#fdf0db"/><stop offset="1" stop-color="#d2b7b4"/></linearGradient>
+ <linearGradient id="slate" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#346077"/><stop offset="1" stop-color="#172f51"/></linearGradient>
+ <linearGradient id="window" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff7bc"/><stop offset=".58" stop-color="#f1c875"/><stop offset="1" stop-color="#d78c57"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#bd7e42"/><stop offset=".28" stop-color="#ffe4a0"/><stop offset=".6" stop-color="#daaa56"/><stop offset="1" stop-color="#a66a38"/></linearGradient>
+ <radialGradient id="lamplight"><stop stop-color="#ffe5a1" stop-opacity=".72"/><stop offset="1" stop-color="#ffd67e" stop-opacity="0"/></radialGradient>
+ <filter id="soft" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur stdDeviation="7"/></filter>
+ <filter id="watercolor" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7" result="noise"/><feColorMatrix in="noise" type="saturate" values="0" result="gray"/><feComponentTransfer in="gray"><feFuncA type="linear" slope=".12"/></feComponentTransfer></filter>
+ <pattern id="brick" width="23" height="14" patternUnits="userSpaceOnUse"><path d="M0 0H23M0 14H23M11 0V7M0 7h23m0 0v7M0 7v7" stroke="#a15c64" stroke-width=".85" opacity=".19"/></pattern>
+ <pattern id="tiles" width="18" height="9" patternUnits="userSpaceOnUse"><path d="M0 8H18M9 0V8" stroke="#632e44" opacity=".3"/></pattern>
+ <g id="snowflake" fill="none" stroke="#fdf4e5" stroke-linecap="round"><path d="M-5 0H5M0-5V5M-3.5-3.5L3.5 3.5M3.5-3.5L-3.5 3.5"/></g>
+ <g id="pinetree" stroke-linejoin="round"><path d="M-4 0v22h8V0Z" fill="#785644"/><path d="M0-91L-24-55h11L-34-20h13L-42 10H42L21-20H34L13-55H24Z" fill="#285b5d" stroke="#153e48" stroke-width="3"/><path d="M-2-78L-19-53h10M-22-13h45M-31 6H29" fill="none" stroke="#7ba9a3" stroke-width="4" stroke-linecap="round"/><path d="M-15-51l14-3 17 2m-40 34 22-3 28 1m-54 25 28-2 29 2" fill="none" stroke="#e4f1ed" stroke-width="6" stroke-linecap="round"/><circle cx="-8" cy="-36" r="3" fill="#e7ae6a"/><circle cx="20" cy="-11" r="3" fill="#e5a3ad"/><circle cx="-17" cy="-3" r="4" fill="#f3cd72"/></g>
+ <g id="cat" stroke-linejoin="round"><path d="M-20 12q-25-28-29-7" fill="none" stroke="#d79a68" stroke-width="9" stroke-linecap="round"/><ellipse cx="-1" cy="8" rx="21" ry="15" fill="#da9969"/><path d="M-21 2l1-24 13 10L7-23 13 0Q7 18-4 18T-21 2Z" fill="#e2ad7d" stroke="#a66f55" stroke-width="1.8"/><path d="M-16-18l-1 9 6-5m12-2 6 6 1-10" fill="#f4b6b7"/><path d="M-14 2h2m11 0h2" stroke="#3e3445" stroke-width="3" stroke-linecap="round"/><path d="M-7 7l3 2 3-2-3-1Z" fill="#a65e70"/><path d="M-4 9v3m0 0-4 2m4-2 4 2M-11 9l-11-1m11 5-11 2M1 10l10-2M1 14l10 2" stroke="#7c615a" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M-14-5l5-2m5 0 4 1" stroke="#c57953" stroke-width="2"/></g>
+ <g id="goldstar" fill="#f2d38a"><path d="M0-12l3 9 9 3-9 3-3 9-3-9-9-3 9-3Z"/></g>
+</defs>
+<!-- Luminous constellations and atmospheric watercolors -->
+<path d="M6 218Q116 177 195 193T392 164T580 174T899 130V332H0Z" fill="#305077" opacity=".25"/>
+<path d="M0 239Q120 216 227 229T459 195T674 217T900 184V347H0Z" fill="#556a8c" opacity=".20"/>
+<g opacity=".84" fill="#ffdfa2"><circle cx="65" cy="38" r="2.5"/><circle cx="108" cy="74" r="1.8"/><circle cx="210" cy="33" r="1.5"/><circle cx="310" cy="45" r="2"/><circle cx="382" cy="23" r="1.4"/><circle cx="550" cy="45" r="2.2"/><circle cx="669" cy="30" r="2"/><circle cx="809" cy="27" r="2.5"/><circle cx="852" cy="85" r="1.7"/></g>
+<g opacity=".7"><use href="#goldstar" x="114" y="28" transform="translate(114 28) scale(.65) translate(-114 -28)"/><use href="#goldstar" transform="translate(586 53) scale(.8)"/><use href="#goldstar" transform="translate(787 116) scale(.66)"/></g>
+<path d="M731 32a35 35 0 1 0 20 61 39 39 0 1 1-20-61Z" fill="#ffe4a0" opacity=".95"/>
+<ellipse cx="751" cy="92" rx="56" ry="28" fill="url(#lamplight)" opacity=".46"/>
+<!-- Distant firs and rooftops -->
+<g opacity=".68"><use href="#pinetree" transform="translate(53 284) scale(.65)"/><use href="#pinetree" transform="translate(821 295) scale(.76)"/><use href="#pinetree" transform="translate(857 302) scale(.44)"/></g>
+<path d="M0 303Q100 269 202 295T407 279T640 287T900 276V414H0Z" fill="#b8cddd" opacity=".84"/>
+<!-- Background smaller house with soft contours -->
+<g opacity=".9"><path d="M613 175l42-32 51 41v119h-93Z" fill="#54777c" stroke="#779e9d" stroke-width="3"/><path d="M604 182l50-49 58 47-6 8-53-38-44 40Z" fill="#c8b0b3" stroke="#e7d5cc" stroke-width="5"/><rect x="637" y="223" width="30" height="34" rx="3" fill="#f8d699" stroke="#c49c69" stroke-width="3"/><path d="M652 223v34m-15-17h30" stroke="#8e626d" stroke-width="2"/></g>
+<!-- Warm light behind homes -->
+<ellipse cx="440" cy="225" rx="245" ry="112" fill="url(#lamplight)" opacity=".24"/>
+<!-- LEFT BOOKSHOP: perspective walls -->
+<g stroke-linejoin="round">
+ <path d="M112 199l72-77 111 63v142H112Z" fill="url(#cream)" stroke="#d9c3b9" stroke-width="4"/>
+ <path d="M295 185l45-25v161l-45 6Z" fill="#ae8896" stroke="#805b75" stroke-width="4"/>
+ <path d="M112 199l72-77 111 63v142H112Z" fill="url(#brick)"/>
+ <path d="M101 207l80-99 120 90-11 11-106-82-71 88Z" fill="url(#royal)" stroke="#e9ccca" stroke-width="6"/>
+ <path d="M181 108l59-15 103 65-42 39Z" fill="#55294d" stroke="#dfa4a6" stroke-width="4"/>
+ <path d="M110 206l74-93 114 86" fill="none" stroke="#f7f4ef" stroke-width="9" stroke-linecap="round"/>
+ <path d="M176 122l-34 49m49-39-39 53m56-36-37 45m50-34-34 40m51-24-30 35" stroke="#ffe5df" stroke-width="3" opacity=".7"/>
+ <rect x="135" y="217" width="48" height="57" rx="3" fill="url(#window)" stroke="url(#gold)" stroke-width="5"/><path d="M159 218v54m-24-28h48" stroke="#93616a" stroke-width="3"/>
+ <rect x="222" y="217" width="49" height="57" rx="3" fill="url(#window)" stroke="url(#gold)" stroke-width="5"/><path d="M246 218v54m-24-28h49" stroke="#93616a" stroke-width="3"/>
+ <path d="M183 327v-42q0-24 20-24t20 24v42Z" fill="#284d63" stroke="url(#gold)" stroke-width="5"/><circle cx="213" cy="298" r="3.5" fill="#ffdb81"/>
+ <path d="M140 280q17 11 40 0m47 0q22 11 41 0" fill="none" stroke="#fef2e5" stroke-width="8" stroke-linecap="round"/>
+ <rect x="143" y="194" width="115" height="18" rx="3" fill="#285b55" stroke="#cbaa6d" stroke-width="3"/>
+ <text x="200" y="207" font-family="Georgia,serif" font-size="12" text-anchor="middle" fill="#ffe4b5" letter-spacing="2">CARTAS</text>
+ <path d="M114 204q39 23 85 10t93-7" stroke="#29665c" stroke-width="9" fill="none"/>
+ <g fill="#f2bc73"><circle cx="137" cy="214" r="4"/><circle cx="170" cy="218" r="4"/><circle cx="203" cy="215" r="4"/><circle cx="238" cy="213" r="4"/><circle cx="273" cy="215" r="4"/></g>
+ <circle cx="201" cy="164" r="15" fill="#385a53" stroke="url(#gold)" stroke-width="4"/><path d="M193 161l8 7 8-7" stroke="#efb7a8" stroke-width="4" fill="none"/>
+ <path d="M126 196q28-9 46-7M244 183q28 2 44 13" stroke="#fff7f0" stroke-width="8" stroke-linecap="round" fill="none"/>
+ <path d="M308 211l24-13M308 235l24-13M308 260l24-13" stroke="#e4bdbe" stroke-width="3" opacity=".5"/>
+</g>
+<!-- CENTRAL HOUSE OF NOTES: strong 2.5D pitch & bevels -->
+<g stroke-linejoin="round">
+ <path d="M335 167l127-103 145 104v179H335Z" fill="url(#parchment)" stroke="#c58a85" stroke-width="5"/>
+ <path d="M607 167l57-29v193l-57 16Z" fill="#7d677c" stroke="#61546d" stroke-width="5"/>
+ <path d="M335 167l127-103 145 104v179H335Z" fill="url(#brick)" opacity=".75"/>
+ <path d="M324 183l132-129 155 111-13 21-140-105-120 121Z" fill="url(#royal)" stroke="#f2d9ce" stroke-width="7"/>
+ <path d="M456 54l55-14 156 95-56 34Z" fill="#592d53" stroke="#bb7b86" stroke-width="5"/>
+ <path d="M334 182L457 59l147 119" fill="none" stroke="#faf7ec" stroke-width="11" stroke-linecap="round"/>
+ <path d="M455 60q26-9 53-7M481 72l96 73m-109-64 101 77m-117-63 96 80" stroke="#f4eff0" stroke-width="3" opacity=".7"/>
+ <path d="M515 43l-2-24h37v48" fill="#9c5064" stroke="#f1c7bc" stroke-width="4"/><path d="M510 22h45" stroke="#fef6e5" stroke-width="7" stroke-linecap="round"/>
+ <path d="M363 194h212v153H363Z" fill="#fee5bd" opacity=".28"/>
+ <rect x="362" y="209" width="64" height="72" rx="5" fill="url(#window)" stroke="url(#gold)" stroke-width="7"/><path d="M394 209v72m-32-36h64" stroke="#a46e62" stroke-width="4"/>
+ <rect x="519" y="209" width="64" height="72" rx="5" fill="url(#window)" stroke="url(#gold)" stroke-width="7"/><path d="M551 209v72m-32-36h64" stroke="#a46e62" stroke-width="4"/>
+ <path d="M446 347v-75q0-37 27-37t27 37v75Z" fill="#26625f" stroke="url(#gold)" stroke-width="8"/>
+ <path d="M473 238v108" stroke="#d4ac6f" stroke-width="3"/><circle cx="483" cy="301" r="4.4" fill="#ffe3a6"/>
+ <path d="M459 169a16 16 0 1 1 32 0a16 16 0 0 1-32 0" fill="#2c685f" stroke="url(#gold)" stroke-width="5"/><path d="M466 168q9-7 18 0t-18 0" stroke="#f5bcb3" stroke-width="3" fill="none"/>
+ <path d="M358 202q26 22 62 8t65 4t93-14" fill="none" stroke="#327763" stroke-width="8" stroke-linecap="round"/>
+ <g fill="#ffc976"><circle cx="374" cy="209" r="4"/><circle cx="404" cy="217" r="4"/><circle cx="443" cy="209" r="4"/><circle cx="478" cy="216" r="4"/><circle cx="516" cy="216" r="4"/><circle cx="561" cy="207" r="4"/></g>
+ <rect x="420" y="184" width="105" height="17" rx="8" fill="#c65d6c" stroke="url(#gold)" stroke-width="2"/><text x="473" y="196" font-family="Georgia,serif" font-size="12" font-style="italic" text-anchor="middle" fill="#fff4da">para siempre</text>
+ <path d="M353 281q21 11 39 0m155 0q21 11 36 0" fill="none" stroke="#fffdf7" stroke-width="10" stroke-linecap="round"/>
+ <path d="M615 198l35-18M615 240l35-18M615 284l35-19" stroke="#c09ba6" stroke-width="3" opacity=".6"/>
+ <path d="M408 327q27 15 52 0m34 0q30 13 58 0" stroke="#e9b6a6" stroke-width="4" fill="none"/>
+</g>
+<!-- RIGHT PASTRY HOUSE -->
+<g stroke-linejoin="round">
+ <path d="M676 215l72-80 117 72v129H676Z" fill="url(#jade)" stroke="#2e686e" stroke-width="4"/>
+ <path d="M865 207l31-11v132l-31 8Z" fill="#446d78" stroke="#2e4c65" stroke-width="3"/>
+ <path d="M666 219l79-96 124 85-8 18-112-80-74 89Z" fill="url(#slate)" stroke="#fff3e7" stroke-width="6"/>
+ <path d="M745 123l38-12 113 84-31 13Z" fill="#1a3e62" stroke="#83a5ab" stroke-width="3"/>
+ <path d="M677 222l71-89 116 82" fill="none" stroke="#f5f7ef" stroke-width="9" stroke-linecap="round"/>
+ <rect x="697" y="241" width="45" height="54" rx="3" fill="url(#window)" stroke="url(#gold)" stroke-width="5"/><path d="M720 241v54m-23-27h45" stroke="#6a7c77" stroke-width="3"/>
+ <rect x="806" y="241" width="42" height="54" rx="3" fill="url(#window)" stroke="url(#gold)" stroke-width="5"/><path d="M827 241v54m-21-27h42" stroke="#6a7c77" stroke-width="3"/>
+ <path d="M762 335v-58q0-22 18-22t19 22v58Z" fill="#a75665" stroke="url(#gold)" stroke-width="5"/>
+ <rect x="721" y="217" width="97" height="16" rx="7" fill="#34595a" stroke="#d4ac67" stroke-width="2"/><text x="770" y="229" font-family="Georgia,serif" text-anchor="middle" font-size="12" fill="#ffe0a6" letter-spacing="1">DULCES</text>
+ <path d="M688 220q27 18 50 4t58 6t53-7" stroke="#2a7568" stroke-width="7" fill="none"/><g fill="#f2bf7c"><circle cx="699" cy="228" r="3.5"/><circle cx="733" cy="229" r="3.5"/><circle cx="769" cy="230" r="3.5"/><circle cx="808" cy="234" r="3.5"/><circle cx="845" cy="230" r="3.5"/></g>
+ <path d="M703 299q19 12 36 0m71 1q15 12 35 0" fill="none" stroke="#f5fff7" stroke-width="8" stroke-linecap="round"/>
+</g>
+<!-- Snowdrift and winding golden stepping stones -->
+<path d="M0 335Q105 320 195 337T400 321T601 335T900 320V414H0Z" fill="url(#snow)"/>
+<path d="M0 353Q124 335 250 353T490 347T720 356T900 338" fill="none" stroke="#fffdf6" stroke-width="14" stroke-linecap="round"/>
+<g stroke="#d1b991" stroke-width="2" fill="#f1dfc1" opacity=".88"><ellipse cx="448" cy="370" rx="24" ry="6"/><ellipse cx="465" cy="390" rx="29" ry="8"/><ellipse cx="494" cy="408" rx="35" ry="9"/><ellipse cx="338" cy="382" rx="21" ry="6"/><ellipse cx="316" cy="398" rx="24" ry="6"/></g>
+<!-- Fir, little presents, lamplights -->
+<use href="#pinetree" transform="translate(68 342) scale(.94)"/>
+<use href="#pinetree" transform="translate(632 344) scale(.54)"/>
+<g><path d="M53 352v-64" stroke="#aa855b" stroke-width="5"/><path d="M46 291l7-10 7 10z" fill="#e6ba73"/><rect x="44" y="266" width="19" height="26" rx="4" fill="#ffe1a0" stroke="#b48956" stroke-width="3"/><ellipse cx="53" cy="279" rx="33" ry="29" fill="url(#lamplight)"/><path d="M48 264v-8h11v8m-13 25h16" stroke="#f3d79c" stroke-width="4"/></g>
+<g><path d="M876 357v-67" stroke="#aa855b" stroke-width="5"/><rect x="867" y="268" width="19" height="27" rx="4" fill="#ffe1a0" stroke="#b48956" stroke-width="3"/><ellipse cx="877" cy="281" rx="35" ry="29" fill="url(#lamplight)"/></g>
+<g stroke-linejoin="round"><rect x="225" y="347" width="41" height="33" rx="3" fill="#b14f69" stroke="#ffe3a6" stroke-width="3"/><path d="M245 347v33m-20-18h41" stroke="url(#gold)" stroke-width="5"/><path d="M245 348q-25-19-17-23t17 23m0 0q19-21 26-12t-26 12" fill="none" stroke="#ffe4a4" stroke-width="3"/>
+<rect x="566" y="352" width="31" height="25" rx="3" fill="#a5c6b6" stroke="#f8e6d1" stroke-width="3"/><path d="M581 352v25m-15-12h31" stroke="#bc6b71" stroke-width="4"/><rect x="605" y="360" width="27" height="21" rx="3" fill="#e9bd75" stroke="#fff7dc" stroke-width="2"/><path d="M619 360v21m-14-11h27" stroke="#a85e5f" stroke-width="4"/></g>
+<!-- Multiple handcrafted cats: warm, snowy and rooftop -->
+<use href="#cat" transform="translate(154 358) scale(.94)"/>
+<use href="#cat" transform="translate(532 349) scale(.72)"/>
+<g transform="translate(797 191) scale(.48)"><path d="M-20 17q-25-25-30-6" stroke="#463744" stroke-width="10" fill="none" stroke-linecap="round"/><ellipse cx="0" cy="10" rx="22" ry="14" fill="#343346"/><path d="M-20 7l-1-25 14 11 13-13 15 27Q15 23 0 24T-20 7Z" fill="#414050"/><circle cx="-10" cy="7" r="3" fill="#e9d597"/><circle cx="6" cy="7" r="3" fill="#e9d597"/></g>
+<g transform="translate(268 243) scale(.39)"><path d="M-22 12q-22-22-28-4" stroke="#f8e9de" stroke-width="10" fill="none" stroke-linecap="round"/><ellipse cx="0" cy="10" rx="23" ry="15" fill="#f8e9de"/><path d="M-20 0l-2-21 15 12 13-12 15 22Q15 23 0 23T-20 0Z" fill="#fffaf0" stroke="#caaab5" stroke-width="2"/><circle cx="-9" cy="4" r="3" fill="#8e7581"/><circle cx="6" cy="4" r="3" fill="#8e7581"/></g>
+<!-- Individual flakes and tiny hearts -->
+<g opacity=".78"><use href="#snowflake" transform="translate(76 172) scale(1.7)"/><use href="#snowflake" transform="translate(585 103) scale(1.3)"/><use href="#snowflake" transform="translate(699 62) scale(1.1)"/><use href="#snowflake" transform="translate(855 140) scale(1.4)"/><use href="#snowflake" transform="translate(270 67) scale(1.2)"/></g>
+<path d="M373 380c-13-10-18-18-8-24 7-5 12-1 14 3 5-6 11-8 17-3 10 9-7 19-23 24Z" fill="#bb6474" opacity=".94"/>
+<g filter="url(#watercolor)" opacity=".26"><path d="M112 199l72-77 111 63v142H112Zm223-32L462 64l145 104v179H335Zm341 48 72-80 117 72v129H676Z" fill="#754d68"/></g>
+</svg>

@@ -1,0 +1,14 @@
+.mini-game{border:1px solid #d6b5b2;border-radius:15px;padding:17px;margin:14px 0;background:#fff9f3;color:#463342;font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+.mini-game-label{font:700 10px/1.4 system-ui;letter-spacing:.2em;color:#9e6978;margin-bottom:12px}
+.mini-game-status{font-size:12px;line-height:1.5;color:#806b74;min-height:15px;margin:11px 0 0}.mini-game-status.won{color:#4d735b;font-weight:700}
+.mini-game-button{border:0;border-radius:9px;background:#784759;color:white;cursor:pointer;padding:11px 15px;font-weight:700;font-size:12px}
+.mini-game-button:focus-visible,.mini-puzzle-piece:focus-visible{outline:3px solid #d1ad83;outline-offset:3px}
+.mini-scratch-frame{position:relative;height:173px;width:100%;border-radius:11px;overflow:hidden;margin-bottom:12px;background:#f3e2da}
+.mini-scratch-answer{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;font:500 clamp(16px,2.5vw,22px)/1.45 Georgia,serif;color:#704c61}
+.mini-scratch-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair;touch-action:none;transition:opacity .5s}
+.mini-riddle-question{font:500 17px/1.5 Georgia,serif;color:#5a4051;margin:0 0 14px}
+.mini-riddle-form{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}.mini-riddle-form input{flex:1 1 140px;min-width:0;margin:0;padding:10px 12px;font-size:13px;border:1px solid #d9c0bd;border-radius:9px}
+.mini-hint-button{background:none;border:0;text-decoration:underline;text-underline-offset:3px;color:#7b5965;cursor:pointer;padding:10px 0;font-size:12px}
+.mini-puzzle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:min(100%,290px);aspect-ratio:1;margin:auto}
+.mini-puzzle-piece{background-size:300% 300%;background-repeat:no-repeat;background-color:#d4b2b1;border:2px solid #fff;border-radius:5px;cursor:pointer;transition:transform .13s ease,outline-color .13s ease}
+.mini-puzzle-piece.picked{outline:3px solid #985674;outline-offset:-3px;transform:scale(.94)}.mini-puzzle-grid.solved .mini-puzzle-piece{border:0;pointer-events:none}

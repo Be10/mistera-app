@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mistera-prd",
+  "main": "./worker/index.js",
+  "compatibility_date": "2026-11-25",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./.deploy/prd",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "MISTERA_DB",
+      "database_name": "mistera-prd",
+      "database_id": "REEMPLAZAR_CON_UUID_D1_PRD"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+# Exclude accidental tooling from deployed static assets.
+_worker.js
+_routes.json
+.dev.vars
+.dev.vars.*

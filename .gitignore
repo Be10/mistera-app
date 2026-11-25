@@ -1,0 +1,34 @@
+# Never commit generated deployments, CLI state, caches or private credentials.
+.deploy/
+.wrangler/
+node_modules/
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+*.zip
+*.log
+*.tmp
+.pytest_cache/
+__pycache__/
+*.pyc
+# User's local media/notes outside of approved project resources.
+.DS_Store
+Thumbs.db
+# Untracked manual Access verification remains local and must not be mistaken for security configuration.
+scripts/TEST_ACCESS_CONFIRMED
+# Old non-deployment files retained only in historic OneDrive copies.
+qa/
+ASSETS_SHA256.txt
+calibrar-chimeneas.*
+GUIA_PUBLICACION_*.md
+Iniciar_Mistera_*.bat
+MANIFEST_*.json
+MISTERA_93_frases_originales.txt
+MISTERA_V24_Cloudflare_manifest.json
+PLAN_EDITORIAL_*.md
+QA_*.json
+README_V*.md
+qa_v*.py
+servidor-demo.mjs
+verificar-escena.mjs

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es-419">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f3ed"><meta name="referrer" content="no-referrer"><title>MISTERA | Taller de Adviento</title><link rel="stylesheet" href="../tap-highlight.css">
+<link rel="stylesheet" href="editor.css"><link rel="stylesheet" href="game-kit.css"></head>
+<body>
+<div class="editor-v20-notice">Edición local V20: los 24 textos de ejemplo y el Gran Final son borradores personalizables, no sorpresas finales publicadas. Abre la villa desde este mismo servidor para previsualizarlos. <a href="../index.html">Volver a la villa</a></div>
+<div class="editor-app">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-symbol">&#10022;</span><span>MISTERA <small>UN REGALO PARA ELLA</small></span></div>
+    <h1>Tu taller de <em>Adviento.</em></h1>
+    <p class="intro">24 peque&ntilde;as sorpresas y un Gran Final que aparecer&aacute; al llegar el 25 de diciembre, despu&eacute;s de abrir el d&iacute;a 24.</p>
+    <div class="setup">
+      <h2>La bienvenida</h2>
+      <label for="recipient">C&oacute;mo le dices de cari&ntilde;o<input id="recipient" maxlength="70" placeholder="Mi amor"></label>
+      <label for="subtitle">Frase inicial del calendario<textarea id="subtitle" rows="3" maxlength="240" placeholder="Un diciembre lleno de nosotros..."></textarea></label><p class="subtle secret-tip">🤫 Mantén el secreto: no anuncies aquí el Gran Final. MISTERA lo revelará únicamente después de abrir el día 24.</p>
+      <label for="senderWhatsapp">Tu WhatsApp para recibir mensajes <span class="label-help">Opcional: incluye el código internacional sin +, espacios ni guiones; ejemplo 51987654321. Solo ella verá el enlace después de acceder.</span><input id="senderWhatsapp" type="tel" inputmode="numeric" autocomplete="off" placeholder="51987654321" pattern="[1-9][0-9]{7,14}"></label>
+      <label for="password">Clave privada que usar&aacute; ella</label>
+      <div class="password-row"><input id="password" type="text" spellcheck="false" autocomplete="off" aria-label="Clave privada"><button class="icon-button" id="newPassword" type="button" title="Crear otra clave" aria-label="Generar clave nueva">&#8635;</button></div>
+      <p class="subtle">La clave tiene 12 caracteres o m&aacute;s. No la publiques junto con el calendario.</p>
+    </div>
+    <section class="schedule-explainer" aria-label="Fechas de apertura">
+      <h2>&#128197; Fechas autom&aacute;ticas</h2>
+      <p><b>D&iacute;as 1 al 24:</b> 1 al 24 de diciembre de 2026, a las <b>00:00 de Per&uacute;</b>.</p>
+      <p><b>Gran Final:</b> disponible desde el 25 de diciembre a las 00:00, despu&eacute;s de abrir la puerta 24.</p>
+      <p class="subtle">No necesitas definir una fecha para cada sorpresa. Las fechas de un vale son diferentes: indican cu&aacute;ndo disfrutar el regalo, no cu&aacute;ndo se abre la puerta.</p>
+    </section>
+    <div class="sidebar-bottom">
+      <div class="mini-status" id="mediaStatus">Los archivos se guardan en tu navegador de esta computadora.</div>
+      <button class="btn muted" id="backupBtn" type="button">Guardar respaldo de textos (.json)</button>
+      <label class="btn muted import-btn" for="importInput">Recuperar respaldo de textos<input id="importInput" type="file" accept="application/json,.json" hidden></label>
+      <p class="subtle">El respaldo JSON solo guarda textos. Los archivos multimedia permanecen en este navegador hasta que generes el ZIP.</p>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="editor-header"><div><p class="kicker">ADVIENTO 2026 / EDICI&Oacute;N PERSONAL</p><h2>Tu calendario de <em>Adviento.</em></h2></div><div class="action-header"><button class="btn magic-preview" id="worldPreviewBtn" type="button">🎄 Ver la villa V20</button><button class="btn muted" id="previewBtn" type="button">Ampliar esta sorpresa</button><button class="btn primary" id="exportBtn" type="button">Preparar ZIP para publicar &#8599;</button></div></header>
+    <section class="editor-wonder-banner" aria-label="Vista del universo navideño"><div><span class="kicker">VISTA DE ENSAYO</span><strong>Tu calendario, <em>antes de enviarlo.</em></strong><p>Comprueba las sorpresas y las animaciones tal como se abrirán.</p><button id="worldPreviewBanner" class="btn magic-preview" type="button">Ver la villa V20 ✨</button></div><img src="winter-village.svg" alt="Ilustración provisional del pueblo navideño"></section><section class="days-panel"><div class="days-bar"><div><strong>Elige qu&eacute; momento editar</strong><p id="progressText">Todas las cartas est&aacute;n preparadas para que las personalices.</p></div><span class="counter" id="mediaCounter">0 archivos</span></div><div class="days-grid" id="dayGrid" aria-label="Seleccionar d&iacute;a o Gran Final"></div><p class="date-caption" id="unlockInfo">Se desbloquea el 1 de diciembre de 2026 a las 00:00 (Per&uacute;).</p></section>
+    <div class="workspace-grid">
+      <section class="edit-panel" aria-label="Editar sorpresa">
+        <div class="panel-heading"><div><p class="kicker" id="dayKicker">D&Iacute;A 01 / 24</p><h3 id="dayHeading">El primer sobre</h3></div><span class="pill">Guardado autom&aacute;tico</span></div>
+        <section class="editor-section block-layout-section" aria-label="Orden del contenido"><div class="section-head"><span class="section-number">↕</span><div><h4>Orden de aparición</h4><p>Sube o baja cada bloque. Los bloques vacíos no se mostrarán.</p></div></div><div id="blockOrderList" class="block-order-list" aria-label="Orden de los bloques de esta sorpresa"></div><label class="checkbox-label gate-option"><input type="checkbox" id="gameGate"> Debe completar el minijuego antes de ver el resto</label><p class="form-tip">Cuando está activo, el juego aparece primero; al completarlo se muestran los demás bloques en el orden elegido. Esto es una dinámica de juego, no una barrera criptográfica adicional.</p></section>
+        <section class="editor-section"><div class="section-head"><span class="section-number">01</span><div><h4>Palabras para ella</h4><p>La carta puede acompa&ntilde;ar las fotos, audio, video y juegos.</p></div></div>
+          <div class="form-grid"><label for="title">T&iacute;tulo<input id="title" maxlength="100" placeholder="Una sorpresa para ti"></label><label for="lead">Frase antes de abrir<input id="lead" maxlength="220" placeholder="Una pista bonita..."></label></div>
+          <label for="letter">Tu carta<textarea id="letter" class="letter-editor" rows="6" maxlength="6000" placeholder="Quiero decirte algo..."></textarea></label>
+        </section>
+        <section class="editor-section"><div class="section-head"><span class="section-number">02</span><div><h4>Recuerdos multimedia</h4><p>Al subirlos ver&aacute;s las fotos y reproductores en el editor, sin exportar primero.</p></div></div>
+          <div class="media-grid">
+            <div class="media-tile"><h5>Fotograf&iacute;as <small>hasta 15</small></h5><label class="upload-control" for="photos">+ A&ntilde;adir fotos<input type="file" id="photos" accept="image/*" multiple hidden></label><div id="photoList" class="asset-list"></div></div>
+            <div class="media-tile"><h5>Audio y video <small>1 de cada uno</small></h5><label class="upload-control" for="audio">+ A&ntilde;adir audio<input type="file" id="audio" accept="audio/mpeg,audio/mp4,audio/x-m4a,audio/ogg,audio/webm,audio/wav,.mp3,.m4a,.ogg,.webm,.wav" hidden></label><label class="upload-control" for="video">+ A&ntilde;adir video<input type="file" id="video" accept="video/mp4,video/webm,.mp4,.webm" hidden></label><div id="soundList" class="asset-list"></div></div>
+          </div>
+          <label for="youtube">Video de YouTube no listado (opcional)<span class="label-help">&Uacute;salo si tu archivo supera 25 MiB. Si subes un video local, tendr&aacute; prioridad. Los videos de YouTube no son estrictamente privados.</span><input id="youtube" type="url" placeholder="https://youtu.be/..."></label>
+          <p class="subtle">M&aacute;ximo 25 MiB por archivo para este alojamiento gratuito. Fotos convertidas autom&aacute;ticamente a WebP.</p>
+        </section>
+        <section class="editor-section"><div class="section-head"><span class="section-number">03</span><div><h4>Un minijuego</h4><p>Elige uno y pru&eacute;balo en la vista previa en vivo.</p></div></div>
+          <label for="gameType">Tipo de minijuego<select id="gameType"><option value="none">Sin minijuego</option><option value="scratch">Tarjeta para raspar</option><option value="riddle">Acertijo con respuesta</option><option value="puzzle">Rompecabezas de 9 piezas (primera foto)</option></select></label>
+          <div class="game-fields" id="scratchFields" hidden><label for="gameMessage">Mensaje que aparecer&aacute; al raspar<textarea id="gameMessage" rows="2" maxlength="220" placeholder="Una sorpresa que escond&iacute; para ti..."></textarea></label></div>
+          <div class="game-fields" id="riddleFields" hidden><label for="gameQuestion">Pregunta del acertijo<textarea id="gameQuestion" rows="2" maxlength="300" placeholder="&iquest;D&oacute;nde fue nuestra primera cita?"></textarea></label><label for="gameAnswer">Respuesta correcta<input id="gameAnswer" maxlength="120" placeholder="Ej. La plaza"></label><label for="gameHint">Pista opcional<input id="gameHint" maxlength="180" placeholder="Estaba lloviendo..."></label></div>
+          <p id="puzzleHint" class="form-tip" hidden>Usaremos la primera foto de este d&iacute;a. Sube una foto arriba para poder jugar.</p>
+        </section>
+        <section class="editor-section"><div class="section-head"><span class="section-number">04</span><div><h4>Vale para regalar un momento</h4><p>Ejemplo: desayuno, cena, paseo, masaje o una cita que ella elija.</p></div></div>
+          <label class="checkbox-label"><input type="checkbox" id="voucherEnabled"> Incluir un vale canjeable en esta sorpresa</label>
+          <div class="voucher-fields" id="voucherFields" hidden>
+            <label for="voucherTitle">&iquest;Qu&eacute; le regalas?<input id="voucherTitle" maxlength="100" placeholder="Un desayuno preparado por m&iacute;"></label>
+            <label for="voucherDetails">Explica en qu&eacute; consiste<textarea id="voucherDetails" rows="2" maxlength="320" placeholder="Yo preparo lo que m&aacute;s te guste y lo disfrutamos juntos."></textarea></label>
+            <label for="voucherType">&iquest;Puede elegir?<select id="voucherType"><option value="fixed">Es un regalo fijo</option><option value="choice">Ella elige entre opciones</option></select></label>
+            <label for="voucherOptions" id="voucherOptionsField" hidden>Opciones, una por l&iacute;nea<textarea id="voucherOptions" rows="3" maxlength="1000" placeholder="Desayuno en casa&#10;Brunch fuera&#10;Picnic juntos"></textarea><span class="label-help">Escribe entre 2 y 6 opciones. Ella seleccionar&aacute; una cuando use el vale.</span></label>
+            <div class="voucher-dates"><div class="date-legend">Las fechas del vale <b>NO cambian</b> la fecha de apertura de la sorpresa.</div>
+              <div class="form-grid"><label for="voucherSuggested">Fecha sugerida para disfrutarlo <span class="label-help">Opcional; vac&iacute;o = ella elige.</span><input id="voucherSuggested" type="date"></label><label for="voucherTime">Hora sugerida <span class="label-help">Opcional.</span><input id="voucherTime" type="time"></label></div>
+              <label for="voucherExpires">V&aacute;lido hasta <span class="label-help">Opcional; vac&iacute;o = sin vencimiento.</span><input id="voucherExpires" type="date"></label>
+              <label for="voucherLocation">Lugar o indicaciones <span class="label-help">Opcional.</span><input id="voucherLocation" maxlength="160" placeholder="En casa, cuando estemos libres"></label>
+            </div>
+            <p class="form-tip">Al canjear, ella podr&aacute; marcar el vale como usado en su tel&eacute;fono y compartirte un mensaje. No se env&iacute;an notificaciones autom&aacute;ticas.</p>
+          </div>
+        </section>
+        <div class="editor-foot"><button class="btn muted" id="prevDay" type="button">&#8592; Anterior</button><span id="editorToast" role="status" aria-live="polite"></span><button class="btn primary" id="nextDay" type="button">Siguiente &#8594;</button></div>
+      </section>
+      <aside class="live-panel" aria-label="Vista previa en vivo"><div class="live-top"><span class="kicker">AS&Iacute; LO VER&Aacute; ELLA</span><span class="preview-live-dot">En vivo</span></div><div class="live-paper"><p class="live-day" id="liveDay">D&iacute;a 01</p><h3 id="liveTitle"></h3><p id="liveLead" class="live-lead"></p><div id="liveLetter" class="live-letter"></div><div id="liveMedia"></div><div id="liveVoucher"></div><div id="liveGame"></div></div><p class="preview-note">Vista previa interactiva: puedes reproducir audio/video, deslizar fotos y probar el minijuego. No modifica la sorpresa ni la marca como abierta.</p><button type="button" class="btn muted wide" id="liveExpand">Abrir vista ampliada &#8599;</button></aside>
+    </div>
+    <p class="guidance"><strong>Para publicar:</strong> el ZIP incluye el calendario, los 24 d&iacute;as, el Gran Final y protecci&oacute;n por clave y fecha. <strong>No subas el archivo de clave privada.</strong></p>
+  </main>
+</div>
+<div class="dialog-backdrop" id="previewOverlay" hidden><div class="preview-dialog" role="dialog" aria-modal="true" aria-labelledby="previewTitle"><button class="dialog-close" id="closePreview" type="button" aria-label="Cerrar vista previa">&times;</button><p class="kicker">VISTA PREVIA INTERACTIVA &middot; <span id="previewDay"></span></p><h2 id="previewTitle"></h2><p id="previewLead"></p><div id="previewContent"></div><p class="subtle">Solo es una simulaci&oacute;n local. La fecha real y la clave se respetan al publicar.</p></div></div>
+<script src="defaults.js"></script><script src="templates.js"></script><script src="game-kit.js"></script><script src="editor.js"></script>
+<a href="planificador.html" style="position:fixed;bottom:8px;right:8px;background:#0d2946;color:#f2cfa0;padding:8px 12px;border:1px solid #bb9c65;border-radius:10px;z-index:50;font-size:12px;text-decoration:none">Planificador V23 ✦</a></body></html>

@@ -1,0 +1,233 @@
+{
+  "version": "V20",
+  "timezone": "America/Lima",
+  "use": "Plan de trabajo local. Borradores de ejemplo originales V5, sin validación ni publicación de contenido personal.",
+  "days": [
+    {
+      "day": 1,
+      "date": "2026-12-01",
+      "titleSuggestion": "El primer sobre",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 2,
+      "date": "2026-12-02",
+      "titleSuggestion": "Esa sonrisa tuya",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 3,
+      "date": "2026-12-03",
+      "titleSuggestion": "Gracias por lo cotidiano",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 4,
+      "date": "2026-12-04",
+      "titleSuggestion": "Un abrazo pendiente",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 5,
+      "date": "2026-12-05",
+      "titleSuggestion": "Una cosa que admiro",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 6,
+      "date": "2026-12-06",
+      "titleSuggestion": "Un plan para los dos",
+      "voucherSuggestion": true,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 7,
+      "date": "2026-12-07",
+      "titleSuggestion": "Nuestros pequeños rituales",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 8,
+      "date": "2026-12-08",
+      "titleSuggestion": "Una pista secreta",
+      "voucherSuggestion": false,
+      "gameSuggestion": true,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 9,
+      "date": "2026-12-09",
+      "titleSuggestion": "Nuestra complicidad",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 10,
+      "date": "2026-12-10",
+      "titleSuggestion": "Lo que deseo para ti",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 11,
+      "date": "2026-12-11",
+      "titleSuggestion": "Un recuerdo por guardar",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 12,
+      "date": "2026-12-12",
+      "titleSuggestion": "Un respiro juntos",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 13,
+      "date": "2026-12-13",
+      "titleSuggestion": "Tu manera de cuidar",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 14,
+      "date": "2026-12-14",
+      "titleSuggestion": "Contigo en los planes",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 15,
+      "date": "2026-12-15",
+      "titleSuggestion": "Una pequeña promesa",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 16,
+      "date": "2026-12-16",
+      "titleSuggestion": "Raspa otra vez",
+      "voucherSuggestion": false,
+      "gameSuggestion": true,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 17,
+      "date": "2026-12-17",
+      "titleSuggestion": "Tantas formas de querer",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 18,
+      "date": "2026-12-18",
+      "titleSuggestion": "Una cita contigo",
+      "voucherSuggestion": true,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 19,
+      "date": "2026-12-19",
+      "titleSuggestion": "Tu lugar en mi vida",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 20,
+      "date": "2026-12-20",
+      "titleSuggestion": "Lo que nunca sobra",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 21,
+      "date": "2026-12-21",
+      "titleSuggestion": "Un sueño compartido",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 22,
+      "date": "2026-12-22",
+      "titleSuggestion": "Cerca de Navidad",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 23,
+      "date": "2026-12-23",
+      "titleSuggestion": "Casi llegamos",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 24,
+      "date": "2026-12-24",
+      "titleSuggestion": "Mi regalo favorito",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0
+    },
+    {
+      "day": 25,
+      "date": "2026-12-25",
+      "titleSuggestion": "El regalo que no cabe en una puerta",
+      "voucherSuggestion": false,
+      "gameSuggestion": false,
+      "status": "borrador por personalizar",
+      "mediaReceived": 0,
+      "requiresDay24Opened": true
+    }
+  ]
+}

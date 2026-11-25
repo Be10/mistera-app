@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mistera-staging",
+  "main": "./worker/index.js",
+  "compatibility_date": "2026-11-25",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./.deploy/test",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "MISTERA_DB",
+      "database_name": "mistera-dev",
+      "database_id": "683018d0-4a53-4ddc-9f63-7611ebcb3005"
+    }
+  ]
+}

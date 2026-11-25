@@ -1,0 +1,4 @@
+/* MISTERA: suprimir solo el tap highlight nativo; conservar focus visible y efectos personalizados. */
+* {
+  -webkit-tap-highlight-color: transparent;
+}

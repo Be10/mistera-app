@@ -1,0 +1,109 @@
+/* MISTERA V33: dedicated, editorially approved days 01/02; no village or dock changes. */
+#surprise-dialog:has(.m33-cinema-view),#surprise-dialog:has(.m33-secret-view),#surprise-dialog:has(.m33-found-letter),#surprise-dialog:has(.m33-cinema-ticket){max-width:min(510px,calc(100vw - 20px));}
+#surprise-dialog:has(.m33-cinema-view) .dialog-inner,#surprise-dialog:has(.m33-secret-view) .dialog-inner,#surprise-dialog:has(.m33-found-letter) .dialog-inner,#surprise-dialog:has(.m33-cinema-ticket) .dialog-inner{padding:39px 15px 21px;}
+#surprise-dialog:has(.m33-cinema-view) #dialog-title,#surprise-dialog:has(.m33-secret-view) #dialog-title,#surprise-dialog:has(.m33-found-letter) #dialog-title,#surprise-dialog:has(.m33-cinema-ticket) #dialog-title{font-size:19px;margin:0 35px 12px;}
+#surprise-dialog .mx-experience:has(.m33-cinema-view),#surprise-dialog .mx-experience:has(.m33-secret-view),#surprise-dialog .mx-experience:has(.m33-found-letter),#surprise-dialog .mx-experience:has(.m33-cinema-ticket){margin-top:0;display:block;}
+.m33-cinema-view,.m33-secret-view,.m33-found-letter,.m33-cinema-ticket{max-width:410px;margin:0 auto;animation:m33-rise .38s cubic-bezier(.18,.75,.2,1) both}
+.m33-cinema-hint{font:italic 13px/1.5 Georgia,serif;color:#ecd3ac;text-align:center;margin:0 5px 13px}
+.m33-cinema-stage{position:relative;width:min(100%,268px);margin:0 auto;perspective:1000px;isolation:isolate;}
+.m33-cinema-stage::before{content:"";position:absolute;inset:-12px -14px;border-radius:17px;pointer-events:none;z-index:-1;opacity:.5;
+  background:radial-gradient(ellipse at 50% 50%,rgba(255,227,161,.28),transparent 76%);filter:blur(14px);animation:m33-halo 7s ease-in-out infinite}
+.m33-scratch-card{position:relative;width:min(100%,268px);aspect-ratio:4 / 5;margin:0 auto;isolation:isolate;border:1px solid rgba(247,217,158,.75);border-radius:12px;overflow:hidden;box-shadow:0 18px 42px rgba(0,0,0,.5)}
+.m33-scratch-art,.m33-scratch-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.m33-scratch-art img{width:100%;height:100%;object-fit:contain;display:block}
+.m33-scratch-canvas{cursor:crosshair;touch-action:none;user-select:none;transition:opacity .45s ease}
+.m33-scratch-canvas.m33-scratch-cleared{opacity:0;pointer-events:none}
+.m33-flip-card{width:100%;aspect-ratio:4 / 5;position:relative;animation:m33-rock 7s ease-in-out infinite;transform-origin:center}
+.m33-flip-card.is-flipped{animation:none}
+.m33-flip-rotor{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .72s cubic-bezier(.2,.8,.17,1);border-radius:12px;box-shadow:0 22px 46px rgba(0,0,0,.42)}
+.m33-flip-card.is-flipped .m33-flip-rotor{transform:rotateY(180deg)}
+.m33-flip-front,.m33-flip-back{position:absolute;inset:0;border-radius:12px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.m33-flip-front{background:#091429;cursor:pointer;border:1px solid rgba(243,209,156,.72)}
+.m33-flip-front:focus-visible{outline:3px solid #ffdda2;outline-offset:3px}
+.m33-flip-front>img,.m33-title-overlay,.m33-title-overlay img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain}
+.m33-flip-back{transform:rotateY(180deg);background:radial-gradient(ellipse at 25% 0%,rgba(255,255,255,.4),transparent 45%),linear-gradient(140deg,#fff6e3,#e9cfa4 87%);color:#533e31;border:1px solid #cda778;padding:17px 17px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
+.m33-back-mark{font-size:21px;color:#a87547;margin:0}
+.m33-letter-body{font:16px/1.58 Georgia,serif;color:#614938;text-wrap:pretty}
+.m33-letter-body p{margin:0!important;color:#614938!important;font:inherit!important}
+.m33-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border-radius:999px;border:1px solid #f4d6a4;padding:11px 16px;background:linear-gradient(135deg,#f4ddaf,#dbac70);color:#26334c;font:700 12px/1.35 system-ui,sans-serif;cursor:pointer;box-shadow:0 8px 22px rgba(63,36,10,.2);transition:filter .2s,transform .2s;max-width:100%}
+.m33-btn:hover{filter:brightness(1.06)}.m33-btn:active{transform:scale(.98)}.m33-btn:focus-visible,.m33-text-button:focus-visible,.m33-folded-letter:focus-visible{outline:3px solid #f6da9f;outline-offset:4px}
+.m33-ticket-action{padding:9px 13px;min-height:41px;box-shadow:0 0 14px rgba(181,139,64,.27);animation:m33-soft-glow 5s ease-in-out infinite}
+.m33-ticket-action svg{width:17px;height:17px}
+.m33-text-button{display:block;margin:13px auto 0;background:transparent;color:#f3dbb2;border:0;border-bottom:1px solid rgba(237,198,140,.45);padding:8px 10px;cursor:pointer;font:italic 13px Georgia,serif}
+/* One ticket, two seats. The poster is merely an image INSIDE the single ticket. */
+.m33-cinema-ticket{position:relative;background:linear-gradient(125deg,#fff1d4,#e5cc9d);border:2px solid #dbb37b;border-radius:15px;padding:16px 12px 14px;box-shadow:0 20px 44px rgba(0,0,0,.38);color:#463927}
+.m33-cinema-ticket::before,.m33-cinema-ticket::after{content:"";position:absolute;top:50%;height:18px;width:18px;border-radius:50%;background:#0a1934;border:1px solid #cbad7b;transform:translateY(-50%)}
+.m33-cinema-ticket::before{left:-11px}.m33-cinema-ticket::after{right:-11px}
+.m33-ticket-header{display:flex;align-items:center;justify-content:center;gap:9px;color:#73522b;font:700 10px system-ui,sans-serif;letter-spacing:.2em;border-bottom:1px dashed rgba(125,89,54,.44);padding-bottom:11px}
+.m33-ticket-body{display:grid;grid-template-columns:minmax(0,33%) minmax(0,1fr);align-items:start;gap:13px;margin-top:14px}
+.m33-ticket-poster{aspect-ratio:4/5;border-radius:6px;overflow:hidden;border:1px solid #b8905a;background:#c5b28e}
+.m33-ticket-poster img{width:100%;height:100%;object-fit:contain;display:block}
+.m33-ticket-details{min-width:0;display:grid;gap:7px}.m33-ticket-details h3{margin:0 0 5px!important;font:700 clamp(11px,3vw,15px)/1.24 Georgia,serif;color:#483527!important;overflow-wrap:anywhere}
+.m33-ticket-detail{display:flex;align-items:center;gap:8px;border-top:1px solid rgba(126,92,56,.12);padding-top:7px;text-align:left}
+.m33-ticket-detail svg{flex:0 0 19px;color:#805827}.m33-ticket-detail>div{min-width:0;display:grid;gap:1px}.m33-ticket-detail small{font:600 10px system-ui,sans-serif;color:#826f57}
+.m33-ticket-detail strong{font:700 12px/1.35 Georgia,serif;color:#3b3128;white-space:normal;overflow-wrap:anywhere}
+.m33-ticket-note{font:italic 12px/1.5 Georgia,serif!important;color:#765b39!important;margin:18px 0 0!important;text-align:center;border-top:1px dashed #be996e;padding-top:11px}
+.m33-cinema-ticket .m33-text-button{color:#77552e}
+/* Day 02 — folding invitation and compact paper slips. */
+.m33-secret-view{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:3px 0 8px}
+.m33-folded-letter{position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;width:min(84vw,238px);height:155px;border-radius:6px;border:1px solid #cfaf84;background:linear-gradient(150deg,#fff6dd,#dfbf91);box-shadow:0 16px 37px #0008;overflow:hidden;color:#71593b;cursor:pointer;padding:20px;animation:m33-fold-float 5.5s ease-in-out infinite}
+.m33-letter-flap{position:absolute;inset:-1px 0 42%;background:linear-gradient(160deg,#ffefd3,#e8d0ac);clip-path:polygon(0 0,100% 0,50% 85%);filter:drop-shadow(0 2px 3px #b8a079);pointer-events:none}
+.m33-folded-seal{position:relative;z-index:2;font:28px Georgia,serif;margin:12px 0 4px;color:#a07a4b}
+.m33-folded-caption{position:relative;z-index:2;font:italic 12px Georgia,serif;max-width:175px;text-align:center}
+.m33-riddle-letter,.m33-found-letter{border-radius:13px;border:1px solid rgba(203,159,104,.84);color:#634932;box-shadow:0 18px 44px #0006;background:radial-gradient(circle at 9% 6%,rgba(255,255,255,.48),transparent 42%),linear-gradient(135deg,#fff5df,#eddbc0 92%);padding:22px clamp(14px,4vw,24px);width:100%;}
+.m33-riddle-ornament,.m33-found-seal{display:block;text-align:center;font:23px Georgia,serif;color:#aa8252;margin-bottom:9px}
+.m33-riddle-text{font:16px/1.67 Georgia,serif!important;text-align:center;white-space:pre-line;color:#614934!important;margin:6px 0 15px!important}
+.m33-hint-list{display:grid;gap:9px}.m33-hint-note{padding:11px 13px;margin:0!important;border-radius:8px;border:1px solid #e5c79d;background:rgba(255,250,234,.86);color:#513921!important;font:italic 13px/1.55 Georgia,serif!important;animation:m33-rise .35s ease-out both;text-align:left}
+.m33-riddle-actions{display:flex;gap:9px;align-items:stretch;justify-content:center;flex-wrap:wrap;margin-top:18px}.m33-riddle-actions .m33-btn{flex:1 1 118px}
+.m33-hint-button{background:transparent;color:#6a4e32;border-color:#bb9365;box-shadow:none}
+.m33-hint-button:disabled{opacity:.58;cursor:default}.m33-found-button{background:linear-gradient(135deg,#e8bd85,#b98560);color:#3f2c25}
+.m33-found-note p{text-align:center;color:#5d4634!important;font:16px/1.7 Georgia,serif!important;margin:0 0 17px!important}
+.m33-found-note p:last-child{margin-bottom:0!important}
+@keyframes m33-rise{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes m33-rock{0%,100%{transform:rotate(-.8deg)}50%{transform:rotate(.8deg)}}
+@keyframes m33-halo{0%,100%{opacity:.33;transform:scale(.99)}50%{opacity:.8;transform:scale(1.055)}}
+@keyframes m33-soft-glow{0%,100%{box-shadow:0 0 10px rgba(168,116,55,.18)}50%{box-shadow:0 0 21px rgba(223,162,67,.4)}}
+@keyframes m33-fold-float{0%,100%{transform:rotate(-.9deg) translateY(0)}50%{transform:rotate(.9deg) translateY(-4px)}}
+@media(max-width:390px){.m33-cinema-stage,.m33-scratch-card{max-width:min(100%,248px)}.m33-letter-body{font-size:14px}.m33-flip-back{padding:12px 12px}.m33-ticket-body{gap:10px}.m33-cinema-ticket{padding:13px 11px}.m33-ticket-details h3{font-size:12px}.m33-ticket-detail strong{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.m33-cinema-view,.m33-secret-view,.m33-found-letter,.m33-cinema-ticket,.m33-flip-card,.m33-cinema-stage::before,.m33-ticket-action,.m33-hint-note,.m33-folded-letter{animation:none!important}.m33-flip-rotor{transition:none!important}.m33-scratch-canvas{transition:none!important}}
+
+/* V34: una única indicación (en la raspadita), sin caja oscura interior. */
+#surprise-dialog:has(.m33-cinema-view) .mx-experience,
+#surprise-dialog:has(.m33-secret-view) .mx-experience{background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important;overflow:visible!important;}
+#surprise-dialog:has(.m33-cinema-view) .m33-cinema-view{background:none!important;border:none!important;padding:0!important;}
+#surprise-dialog #dialog-title:empty{display:none!important;}
+.m33-cinema-view .m33-cinema-hint,.m33-secret-view .m33-folded-caption{display:none!important;}
+/* Ticket perforations: show notches, never dark filled circles with whole outline. */
+.m33-cinema-ticket::before,.m33-cinema-ticket::after{background:#0c1c38;border:0!important;box-shadow:none!important;clip-path:inset(0 0 0 45%);}
+.m33-cinema-ticket::after{clip-path:inset(0 45% 0 0);}
+/* Entire back of the card is tappable; the ticket button is an independent action. */
+.m33-flip-back{cursor:pointer;}
+.m33-flip-back:focus-visible{outline:3px solid #f0cf85;outline-offset:3px;}
+.m33-folded-letter.m34-opening{animation:m34-letter-open .48s cubic-bezier(.2,.8,.2,1) forwards!important;transform-origin:center 17%;}
+.m33-folded-letter.m34-opening .m33-letter-flap{animation:m34-flap .48s ease-in-out forwards;transform-origin:top center;}
+@keyframes m34-letter-open{0%{transform:perspective(800px) rotateX(0deg) scale(1)}60%{transform:perspective(800px) rotateX(-12deg) scale(1.045)}100%{opacity:0;transform:perspective(800px) rotateX(-16deg) scale(.93)}}
+@keyframes m34-flap{to{transform:rotateX(148deg)}}
+/* Modals expand to fit clues; internal scrollbars are hidden unless unavoidable. */
+#surprise-dialog{max-height:calc(100dvh - 20px);scrollbar-width:none;}
+#surprise-dialog::-webkit-scrollbar,#surprise-dialog .mx-experience::-webkit-scrollbar{display:none;}
+#surprise-dialog .mx-experience{scrollbar-width:none;}
+#surprise-dialog .surprise-close{display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;padding:0!important;}
+@media(prefers-reduced-motion:reduce){.m33-folded-letter.m34-opening,.m33-folded-letter.m34-opening .m33-letter-flap{animation:none!important;opacity:0;}}
+
+#surprise-dialog .surprise-close svg{display:block;flex:none;width:20px;height:20px;margin:auto;}
+#surprise-dialog:has(.m33-riddle-letter){width:min(525px,calc(100vw - 16px));max-height:calc(100dvh - 18px);height:max-content;overflow-y:auto;}
+#surprise-dialog .m33-riddle-letter{min-height:0;}
+/* V34: remove legacy 49vh/420px INNER scrolling pane for special days.
+   Let the actual dialog grow until device height; scroll only when unavoidable. */
+#surprise-dialog:has(.m33-cinema-view) #surprise-draft-content,
+#surprise-dialog:has(.m33-cinema-ticket) #surprise-draft-content,
+#surprise-dialog:has(.m33-secret-view) #surprise-draft-content,
+#surprise-dialog:has(.m33-found-letter) #surprise-draft-content{
+  max-height:none!important;height:auto!important;overflow:visible!important;
+  padding:0!important;margin:0!important;border:0!important;background:none!important;
+  scrollbar-width:none!important;
+}
+#surprise-dialog:has(.m33-secret-view) .dialog-inner{padding-top:35px;padding-bottom:14px;}
+#surprise-dialog:has(.m33-secret-view) .m33-riddle-letter{padding:18px 13px;}
+#surprise-dialog:has(.m33-secret-view) .m33-riddle-text{font-size:15px!important;line-height:1.5;}
+#surprise-dialog:has(.m33-secret-view) .m33-hint-note{padding:8px 11px;}

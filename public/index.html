@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#010e31" />
+  <meta name="mistera-cloud" content="on" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="description" content="MISTERA · Villa navideña interactiva · Adviento 2026." />
+  <title>MISTERA · Nuestro Adviento · Escena V34</title>
+  <style>html.mistera-preparing,body.mistera-booting{background:#010e31}body.mistera-booting #app{visibility:hidden;pointer-events:none}</style>
+  <link rel="preload" as="image" href="assets/aldea-base.png" />
+  <link rel="preload" as="image" href="assets/arbol-apagado.png" />
+  <link rel="stylesheet" href="tap-highlight.css">
+<link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="surprises.css" />
+  <link rel="stylesheet" href="mistera-special-days.css" />
+  <link rel="stylesheet" href="mistera-loader.css" />
+  <link rel="stylesheet" href="mistera-v34.css" />
+  <link rel="stylesheet" href="mistera-v35.css" />
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js" referrerpolicy="no-referrer"></script>
+  <script src="bootstrap-diagnostics.js" defer></script>
+  <script src="data/mapa-casas.js" defer></script>
+  <script src="data/capas-v4.js" defer></script>
+  <script src="data/chimeneas-v6.js" defer></script>
+  <script src="smoke.js" defer></script>
+  <script src="constellations.js" defer></script>
+  <script src="data/mensajes-estrellas.js" defer></script>
+  <script src="data/tree-light-points.js" defer></script>
+  <script src="tree-effects.js" defer></script>
+  <script src="data/audio-config.js" defer></script>
+  <script src="audio-manager.js" defer></script>
+  <script src="audio-extensions.js" defer></script>
+  <script src="audio-effects-v18.js" defer></script>
+  <script src="data/sorpresas-2026.js" defer></script>
+  <script src="surprises-store.js" defer></script>
+  <script src="mistera-special-days.js" defer></script>
+  <script src="surprises-experience.js" defer></script>
+  <script src="surprise-drafts.js" defer></script>
+  <script src="fireworks.js" defer></script>
+  <script src="sky-messages.js" defer></script>
+  <script src="mistera-v25-lifecycle.js" defer></script>
+  <script src="mistera-fullscreen.js" defer></script>
+  <script src="mistera-cloud-sync.js" defer></script>
+  <script src="mistera-star-sound.js" defer></script>
+  <script src="mistera-loader.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="mistera-booting">
+<!-- MISTERA V28: loading scene. No future-day media or spoiler is shown. -->
+<section id="mistera-loader" role="region" aria-label="Preparando nuestra villa de Navidad">
+  <div class="m-loader-stars" aria-hidden="true">
+    <i style="--x:14%;--y:13%;--s:2px;--a:.43;--d:5s"></i>
+    <i style="--x:77%;--y:12%;--s:3px;--a:.38;--delay:-2s;--d:7s"></i>
+    <i style="--x:87%;--y:30%;--s:2px;--a:.25;--delay:-1s"></i>
+    <i style="--x:21%;--y:40%;--s:2px;--a:.19;--delay:-3s"></i>
+    <i style="--x:79%;--y:67%;--s:2px;--a:.42;--delay:-2s;--d:8s"></i>
+    <i style="--x:11%;--y:76%;--s:3px;--a:.19;--delay:-1s"></i>
+    <i style="--x:40%;--y:88%;--s:2px;--a:.27;--delay:-4s"></i>
+    <i style="--x:60%;--y:7%;--s:2px;--a:.17;--delay:-3s;--d:7s"></i>
+  </div>
+  <span class="m-loader-corner tl" aria-hidden="true"></span><span class="m-loader-corner tr" aria-hidden="true"></span>
+  <span class="m-loader-corner bl" aria-hidden="true"></span><span class="m-loader-corner br" aria-hidden="true"></span>
+  <div class="m-loader-content">
+    <div class="m-loader-emblem" aria-hidden="true">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="m-loader-star-gold" x1="5%" y1="2%" x2="91%" y2="100%">
+            <stop offset="0%" stop-color="#fff2ca"/>
+            <stop offset="32%" stop-color="#e9c27e"/>
+            <stop offset="68%" stop-color="#c7944f"/>
+            <stop offset="100%" stop-color="#ffdf9c"/>
+          </linearGradient>
+        </defs>
+        <!-- Slender eight-point engraving: no central dot, baseline arc or enclosing rings. -->
+        <path class="m-loader-star-body" d="M50 10L54.5 40.5 70.5 29.5 59.5 45.5 90 50 59.5 54.5 70.5 70.5 54.5 59.5 50 90 45.5 59.5 29.5 70.5 40.5 54.5 10 50 40.5 45.5 29.5 29.5 45.5 40.5Z"/>
+        <path class="m-loader-star-inlay" d="M50 15v23m0 24v23M15 50h23m24 0h23M34.5 34.5l9.5 9.5m12 12 9.5 9.5m0-31L56 44m-12 12-9.5 9.5"/>
+      </svg>
+    </div>
+    <div class="m-loader-dashes" aria-hidden="true"><span>✦</span></div>
+    <h1 class="m-loader-brand">MISTERA</h1>
+    <p class="m-loader-subtitle">Calendario de Adviento</p>
+    <div class="m-loader-progress" id="mistera-loader-progress">
+      <p id="mistera-loader-message" class="m-loader-message" role="status" aria-live="polite">Tu pollito preparó muchas cosas…</p>
+      <div id="mistera-loader-track" class="m-loader-track" role="progressbar" aria-label="Preparación de la villa" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div id="mistera-loader-fill" class="m-loader-fill"></div>
+      </div>
+      <div class="m-loader-progress-footer" aria-hidden="true"><span>PREPARANDO</span><span id="mistera-loader-percent">0 %</span></div>
+    </div>
+    <button type="button" id="mistera-enter" class="m-loader-enter" hidden disabled>
+      <span id="mistera-enter-label">Vamos allá</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></svg>
+    </button>
+    <p id="mistera-loader-foot" class="m-loader-foot" aria-live="polite"></p>
+  </div>
+  <button type="button" id="mistera-fullscreen-entrance" class="m34-fullscreen-entrance" aria-label="Activar pantalla completa para disfrutar la Navidad">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3"/></svg>
+    <span><strong>Vive nuestra Navidad a pantalla completa</strong><small>Una villa solo para nosotros ✨</small></span>
+  </button>
+</section>
+
+  <div id="app" inert aria-hidden="true">
+    <!-- Controles de desarrollo sin marca ni contador. -->
+    <header class="topbar" id="topbar">
+
+    </header>
+
+    <main>
+      <section id="stage" class="stage" aria-label="Villa del calendario de Adviento, 24 casas interactivas">
+        <div class="sky-extension" aria-hidden="true"></div>
+        <!-- Two-zone V22 sky: moon on the right, stars optically centered between the left boundary and the moon. -->
+        <div class="sky-panel" id="sky-panel" aria-hidden="true">
+          <div class="stars" id="stars"></div>
+          <svg class="constellation-layer" id="constellation-layer" viewBox="0 0 941 300" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="moon"><img src="assets/luna.png" alt="" /></div>
+        </div>
+        <!-- Clouds live in a separate, un-clipped atmosphere layer above the moon / letters,
+             but remain BEHIND the mountain and village painting. -->
+        <div class="cloud-atmosphere" id="cloud-atmosphere" aria-hidden="true">
+          <div class="clouds" id="clouds"></div>
+        </div>
+        <!-- Mirrored 1:1 edge continuations fill small mobile letterboxes without
+             resizing the 24 houses, sky or interactive hit zones. -->
+        <div class="scene-edge-bleed scene-edge-left" id="scene-edge-left" aria-hidden="true"></div>
+        <div class="scene-edge-bleed scene-edge-right" id="scene-edge-right" aria-hidden="true"></div>
+        <div class="scene-frame" id="scene-frame">
+          <!-- V7: subtle SVG repair BELOW the original mountain illustration, never editing original assets. -->
+          <svg class="mountain-edge-underlay" id="mountain-edge-underlay" viewBox="0 0 941 1671" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="edge-mountain-gradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+                <stop offset="0%" stop-color="#1a315f" />
+                <stop offset="46%" stop-color="#112a54" />
+                <stop offset="82%" stop-color="#0a2145" />
+                <stop offset="100%" stop-color="#071a38" />
+              </linearGradient>
+              <linearGradient id="edge-mountain-feather" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="black"/><stop offset="0.72" stop-color="white"/><stop offset="1" stop-color="white"/>
+              </linearGradient>
+              <mask id="edge-mountain-mask" maskUnits="userSpaceOnUse" x="901" y="291" width="40" height="141">
+                <rect x="901" y="291" width="40" height="141" fill="url(#edge-mountain-feather)" />
+              </mask>
+            </defs>
+            <path d="M901 315 Q916 307 927 304 Q934 301 941 298 L941 432 L901 432 Z"
+              fill="url(#edge-mountain-gradient)" mask="url(#edge-mountain-mask)" />
+          </svg>
+          <!-- V24: base and all 24 lit-house sprites share ONE SVG viewBox and raster transform.
+               A former CSS overscan distorted only the base by 4px, causing double roof edges.
+               The untouched original PNGs are now composited in exact native coordinates. -->
+          <svg class="house-art-layers village-compositor" id="house-art-layers" viewBox="0 0 941 1671"
+               preserveAspectRatio="none" role="img"
+               aria-label="Villa navideña nevada con 24 casas, caminos y montañas nocturnas">
+            <image class="base-village-image" href="assets/aldea-base.png" x="0" y="0"
+                   width="941" height="1671" preserveAspectRatio="none" />
+          </svg>
+          <canvas class="smoke-canvas" id="smoke-canvas" aria-hidden="true"></canvas>
+          <!-- Rockets can rise from the central plaza through the mountains and sky,
+               with no rectangular sky-panel cut. The tree stays in FRONT of the rockets. -->
+          <div class="fireworks-flight-plane" id="fireworks-flight-plane" aria-hidden="true">
+            <canvas id="fireworks-canvas" class="fireworks-canvas"></canvas>
+          </div>
+          <div class="tree-art-layers" id="tree-art-layers" aria-hidden="true">
+            <div class="tree-warm-aura" id="tree-warm-aura"></div>
+            <div class="tree-star-aura" id="tree-star-aura"></div>
+            <img class="tree-off" id="tree-off" src="assets/arbol-apagado.png" alt="" width="941" height="1672" />
+            <img class="tree-on" id="tree-on" alt="" width="941" height="1672" />
+            <svg class="tree-festive-points" id="tree-festive-points" viewBox="0 0 941 1671" preserveAspectRatio="none"></svg>
+          </div>
+          <div class="house-ready-stars" id="house-ready-stars" aria-hidden="true"></div>
+          <svg class="targets-overlay" id="targets-overlay" viewBox="0 0 941 1671" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Viviendas interactivas"></svg>
+        </div>
+        <div class="snow-extension" aria-hidden="true"><img src="assets/nieve-primer-plano.png" alt="" loading="eager" /></div>
+        <canvas id="snow-canvas" class="snow-canvas" aria-hidden="true"></canvas>
+      </section>
+    </main>
+
+    <nav class="advent-navigation" id="advent-navigation" aria-label="Navegación navideña">
+      <button type="button" class="wreath-nav-toggle" id="wreath-nav-toggle" aria-label="Abrir navegación del Adviento" aria-controls="advent-dock" aria-expanded="false">
+        <img src="assets/ui/corona-nav.png" alt="" width="540" height="540" />
+      </button>
+      <section class="advent-dock" id="advent-dock" aria-label="Accesos del Adviento" hidden>
+        <div class="dock-controls">
+          <button type="button" class="dock-control dock-ambient-sound" id="dock-ambient-sound"
+            aria-label="Abrir ajustes" aria-expanded="false" title="Ajustes">
+            <svg class="dock-gear-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M19.4 15a1.8 1.8 0 0 1 .36 2l-.1.2-1.5 1.5a1.8 1.8 0 0 1-2 .35l-.24-.13a2 2 0 0 0-1.7.7l-.1.45a2 2 0 0 1-2 1.65h-.4a2 2 0 0 1-2-1.65l-.1-.45a2 2 0 0 0-1.7-.7l-.24.13a1.8 1.8 0 0 1-2-.35l-1.5-1.5a1.8 1.8 0 0 1-.35-2l.13-.24a2 2 0 0 0-.7-1.7l-.45-.1a2 2 0 0 1-1.65-2v-.4a2 2 0 0 1 1.65-2l.45-.1a2 2 0 0 0 .7-1.7l-.13-.24a1.8 1.8 0 0 1 .35-2l1.5-1.5a1.8 1.8 0 0 1 2-.35l.24.13a2 2 0 0 0 1.7-.7l.1-.45a2 2 0 0 1 2-1.65h.4a2 2 0 0 1 2 1.65l.1.45a2 2 0 0 0 1.7.7l.24-.13a1.8 1.8 0 0 1 2 .35l1.5 1.5a1.8 1.8 0 0 1 .35 2l-.13.24a2 2 0 0 0 .7 1.7l.45.1a2 2 0 0 1 1.65 2v.4a2 2 0 0 1-1.65 2l-.45.1a2 2 0 0 0-.7 1.7Z"/></svg>
+            <svg class="dock-return-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M12 3v18M7 9l5-6 5 6M5 13l7-6 7 6M5 17l7-6 7 6"/></svg>
+          </button>
+          <button type="button" class="dock-control dock-close" id="dock-close" aria-label="Cerrar navegación" title="Cerrar">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="dock-settings-panel" id="dock-settings-panel" hidden aria-label="Ajustes de MISTERA">
+          <h2>Ajustes</h2>
+          <button class="dock-setting-row" type="button" id="dock-music-toggle" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.08"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg><span>Música y ambiente</span><span class="setting-value" id="dock-music-value">Activado</span></button>
+          <button class="dock-setting-row" type="button" id="dock-fullscreen-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3"/></svg><span>Pantalla completa</span><span class="setting-value" id="dock-fullscreen-value">Activar</span></button>
+          <div class="dock-divider"></div>
+          <p class="dock-sync-text" id="dock-cloud-status">Guardando nuestros recuerdos…</p>
+          <button class="dock-setting-row" type="button" id="dock-copy-pairing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg><span>Vincular otro dispositivo</span></button>
+          <div class="dock-sync-row"><input type="text" id="dock-pairing-code" autocomplete="off" spellcheck="false" placeholder="Código del otro dispositivo" aria-label="Código para vincular dispositivo"><button type="button" id="dock-pairing-import">Vincular</button></div>
+          <details class="dock-advanced-options"><summary>Opciones avanzadas</summary>
+      <button type="button" class="test-btn" id="settings-button" aria-expanded="false" aria-controls="settings" aria-label="Abrir controles de prueba">
+        <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 7h16M4 17h16M8 4v6M16 14v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+        <span>Pruebas</span>
+      </button>
+          </details>
+        </div>
+        <div class="dock-crest" aria-hidden="true"><span class="crest-line"></span> ✦ <span class="crest-line"></span></div>
+        <p class="dock-heading" id="dock-heading">DESCUBRE TU PRÓXIMO REGALO EN</p>
+        <div class="gift-countdown" id="gift-countdown" role="timer" aria-label="Tiempo para el próximo regalo">
+          <div class="time-column"><strong id="countdown-days">00</strong><span>Días</span></div>
+          <div class="time-column"><strong id="countdown-hours">00</strong><span>Horas</span></div>
+          <div class="time-column"><strong id="countdown-minutes">00</strong><span>Minutos</span></div>
+        </div>
+        <p class="countdown-note" id="countdown-note">Una pequeña ilusión nos espera…</p>
+        <div class="cinema-ticket-section" id="cinema-ticket-section" hidden>
+          <div class="dock-divider"></div>
+          <button type="button" class="cinema-ticket-access" id="cinema-ticket-open" aria-label="Ver nuestras entradas de cine">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a3 3 0 0 0 0 6v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a3 3 0 0 0 0-6Z"/><path d="M13 5v2m0 4v2m0 4v2"/></svg>
+            <span>Mis entradas de cine</span>
+          </button>
+        </div>
+        <div class="voucher-section" id="voucher-section" hidden>
+          <div class="dock-divider" aria-hidden="true"></div>
+          <button type="button" class="voucher-open" id="voucher-open" aria-label="Ver vales y cupones recibidos" disabled>
+            <img src="assets/ui/vale.png" alt="" />
+            <span>Mis vales y cupones</span>
+            <span class="voucher-count" id="voucher-count" hidden>0</span>
+          </button>
+          <p class="voucher-hint" id="voucher-hint"></p>
+        </div>
+        <div class="dock-bottom-ornament" aria-hidden="true">✧ · ❄ · ✧</div>
+      </section>
+    </nav>
+
+    <aside class="settings" id="settings" hidden aria-label="Controles de prueba">
+      <div class="settings-heading"><strong>Controles de prueba</strong><button id="close-settings" aria-label="Cerrar controles de prueba" type="button">×</button></div>
+      <p class="control-intro">Estos controles solo existen en la versión de desarrollo.</p>
+      <div class="panel-group">
+        <div class="settings-label">Abrir sorpresas</div>
+        <label class="demo-date-label" for="demo-date-mode">Fecha de demostración</label>
+        <select id="demo-date-mode" aria-label="Simular fecha de desbloqueo">
+          <option value="real">Hora real de Perú (desbloqueos reales)</option>
+          <option value="2026-12-01">Simular 1 diciembre 2026</option>
+          <option value="2026-12-24">Simular 24 diciembre 2026</option>
+          <option value="2026-12-25">Simular 25 diciembre 2026</option>
+        </select>
+        <p class="constellation-hint">Las casas se abren desde su fecha de diciembre. El árbol solo desde el 25; la simulación no modifica el reloj real.</p>
+        <p class="next-label" id="next-label">La primera casa está lista.</p>
+        <button id="open-next" class="primary-btn" type="button">Abrir casa 1</button>
+        <button id="toggle-days" class="secondary-btn" type="button" aria-expanded="false" aria-controls="day-list">Elegir casa por número</button>
+        <div id="day-list" class="day-list" hidden></div>
+        <button id="demo-complete" class="secondary-btn" type="button">Abrir las 24 casas (prueba)</button>
+        <button id="demo-grant-voucher" class="secondary-btn" type="button" disabled>Simular vale recibido (prueba)</button>
+        <p class="constellation-hint">Los vales reales se habilitarán cuando una sorpresa incluya uno.</p>
+        <div class="editor-access-panel"><div class="settings-label">Taller de sorpresas · 24 días + Navidad</div>
+          <p>Prepara las cartas, fotos, audios, videos, vales y minijuegos. Los borradores solo se ven aquí, en este navegador; no están publicados.</p>
+          <a class="primary-btn editor-access-link" href="editor/planificador.html" target="_blank" rel="noopener">Planificar y editar los 25 regalos ↗</a>
+          <a class="secondary-btn editor-access-link" href="editor/index.html" target="_blank" rel="noopener">Abrir editor clásico V5 ↗</a>
+          <p class="constellation-hint">Los 25 regalos están configurados como borradores locales. Los días 1–5 conservan sus decisiones originales y los recursos pendientes no se han inventado.</p>
+          <button id="draft-refresh" type="button" class="secondary-btn">Actualizar borradores en la villa</button>
+          <p id="draft-status" class="constellation-hint" role="status">Aún no se ha cargado el editor en este navegador.</p>
+        </div>
+        <button id="demo-reset" class="danger-btn" type="button">Reiniciar la prueba</button>
+      </div>
+      <div class="panel-group">
+        <div class="settings-label">Ambiente</div>
+        <label><input type="checkbox" id="toggle-clouds" checked /> Nubes</label>
+        <label><input type="checkbox" id="toggle-snow" checked /> Copos de nieve</label>
+        <label class="range-heading">Cantidad de nieve: <output id="snow-density-value" for="snow-density">800 %</output></label>
+        <input type="range" id="snow-density" min="50" max="1500" value="800" step="50" aria-label="Cantidad de copos" />
+        <label><input type="checkbox" id="toggle-smoke" checked /> Humo de chimeneas</label>
+        <label class="range-heading">Visibilidad del humo: <output id="smoke-opacity-value" for="smoke-opacity">180 %</output></label>
+        <input type="range" id="smoke-opacity" min="70" max="200" value="180" step="5" aria-label="Visibilidad del humo" />
+        <a href="calibrar-chimeneas.html" class="secondary-btn calibration-link">Calibrar chimeneas</a>
+      </div>
+      <div class="panel-group constellation-controls">
+        <div class="settings-label">Constelaciones de prueba</div>
+        <p class="constellation-help">Escribe una frase corta. Las letras se formarán con estrellas y brillarán suavemente en el cielo.</p>
+        <label class="constellation-input-label" for="constellation-input">Mensaje en estrellas</label>
+        <input type="text" id="constellation-input" maxlength="38" placeholder="Ej.: MI DULCE POLLITA" autocomplete="off" spellcheck="false" />
+        <div class="constellation-actions">
+          <button id="constellation-apply" class="primary-btn" type="button">Mostrar en el cielo</button>
+          <button id="constellation-clear" class="secondary-btn" type="button">Ocultar</button>
+        </div>
+        <button id="constellation-auto" class="secondary-btn" type="button">Volver a mensajes automáticos</button>
+        <button id="constellation-next" class="secondary-btn" type="button">Probar el siguiente mensaje</button>
+        <p id="constellation-status" class="constellation-hint" role="status">Primer mensaje a los 5 segundos; visible 10 segundos y cielo despejado durante 10 segundos.</p>
+        <p class="constellation-hint">Puedes editar el repertorio en <code>data/mensajes-estrellas.js</code>. Desde el 25/12/2026 a las 00:00 (hora de Perú) quedará fijo «Feliz Navidad ❤️».</p>
+      </div>
+      <div class="panel-group">
+        <div class="settings-label">Fuegos artificiales — Navidad</div>
+        <p>La celebración dura 60 segundos y comienza después de abrir la sorpresa 25 y encenderse el árbol. La medianoche fija «Feliz Navidad ❤️» en el cielo.</p>
+        <label><input type="checkbox" id="toggle-firework-sound" checked /> Sonidos de lanzamiento y explosión</label>
+        <label class="range-heading" for="firework-volume">Volumen: <output id="firework-volume-value" for="firework-volume">200 %</output></label>
+        <input type="range" id="firework-volume" min="0" max="200" value="200" step="10" aria-label="Volumen de fuegos artificiales, hasta el 200 por ciento" />
+        <p class="constellation-hint">El audio se habilita de forma invisible con el primer toque o clic real en cualquier área. Los navegadores pueden impedir la reproducción hasta recibir esa interacción.</p>
+        <button id="fireworks-test" class="primary-btn" type="button">Probar fuegos artificiales</button>
+        <button id="effects-test" class="secondary-btn" type="button">Escuchar campanillas y explosión</button>
+        <p id="effects-status" class="constellation-hint" role="status">Efectos: esperando interacción.</p>
+        <button id="simulate-christmas" class="secondary-btn" type="button">Simular Navidad y 60 s de fuegos</button>
+        <button id="restore-real-time" class="secondary-btn" type="button">Volver a la hora real</button>
+        <p id="christmas-status" class="constellation-hint" role="status">Modo normal · 25/12/2026 00:00 (America/Lima)</p>
+      </div>
+      <div class="panel-group">
+        <div class="settings-label">Ambiente sonoro — diagnóstico (solo pruebas)</div>
+        <label><input type="checkbox" id="toggle-ambient-music" checked /> Música, chimenea y viento</label>
+        <label class="range-heading" for="ambient-music-volume">Volumen: <output id="ambient-music-volume-value" for="ambient-music-volume">10 %</output></label>
+        <input type="range" id="ambient-music-volume" min="0" max="100" value="10" step="5" aria-label="Volumen musical" />
+        <button type="button" id="music-retry" class="secondary-btn">Reintentar ambiente sonoro</button>
+        <p id="music-status" class="music-status" role="status">Preparando información musical…</p>
+      </div>
+      <div class="panel-group">
+        <div class="settings-label">Diagnóstico</div>
+        <label><input type="checkbox" id="toggle-debug" /> Mostrar zonas táctiles y números</label>
+        <label><input type="checkbox" id="toggle-motion" checked /> Animaciones (si están permitidas)</label>
+      </div>
+      <p class="small-note">La música de JUMISCA comienza en una posición aleatoria; la chimenea se reproduce entera desde el inicio en bucle. El viento se escucha en intervalos irregulares de 5–15 segundos. El botón de sonido del dock silencia solamente estos tres ambientes, no las campanas ni los fuegos artificiales. Los mensajes estelares aparecen tras 5 s, duran 10 s y dejan el cielo vacío 30 s. El contador del dock usa fechas de demostración (1–25 de diciembre de 2026, hora de Perú). Las aperturas respetan las fechas de diciembre en hora de Perú, con simulación opcional solo para pruebas. Las casas y el árbol usan tus ilustraciones originales. Las 25 experiencias están configuradas para edición local; fotos, cartas personales, entradas, ilustraciones y videos faltantes permanecen como pendientes.</p>
+    </aside>
+
+    <dialog class="surprise-dialog" id="surprise-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-inner">
+        <button type="button" id="dialog-close" class="dock-close surprise-close" aria-label="Cerrar sorpresa" title="Cerrar sorpresa"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+        <span class="dialog-kicker" id="dialog-kicker">UNA CASITA DEL ADVIENTO</span>
+        <h2 id="dialog-title">Sorpresa</h2>
+        <p id="dialog-copy">Aquí aparecerá una sorpresa real.</p>
+        <div id="surprise-draft-content" class="surprise-draft-content" hidden></div>
+
+      </div>
+    </dialog>
+    <dialog class="voucher-dialog surprise-dialog" id="voucher-dialog" aria-labelledby="voucher-dialog-title">
+      <div class="dialog-inner">
+        <span class="dialog-kicker">TUS RECUERDOS ESPECIALES</span>
+        <h2 id="voucher-dialog-title">Vales y cupones</h2>
+        <p class="voucher-dialog-description">Los vales que encuentres en tus sorpresas aparecerán aquí.</p>
+        <div class="voucher-list" id="voucher-list"></div>
+        <button type="button" id="voucher-dialog-close" class="secondary-btn">Cerrar</button>
+      </div>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+
+/* MISTERA V35 - Experiencias 01–25: interfaz despejada, sin guías editoriales.
+   El área desplazable es SOLO el diálogo cuando su contenido no cabe físicamente. */
+#surprise-dialog .mx-experience{margin:0!important;padding:0!important;display:block!important;overflow:visible!important;}
+#surprise-dialog .mx-block{background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important;padding:4px 0!important;border-radius:0!important;}
+#surprise-dialog .mx-block::before{content:none!important;display:none!important;}
+#surprise-dialog .mx-block-title{margin:0!important;}
+#surprise-dialog .mx-editorial-notice,#surprise-dialog .mx-pending,#surprise-dialog .mx-placeholder{display:none!important;}
+#surprise-dialog .mx-flip-face[role="button"]{cursor:pointer;}
+#surprise-dialog .mx-flip-face[role="button"]:focus-visible{outline:3px solid #f4d69a;outline-offset:3px;border-radius:6px;}
+#surprise-dialog .mx-private-wait{font:italic 15px/1.6 Georgia,serif;color:#e8d4ae;text-align:center;margin:14px 7px 8px;}
+#surprise-dialog .surprise-draft-content{max-height:none!important;height:auto!important;overflow:visible!important;border:0!important;box-shadow:none!important;background:none!important;padding:0!important;margin:0!important;scrollbar-width:none!important;}
+#surprise-dialog{overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;max-height:calc(100dvh - 18px);scrollbar-width:none!important;}
+#surprise-dialog::-webkit-scrollbar,#surprise-dialog .surprise-draft-content::-webkit-scrollbar{width:0!important;height:0!important;display:none!important;}
+#surprise-dialog .dialog-inner{min-width:0;}
+#surprise-dialog .mx-story-nav{margin-top:14px;}
+@media(prefers-reduced-motion:reduce){#surprise-dialog .mx-flip-face{scroll-behavior:auto;}}

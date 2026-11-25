@@ -1,0 +1,62 @@
+/* MISTERA V23 · 25 escenas editables. Se añade sin modificar la aldea. */
+#surprise-dialog{max-width:min(540px,calc(100vw - 20px));max-height:min(88dvh,850px);overflow-y:auto;overscroll-behavior:contain}
+#surprise-dialog .dialog-inner{padding:26px clamp(15px,4vw,32px) 27px}
+.mx-experience{display:grid;gap:14px;text-align:left;margin-top:19px}
+.mx-editorial-notice{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;color:#b8c8db;font-size:10px;line-height:1.5}
+.mx-status{font-family:Georgia,serif;letter-spacing:.12em;font-weight:700;color:#e3c58e;border:1px solid rgba(229,191,135,.44);border-radius:99px;padding:3px 9px}
+.mx-block{position:relative;background:linear-gradient(148deg,rgba(30,57,83,.98),rgba(12,29,57,.95));border:1px solid rgba(223,186,129,.43);border-radius:16px;padding:18px 15px;box-shadow:inset 0 1px 0 rgba(255,242,209,.10),0 14px 30px #00132544;overflow:hidden}
+.mx-block::before{content:'✦';position:absolute;right:10px;top:7px;font-size:13px;color:#e6bf8636;pointer-events:none}
+.mx-block-title{font:500 21px/1.22 Georgia,'Times New Roman',serif!important;text-align:center;color:#f6dcaa;margin:0 6px 14px!important}
+.mx-block .mx-body,.mx-block .mx-letter{white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.65 Georgia,serif;color:#f1e7db;margin:12px 0}
+.mx-letter{background:linear-gradient(150deg,#fff2dc,#e8d1ad);color:#514133!important;padding:20px 17px;border:1px solid #cdb083;border-radius:10px;box-shadow:0 5px 18px #0002;min-height:65px}
+.mx-meta,.mx-hint,.mx-pending{color:#c0c9d7!important;font:12px/1.5 Georgia,serif!important;margin:8px 0!important}
+.mx-pending{opacity:.8;text-align:center;overflow-wrap:anywhere}
+.mx-placeholder{display:flex;align-items:center;justify-content:center;min-height:112px;border:1px dashed #c2aa86aa;background:repeating-linear-gradient(130deg,#152c49,#152c49 12px,#1b3654 12px,#1b3654 24px);border-radius:12px;text-align:center;padding:18px 13px;color:#ead5ab;font:italic 13px/1.5 Georgia,serif}
+.mx-media{display:block;width:100%;max-height:280px;object-fit:contain;border-radius:10px;background:#071528;border:1px solid #bb9d6c55}
+.mx-media.mx-audio{height:54px;max-height:initial}
+.mx-media.mx-video{aspect-ratio:16/9;max-height:none}
+.mx-mini-label{display:block;font:700 10px/1.4 ui-sans-serif,system-ui,sans-serif;color:#deb77e;letter-spacing:.16em;text-align:center;margin:8px 0 11px}
+.mx-btn,.mx-link-button{display:block;margin:13px auto 0;min-height:43px;max-width:100%;border-radius:10px;border:1px solid #d8ba8a;padding:10px 17px;font:700 12px/1.4 ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:filter .2s,transform .2s;background:linear-gradient(145deg,#f8e0b0,#c79f70);color:#14223e;white-space:normal}
+.mx-btn:hover,.mx-link-button:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.mx-btn:disabled{cursor:not-allowed;opacity:.45;transform:none}
+.mx-link-button{background:transparent;border-color:#bc9b68;color:#f0d7ac}
+.mx-success{text-align:center;color:#bde4bd!important;font:italic 14px Georgia,serif}
+.mx-physical-name{display:block;text-align:center;color:#e9cc9d;font:18px Georgia,serif}
+.mx-voucher-label{text-align:center;font:700 10px ui-sans-serif,system-ui,sans-serif;color:#dcc396;letter-spacing:.19em}
+.mx-block:has(.mx-voucher-label){border-style:dashed;background:linear-gradient(140deg,#24314d,#152644)}
+.mx-scratch-plate{height:154px;position:relative;border-radius:12px;overflow:hidden;border:1px solid #d0b08866;margin:15px 0 10px}
+.mx-scratch-reveal{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%;min-height:64px;color:#edd39e;background:radial-gradient(ellipse at 50% 20%,#38506e,#1d314d);gap:10px;padding:16px;font:17px Georgia,serif}
+.mx-scratch-layer{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;transition:opacity .5s}
+.mx-riddle-question{font:italic 16px/1.6 Georgia,serif;color:#f9e1b4;text-align:center;white-space:pre-line}
+.mx-answer-form{display:grid;gap:9px}.mx-input{border:1px solid #b9a27a;min-height:43px;padding:10px;border-radius:9px;background:#102642;color:#fff5e7;font-size:15px}
+.mx-answer-feedback{font:12px Georgia,serif;color:#eed5ae;text-align:center}
+.mx-flip-face[hidden]{display:none!important}.mx-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.mx-gallery>.mx-placeholder{grid-column:1/-1}
+.mx-puzzle{display:grid;grid-template-columns:repeat(var(--puzzle-n,3),minmax(0,1fr));gap:4px;margin:auto;max-width:330px;aspect-ratio:1;background:#dbc295;padding:4px;border-radius:11px}
+.mx-puzzle-tile{background-repeat:no-repeat;border:1px solid #fff8e6;cursor:pointer;border-radius:3px;min-height:0;touch-action:manipulation}
+.mx-puzzle-tile.is-picked{outline:3px solid #e7bc63;z-index:2}
+.mx-story-stage{min-height:230px;display:grid;gap:8px;align-content:center;text-align:center}
+.mx-story-intro{font:italic 20px/1.6 Georgia,serif;color:#f1ddbd}.mx-story-stage h4{font:19px Georgia,serif;margin:0;color:#f5dbaf}
+.mx-story-nav{display:flex;justify-content:center;gap:7px;flex-wrap:wrap}.mx-story-nav .mx-btn,.mx-story-nav .mx-link-button{margin-top:5px;flex:1 1 90px}
+.mx-story-audio{margin-bottom:12px}.mx-locked{min-height:80px;background:linear-gradient(140deg,#172b48,#091b34);border-style:dashed;opacity:.82}
+@media(max-width:380px){#surprise-dialog .dialog-inner{padding:18px 13px}.mx-block{padding:15px 11px}.mx-block-title{font-size:18px!important}.mx-puzzle{max-width:260px}.mx-experience{gap:10px}}
+@media(prefers-reduced-motion:reduce){.mx-btn,.mx-link-button,.mx-scratch-layer{transition:none!important}}
+
+/* V25 · Escenas íntimas y sin información editorial anticipada */
+#surprise-dialog{width:min(470px,calc(100vw - 24px));max-height:min(86dvh,780px);overflow:auto;overscroll-behavior:contain}
+#surprise-dialog .dialog-inner{position:relative;padding:42px clamp(16px,4vw,26px) 22px}
+#surprise-dialog .surprise-close{position:absolute;top:7px;right:8px;display:grid;place-items:center;width:36px;height:36px;
+  color:#edd7ba;background:transparent;border:0;border-radius:50%;font:25px/1 system-ui,sans-serif;cursor:pointer;z-index:5}
+#surprise-dialog .surprise-close:hover,#surprise-dialog .surprise-close:focus-visible{background:rgba(255,236,198,.14)}
+#surprise-dialog #dialog-title{font-size:22px;margin:7px 0 4px}
+#surprise-dialog #dialog-copy:empty{display:none}
+#surprise-dialog .mx-experience{margin-top:9px;gap:0}
+#surprise-dialog .mx-block{padding:18px 13px}
+#surprise-dialog .mx-block-title{font-size:18px!important}
+#surprise-dialog .mx-story-nav{gap:34px;flex-wrap:nowrap;justify-content:center;margin-top:18px}
+#surprise-dialog .mx-story-icon{background:transparent;border:1px solid rgba(239,207,163,.48);border-radius:50%;color:#f3dbb5;
+  height:44px;width:44px;font:32px/1 Georgia,serif;cursor:pointer}
+#surprise-dialog .mx-story-icon:disabled{opacity:.25;cursor:default}
+#surprise-dialog .mx-story-silent{font:32px Georgia,serif;color:#e8c99a;min-height:100px;display:grid;place-items:center}
+#surprise-dialog .mx-story-stage{min-height:120px}
+#surprise-dialog .mx-block:empty{display:none}
+@media(prefers-reduced-motion:reduce){#surprise-dialog,#advent-dock{scroll-behavior:auto}}

@@ -27,6 +27,17 @@ git push -u origin test
 
 El repositorio privado de MISTERA es `Be10/mistera-app`. Ejecuta Git dentro de `MISTERA_Codigo` y nunca en la carpeta padre `Mistera_App`. Si la carpeta ya tiene `.git`, **no repitas `git init`**; consulta `git remote -v` y `git branch` primero. No compartas credenciales. La carpeta usa `.gitignore` para impedir que salgan credenciales, paquetes ZIP y `.deploy`.
 
+## Terminal corporativa sin Python
+
+El proceso completo de compilación y publicación está implementado usando Node.js; no hay que instalar Python. Para el despliegue manual inicial en TEST, dentro de `MISTERA_Codigo`:
+
+```bash
+export NODE_USE_SYSTEM_CA=1
+bash scripts/deploy_test.sh
+```
+
+Cuando pregunte, escribe `TEST`. Asegúrate de que OneDrive haya sincronizado `scripts/build_worker_release.mjs` y los scripts actualizados, y luego sube esos cambios a la rama `test` para que Cloudflare use también la versión sin Python al compilar automáticamente.
+
 ## TEST — configuración única
 
 1. Inicializa D1 existente desde la terminal autenticada (solo una vez):

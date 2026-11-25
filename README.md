@@ -8,6 +8,17 @@ Esta es la **carpeta fuente estable** de MISTERA. Ya no es necesario crear un ZI
 
 En ambos Workers se utilizan **Static Assets + Worker API + D1**. Nunca se suben Pages Functions mediante la interfaz de carga estática.
 
+## Despliegue sin Python: Node.js + Wrangler
+
+No instales Python en tu equipo corporativo. Los scripts de compilación de TEST y PRD usan Node.js integrado y las publicaciones se realizan con Wrangler. Para publicar TEST desde Git Bash:
+
+```bash
+export NODE_USE_SYSTEM_CA=1
+bash scripts/deploy_test.sh
+```
+
+Los archivos publicados se preparan con `node scripts/build_worker_release.mjs test|prd`. Los `.py` históricos no intervienen en esta ruta.
+
 ## Despliegue automático nativo de Cloudflare Workers Builds
 
 | Worker | Rama GitHub | Build command | Deploy command |

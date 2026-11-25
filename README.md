@@ -62,3 +62,17 @@ bash scripts/init_d1_progress.sh prd
 ```
 
 Los comandos usan la API oficial `wrangler d1 execute --command` con SQL no destructivo (`IF NOT EXISTS`), en vez de subir un archivo `.sql`. TEST y PRD mantienen UUID de D1 independientes. Verifica `/api/status` despues de publicar la configuracion. Nunca ejecutes estas operaciones contra la antigua `mistera-dev`.
+
+## Verificacion de progreso remoto (TEST, sin alterar PRD)
+
+Tras confirmar `https://mistera-staging.mistera-app.workers.dev/api/status` con `{"sync":true}`, ejecuta desde Git Bash:
+
+```bash
+export NODE_USE_SYSTEM_CA=1
+node scripts/qa_pairing_isolation.mjs
+node scripts/verify_test_sync.mjs
+```
+
+La primera prueba se ejecuta de forma local. La segunda llama exclusivamente al Worker `mistera-staging`, genera un codigo temporal aleatorio distinto del de la receptora y comprueba el guardado remoto de dos dispositivos simulados, merge monotono y aislamiento. Registra unicamente filas de diagnostico en `mistera-test-progress`; nunca accede a `mistera-prd`. Si Zscaler bloquea las consultas HTTPS desde Node, detenerse y revisar el error; no se debe deshabilitar TLS.
+
+Al vincular un segundo dispositivo real, MISTERA primero obtiene el historial remoto y respalda localmente cualquier historial anterior antes de enlazar el codigo. Esto impide subir avances locales ajenos al progreso de la receptora. No compartir el codigo privado de vinculacion en capturas ni repositorios.

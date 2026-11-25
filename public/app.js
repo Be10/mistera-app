@@ -469,7 +469,7 @@ function initializeAdventDock(){
     if(!cloud?.connect){status.textContent='La sincronización en la nube requiere publicar el backend.';return;}
     const ok=await cloud.connect(input.value.trim());
     if(ok){input.value='';status.textContent='Dispositivos vinculados; los descubrimientos se conservarán.';}
-    else status.textContent='Comprueba el código e inténtalo otra vez.';
+    else status.textContent=cloud?.lastError||'Comprueba el código e inténtalo otra vez.';
   });
   $('cinema-ticket-open')?.addEventListener('click',()=>{
     if(!window.MisteraSpecialDays?.ticketAvailable?.())return;

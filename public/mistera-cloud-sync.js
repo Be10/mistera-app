@@ -15,12 +15,15 @@
     let opened=[];try{opened=JSON.parse(load(OPEN)||'[]');}catch(_){}
     return {opened:Array.isArray(opened)?opened.filter(x=>Number.isInteger(x)&&x>0&&x<25):[],final:load(FINAL)==='yes',stages:S?.getAllProgress?.()||{}};
   };
-  function apply(remote){
+  function apply(remote,{replace=false}={}){
     if(!remote||typeof remote!=='object')return;
-    const local=snapshot(),daySet=new Set([...local.opened,...(Array.isArray(remote.opened)?remote.opened:[])]);
+    const local=replace?{opened:[],final:false}:snapshot();
+    const incoming=Array.isArray(remote.opened)?remote.opened.filter(d=>Number.isInteger(d)&&d>=1&&d<=24):[];
+    const daySet=new Set([...local.opened,...incoming]);
     save(OPEN,JSON.stringify([...daySet].sort((a,b)=>a-b)));
-    if(local.final||remote.final)save(FINAL,'yes');
-    S?.importProgress?.(remote.stages||{});
+    save(FINAL,local.final||remote.final===true?'yes':'no');
+    if(replace)S?.replaceProgressFromLink?.(remote.stages||{});
+    else S?.importProgress?.(remote.stages||{});
     window.MisteraRefreshFromCloud?.();
   }
   async function refreshPublished(){
@@ -75,16 +78,42 @@
   window.addEventListener('focus',()=>{if(initialized)sync();});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&initialized){refreshPublished();sync();}});
   window.MisteraCloud={
-    get ready(){return ready;},get pairingCode(){return token;},get available(){return available;},
+    get ready(){return ready;},get pairingCode(){return token;},get available(){return available;},get lastError(){return lastError;},
     statusMessage(){return available?(lastError?'Sin conexión temporal; los avances quedan guardados en este teléfono.':'Recuerdos sincronizados entre nuestros dispositivos.'):'Avances guardados aquí. Activa Cloudflare D1 para sincronizar dispositivos.';},
     onStatus(fn){listeners.push(fn);},
     sync,
     async connect(code){
+      // A new device must READ the linked history first, not upload its own
+      // unrelated local history to the recipient's permanent D1 account.
       if(!available||!valid(code))return false;
-      const old=token;token=code;
-      const ok=await sync();
-      if(ok){save(KEY,token);notify();return true;}
-      token=old;return false;
+      if(code===token)return sync();
+      if(inFlight)await inFlight;
+      const old=token,before=snapshot();
+      try{
+        const r=await fetch('/api/progress',{
+          method:'POST',headers:{'content-type':'application/json'},
+          body:JSON.stringify({pairingCode:code,snapshot:{opened:[],final:false,stages:{}}}),
+          cache:'no-store'
+        });
+        if(!r.ok)throw Error(`No se pudo consultar la vinculacion (HTTP ${r.status})`);
+        const reply=await r.json(),remote=reply.snapshot;
+        if(!remote||!Array.isArray(remote.opened)||!remote.stages||typeof remote.stages!=='object')throw Error('Respuesta de vinculación inválida');
+        const hadProgress=before.opened.length>0||before.final||Object.values(before.stages).some(v=>v&&Object.keys(v).length);
+        const remoteHasProgress=remote.opened.length>0||remote.final||Object.values(remote.stages).some(v=>v&&Object.keys(v).length);
+        if(hadProgress&&!remoteHasProgress)throw Error('Código sin progreso remoto. Se conservó el historial de este dispositivo.');
+        if(hadProgress){
+          // Preserve prior local history if this phone belonged to another code.
+          localStorage.setItem('mistera-backup-before-link-v34-'+Date.now(),JSON.stringify({snapshot:before}));
+        }
+        token=code;
+        apply(remote,{replace:true});
+        save(KEY,code);
+        lastError='';notify();return true;
+      }catch(error){
+        token=old;
+        lastError=error?.message||'No se pudo vincular este dispositivo';
+        notify();return false;
+      }
     }
   };
 })();

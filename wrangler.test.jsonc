@@ -7,9 +7,7 @@
   "assets": {
     "directory": "./.deploy/test",
     "binding": "ASSETS",
-    "run_worker_first": [
-      "/api/*"
-    ]
+    "run_worker_first": true
   },
   "d1_databases": [
     {
@@ -17,5 +15,8 @@
       "database_name": "mistera-test-progress",
       "database_id": "4dc0b767-144a-4499-ad12-a79ec3d7c468"
     }
-  ]
+  ],
+  "vars": {
+    "MISTERA_AUTH_REQUIRED": "0"
+  }
 }

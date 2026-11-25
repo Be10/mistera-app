@@ -20,7 +20,7 @@
   const FIRST='Tu pollito preparó muchas cosas…';
   const PHRASES=[
     'Creando un poquito de magia…',
-    'Ordenando casitas nevadas…',
+    'Guardando unas sorpresitas…',
     'Ubicando las estrellas…',
     'Preparando chocolate caliente…',
     'Partiendo panetoncito…',
@@ -274,16 +274,52 @@
     await Promise.all([...workers,...other]);
     finishLoading();
   }
-  button.addEventListener('click',event=>{
-    if(!ready||entered||!event.isTrusted)return;
-    if(essentialFailures.length){location.reload();return;}
-    entered=true;button.disabled=true;clearInterval(phraseTimer);clearInterval(animeTicker);
+  const welcome=document.getElementById('mistera-welcome');
+  const welcomeText=document.getElementById('mistera-welcome-message');
+  const welcomeClose=document.getElementById('mistera-welcome-close');
+  let entering=false,closingWelcome=false,welcomeTimer=0;
+  const welcomeStepMs=280,welcomeFadeMs=620;
+  // Render the approved **bold** markers safely; no HTML is injected from JSON.
+  function renderWelcomeLetter(value){
+    if(!welcomeText)return 0;
+    const paragraphs=String(value).trim().split(/\n\s*\n/).map(p=>p.trim()).filter(Boolean);
+    const fragment=document.createDocumentFragment();
+    paragraphs.forEach((part,index)=>{
+      const p=document.createElement('p');p.className='m37-line';
+      if(index===0)p.classList.add('m37-title');
+      if(index===paragraphs.length-2)p.classList.add('m37-final-head');
+      p.style.setProperty('--m37-delay',`${index*welcomeStepMs}ms`);
+      for(const token of part.split(/(\*\*[^*]+\*\*)/g)){
+        if(!token)continue;
+        if(token.startsWith('**')&&token.endsWith('**')){
+          const strong=document.createElement('strong');strong.textContent=token.slice(2,-2);p.append(strong);
+        }else p.append(document.createTextNode(token));
+      }
+      fragment.append(p);
+    });
+    welcomeText.replaceChildren(fragment);
+    return paragraphs.length;
+  }
+  function showWelcome(){
+    const count=renderWelcomeLetter(window.MisteraWelcome.message);
+    if(!count)return false;
+    welcomeClose.hidden=true;
+    welcome.hidden=false;
+    root.classList.add('is-welcome');
+    clearInterval(animeTicker);clearInterval(phraseTimer);
+    const delay=reduce.matches?0:(count-1)*welcomeStepMs+welcomeFadeMs;
+    clearTimeout(welcomeTimer);
+    welcomeTimer=setTimeout(()=>{
+      if(entered||closingWelcome||welcome.hidden)return;
+      welcomeClose.hidden=false;
+      welcomeClose.focus({preventScroll:true});
+    },delay);
+    return true;
+  }
+  function enterVillage(){
+    if(entered)return;
+    entered=true;clearInterval(phraseTimer);clearInterval(animeTicker);
     for(const animation of animeHandles)try{animation.pause();}catch(_){}
-    // Entrar es la primera interacción autorizada; los sonidos están descargados.
-    try{window.MisteraLoaderEntrySound?.play?.();}catch(_){}
-    // This is the explicit trusted gesture that starts the existing 3 ambient tracks.
-    try{window.__misteraAudio?.activateFromGesture?.(event);}catch(e){console.warn('[MISTERA] Audio no autorizado:',e);}
-    try{window.__misteraFireworks?.unlockAudio?.();}catch(_){}
     const app=document.getElementById('app');
     document.body.classList.remove('mistera-booting');
     document.body.classList.add('mistera-scene-arriving');
@@ -294,6 +330,27 @@
     setTimeout(()=>{
       root.hidden=true;root.remove();document.body.classList.remove('mistera-scene-arriving');
     },reduce.matches?50:860);
+  }
+  button.addEventListener('click',async event=>{
+    if(!ready||entered||entering||!event.isTrusted)return;
+    if(essentialFailures.length){location.reload();return;}
+    entering=true;button.disabled=true;
+    // The user gesture remains the ONLY authorization to start audio.
+    try{window.MisteraLoaderEntrySound?.play?.();}catch(_){}
+    try{window.__misteraAudio?.activateFromGesture?.(event);}catch(_){}
+    try{window.__misteraFireworks?.unlockAudio?.();}catch(_){}
+    let show=false;
+    try{show=await window.MisteraWelcome?.shouldShow?.()===true;}catch(_){}
+    if(show&&welcome&&welcomeText&&welcomeClose&&showWelcome())return;
+    enterVillage();
+  });
+  welcomeClose?.addEventListener('click',()=>{
+    if(entered||!entering||closingWelcome||welcomeClose.hidden)return;
+    closingWelcome=true;
+    welcomeClose.disabled=true;
+    clearTimeout(welcomeTimer);
+    try{window.MisteraWelcome?.markSeen?.();}catch(_){}
+    enterVillage();
   });
   window.MisteraLoader={get ready(){return ready;},get entered(){return entered;},get progress(){return {done,total,failures,essentialFailures};}};
   run().catch(error=>{

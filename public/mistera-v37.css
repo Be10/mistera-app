@@ -1,0 +1,71 @@
+/* MISTERA V38: romantic letter in the ORIGINAL loading scene, not a popup. */
+#mistera-loader .m37-welcome[hidden],#mistera-loader .m37-close[hidden]{display:none!important;}
+#mistera-loader.is-welcome .m-loader-content,
+#mistera-loader.is-welcome .m34-fullscreen-entrance{display:none!important;}
+#mistera-loader .m37-welcome{
+  position:absolute;inset:0;z-index:5;box-sizing:border-box;
+  display:grid;grid-template-rows:minmax(0,1fr) auto;
+  align-items:center;justify-items:center;gap:clamp(12px,2.5dvh,25px);
+  width:100%;height:100%;max-height:100dvh;min-height:0;
+  padding:calc(clamp(24px,5dvh,60px) + env(safe-area-inset-top,0px))
+          clamp(20px,5vw,36px)
+          calc(clamp(22px,5dvh,60px) + env(safe-area-inset-bottom,0px));
+  overflow:hidden;
+}
+#mistera-loader .m37-letter{
+  width:min(100%,540px);max-height:100%;min-height:0;align-self:center;
+  overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;
+  touch-action:pan-y;scrollbar-width:thin;scrollbar-color:#c7a06965 transparent;
+  text-align:center;padding:8px clamp(4px,2vw,16px) 18px;
+  -webkit-overflow-scrolling:touch;
+}
+#mistera-loader .m37-letter:focus-visible{outline:2px solid #eacb98;outline-offset:-2px;border-radius:9px;}
+#mistera-loader .m37-message{display:flex;flex-direction:column;align-items:center;gap:clamp(13px,2.4dvh,23px);}
+#mistera-loader .m37-line{
+  margin:0;color:#f9e5c3;font:400 clamp(15px,3.7vw,19px)/1.65 Georgia,serif;
+  text-wrap:pretty;white-space:pre-line;text-shadow:0 3px 18px rgba(0,0,0,.22);
+  animation:m37-line-appear 620ms cubic-bezier(.22,.78,.24,1) var(--m37-delay,0ms) both;
+}
+#mistera-loader .m37-line strong{font-weight:700;color:#ffebc5;}
+#mistera-loader .m37-title{font-size:clamp(23px,5.3vw,29px);line-height:1.3;margin-bottom:2px;}
+#mistera-loader .m37-final-head{font-size:clamp(16px,3.9vw,21px);}
+#mistera-loader .m37-close{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;
+  flex:none;justify-self:center;gap:10px;min-width:182px;min-height:50px;
+  padding:11px 23px;border:1px solid #f8e0ac;border-radius:99px;
+  background:linear-gradient(135deg,#f4d9a7,#d9a96e 65%,#f5deb2);
+  color:#102748;font:700 13px/1.2 system-ui,sans-serif;cursor:pointer;
+  animation:m37-close-appear .55s ease-out both,m37-gold-pulse 3.8s ease-in-out .55s infinite;
+}
+#mistera-loader .m37-close svg{display:block;flex:none;width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none;margin:0;}
+#mistera-loader .m37-close:focus-visible{outline:3px solid #fce3b6;outline-offset:5px;}
+#mistera-loader .m37-close:disabled{cursor:default;}
+@keyframes m37-line-appear{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes m37-close-appear{from{opacity:0;filter:brightness(.9)}to{opacity:1;filter:brightness(1)}}
+@keyframes m37-gold-pulse{0%,100%{box-shadow:0 0 0 5px #f1c7800d,0 0 14px #f2c58424}50%{box-shadow:0 0 0 8px #f1c7801b,0 0 28px #f2c58470}}
+@media(max-height:550px){#mistera-loader .m37-welcome{gap:9px;padding-top:calc(17px + env(safe-area-inset-top,0px));padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));}#mistera-loader .m37-message{gap:10px;}}
+@media(prefers-reduced-motion:reduce){#mistera-loader .m37-line,#mistera-loader .m37-close{animation:none!important;}}
+/* Keep generous breathing room between the small day kicker and any experience. */
+#surprise-dialog .dialog-kicker{display:block;line-height:1.65!important;margin:0 auto 17px!important;padding-bottom:2px;}
+#surprise-dialog #dialog-title:empty{display:none!important;}
+#surprise-dialog .mx-experience{margin-top:11px!important;}
+#surprise-dialog:has(.m33-cinema-view) .dialog-inner,
+#surprise-dialog:has(.m33-secret-view) .dialog-inner,
+#surprise-dialog:has(.m33-found-letter) .dialog-inner,
+#surprise-dialog:has(.m33-cinema-ticket) .dialog-inner{padding-top:47px!important;}
+#surprise-dialog:has(.m33-cinema-view) .dialog-kicker,
+#surprise-dialog:has(.m33-secret-view) .dialog-kicker{margin-bottom:22px!important;}
+/* Title original PNG gently blooms only when a scratch card has first cleared. */
+.m33-title-overlay.m37-unveil{animation:m37-title-appear .62s cubic-bezier(.22,.78,.24,1) both;}
+@keyframes m37-title-appear{0%{opacity:0;filter:blur(3px);transform:scale(.965)}100%{opacity:1;filter:none;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.m33-title-overlay.m37-unveil{animation:none!important;}}
+/* All button icons are fixed-box, centered independently of surrounding labels. */
+#dock-ambient-sound .dock-return-icon,
+#dock-ambient-sound .dock-gear-icon{display:block;flex:none;width:19px;height:19px;margin:auto;}
+#dock-ambient-sound{display:flex;align-items:center;justify-content:center;}
+
+/* Recipient login identifies the one permanent D1 history automatically. */
+html.mistera-prd #dock-copy-pairing,
+html.mistera-prd #dock-pairing-code,
+html.mistera-prd #dock-pairing-import,
+html.mistera-prd .dock-sync-row{display:none!important;}

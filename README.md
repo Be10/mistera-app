@@ -76,3 +76,37 @@ node scripts/verify_test_sync.mjs
 La primera prueba se ejecuta de forma local. La segunda llama exclusivamente al Worker `mistera-staging`, genera un codigo temporal aleatorio distinto del de la receptora y comprueba el guardado remoto de dos dispositivos simulados, merge monotono y aislamiento. Registra unicamente filas de diagnostico en `mistera-test-progress`; nunca accede a `mistera-prd`. Si Zscaler bloquea las consultas HTTPS desde Node, detenerse y revisar el error; no se debe deshabilitar TLS.
 
 Al vincular un segundo dispositivo real, MISTERA primero obtiene el historial remoto y respalda localmente cualquier historial anterior antes de enlazar el codigo. Esto impide subir avances locales ajenos al progreso de la receptora. No compartir el codigo privado de vinculacion en capturas ni repositorios.
+
+
+## Acceso romántico privado y bienvenida (V37)
+
+- La autenticación **sin correo** utiliza el Worker con Static Assets y `run_worker_first:true` para proteger imágenes, audio, HTML y `/api/progress`.
+- La clave de seis números se guarda **solo en los secretos de Cloudflare**, nunca en GitHub, JS, CSS ni JSON. El servidor aplica límite de intentos y entrega una cookie `HttpOnly`, `Secure`, `SameSite=Lax` de hasta 365 días. Si se borran las cookies o caduca la sesión, deberá volver a introducirla.
+- **PRD exige tres secretos:** `MISTERA_ACCESS_CODE`, `MISTERA_SESSION_KEY` y `MISTERA_PROGRESS_KEY` (los dos últimos deben tener al menos 32 caracteres). **Conservar siempre `MISTERA_PROGRESS_KEY`: cambiarla cambia la identidad del historial y lo haría inaccesible sin una migración.** Cambiar el código o la clave de sesión no afecta al progreso.
+- TEST continúa protegido por Cloudflare Access. Inicialmente `MISTERA_AUTH_REQUIRED=0` para no bloquear TEST hasta configurar sus secretos; se puede activar el código en TEST cambiando ese valor a `1` **solo después** de configurar los tres secretos y crear la tabla de intentos.
+- Primero se presenta una pantalla visual idéntica en estilo a la carga para escribir el código; solo después de verificarlo se descargan los recursos privados. Esta separación técnica impide entregar la villa a usuarios sin acceso. Luego el botón «Vamos allá» abre una dedicatoria de una sola lectura y, al pulsar «Cerrar», la villa.
+- Desde V38, el mensaje **definitivo aprobado por el autor** ya se encuentra íntegro y habilitado en `public/content/mensaje-bienvenida.json` (`enabled:true`), sin necesidad de rellenar plantillas. Solo se muestra en el primer ingreso; se registra exclusivamente al pulsar «Cerrar». Nunca modificar ese contenido sin nueva aprobación editorial.
+- El recibo `mistera-intro-seen` se guarda mediante el sistema existente `gift_progress`, de forma monótona y sincronizada entre dispositivos bajo el identificador privado de PRD.
+- Las mejoras cosméticas incluyen reverso animado de la notita 01, aparición breve del título al finalizar la raspadita, separación generosa de «Día NN», icono Lucide de regalo en Ajustes y eliminación de la frase que anticipaba la villa.
+- Aplicar una vez `bash scripts/init_d1_progress.sh test` y `bash scripts/init_d1_progress.sh prd` para crear **solo si no existen** los contadores del acceso (sin borrar progreso). La inicialización usa `--command` para ser compatible con Zscaler.
+- Probar el backend aislado sin Cloudflare ni Python: `node scripts/qa_v37_auth.mjs`.
+- No desplegar PRD hasta que se hayan configurado sus tres secretos, completado y aprobado el mensaje personal y validado la experiencia en TEST.
+
+
+## V38 — bienvenida romántica aprobada y verificada (25/11/2026)
+
+La nueva escena usa los elementos y estilo de carga originales de MISTERA. Presenta los nueve párrafos de la dedicatoria aprobada en secuencia suave con sus dos negritas; el botón Lucide «X Cerrar» aparece al finalizar, con resplandor tenue constante. El contenido se desplaza en pantallas bajas, el botón permanece accesible y se respeta `prefers-reduced-motion`. El resto de la villa, audio, dock, día 01 y desbloqueos sigue intacto.
+
+El recibo se conserva en la tabla compartida de progreso D1 existente y mediante `localStorage` con claves específicas de TEST y PRD; no depende del número de versión. No se restablecen los descubrimientos ni se modifica el esquema D1 para la bienvenida.
+
+Para comprobar V38 desde la raíz estable del proyecto:
+
+```bash
+node scripts/qa_v37_auth.mjs
+node scripts/qa_v37_welcome.mjs
+node scripts/qa_v38_welcome.mjs
+node scripts/build_worker_release.mjs test
+node scripts/build_worker_release.mjs prd
+```
+
+Ambas compilaciones deben conservar solo los días 01 y 02 publicados; TEST retiene sus herramientas privadas cuando están autorizadas. **Compilar no despliega.** Probar en TEST antes de aprobar una publicación a PRD. Ver `CAMBIOS_MISTERA_V38.md` para seguimiento y política de seguridad.

@@ -33,13 +33,13 @@ mapfile -t QUERIES < <(node --input-type=module <<'JS'
 import fs from 'node:fs';
 const raw = fs.readFileSync('db/schema.sql','utf8').replace(/^\s*--[^\n]*$/gm,'');
 const queries = raw.split(';').map(x=>x.replace(/\s+/g,' ').trim()).filter(Boolean);
-if (queries.length !== 2 || !queries[0].startsWith('CREATE TABLE IF NOT EXISTS gift_progress') ||
+if (queries.length !== 3 || !queries[2].startsWith('CREATE TABLE IF NOT EXISTS mistera_auth_attempts') || !queries[0].startsWith('CREATE TABLE IF NOT EXISTS gift_progress') ||
     !queries[1].startsWith('CREATE INDEX IF NOT EXISTS gift_progress_user'))
   throw new Error('El esquema ha cambiado; revisar antes de aplicar.');
 queries.forEach(q=>console.log(q));
 JS
 )
-if [[ "${#QUERIES[@]}" -ne 2 ]]; then
+if [[ "${#QUERIES[@]}" -ne 3 ]]; then
   echo 'ERROR: no se pudo leer el esquema seguro de progreso.' >&2
   exit 2
 fi
@@ -48,5 +48,5 @@ for statement in "${QUERIES[@]}"; do
   npx --yes wrangler@4.168.0 d1 execute "$DB" --remote --config "$CONFIG" --command "$statement" --yes
 done
 echo 'Comprobando tabla e indice en D1:'
-npx --yes wrangler@4.168.0 d1 execute "$DB" --remote --config "$CONFIG" --command "SELECT name,type FROM sqlite_master WHERE name IN ('gift_progress','gift_progress_user') ORDER BY type,name;" --yes
+npx --yes wrangler@4.168.0 d1 execute "$DB" --remote --config "$CONFIG" --command "SELECT name,type FROM sqlite_master WHERE name IN ('gift_progress','gift_progress_user','mistera_auth_attempts') ORDER BY type,name;" --yes
 echo "D1 $DB inicializada sin borrar registros."

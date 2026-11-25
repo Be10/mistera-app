@@ -38,24 +38,29 @@
     if(data.ticketNote)wrap.append($('p','m33-ticket-note',data.ticketNote));
     const back=btn('Volver',()=>renderCinema(ctx,'back'),'m33-text-button');wrap.append(back);return wrap;
   }
-  function cinemaFront(ctx,flipped=false){const data=ctx.record.cinema||{};
+  function cinemaFront(ctx,flipped=false,animateTitle=false){const data=ctx.record.cinema||{};
     const wrap=$('section','m33-cinema-view');
     const stage=$('div','m33-cinema-stage');const card=$('div','m33-flip-card'+(flipped?' is-flipped':''));card.setAttribute('aria-label',flipped?'Leer dedicatoria':'Voltear tarjeta revelada');
     const rotor=$('div','m33-flip-rotor');const front=$('div','m33-flip-front');attachImage(ctx,data.cover,front,'Imagen de la película revelada');
-    const overlay=$('div','m33-title-overlay');attachImage(ctx,data.overlay,overlay,'Título original de la película');front.append(overlay);rotor.append(front);
+    const overlay=$('div','m33-title-overlay'+(animateTitle?' m37-unveil':''));attachImage(ctx,data.overlay,overlay,'Título original de la película');front.append(overlay);rotor.append(front);
     const back=$('div','m33-flip-back');back.append($('div','m33-back-mark','✦'),paragraphs(data.letter,'m33-letter-body'));
     const ticketButton=btn('Ver nuestras entradas',event=>{event.stopPropagation();save(ctx,'d01-ticket-available');renderCinema(ctx,'ticket');},'m33-btn m33-ticket-action');ticketButton.prepend(icon('ticket'));back.append(ticketButton);rotor.append(back);card.append(rotor);stage.append(card);wrap.append(stage);
     const flip=()=>{
-      if(card.classList.contains('is-flipped')){renderCinema(ctx,'front');return;}
-      save(ctx,'d01-letter');save(ctx,'d01-ticket-available');
-      card.classList.add('is-flipped');front.setAttribute('aria-hidden','true');back.removeAttribute('aria-hidden');
-      window.dispatchEvent(new Event('mistera:ticket-state'));
+      const wasFlipped=card.classList.contains('is-flipped');
+      card.classList.toggle('is-flipped',!wasFlipped);
+      front.setAttribute('aria-hidden',String(!wasFlipped));
+      back.setAttribute('aria-hidden',String(wasFlipped));
+      front.tabIndex=wasFlipped?0:-1;back.tabIndex=wasFlipped?-1:0;
+      if(!wasFlipped){save(ctx,'d01-letter');save(ctx,'d01-ticket-available');window.dispatchEvent(new Event('mistera:ticket-state'));}
     };
-    back.addEventListener('click',e=>{if(e.target.closest('.m33-ticket-action'))return;renderCinema(ctx,'front');});
-    back.tabIndex=0;back.setAttribute('role','button');back.setAttribute('aria-label','Volver a ver la portada');
-    back.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('.m33-ticket-action')){e.preventDefault();renderCinema(ctx,'front');}});
-    if(!flipped){front.tabIndex=0;front.setAttribute('role','button');front.setAttribute('aria-label',data.flipPrompt||'Dar vuelta a la tarjeta');front.addEventListener('click',flip);front.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});back.setAttribute('aria-hidden','true');}
-    else{front.setAttribute('aria-hidden','true');back.removeAttribute('aria-hidden');}
+    back.addEventListener('click',e=>{if(e.target.closest('.m33-ticket-action'))return;flip();});
+    back.setAttribute('role','button');back.setAttribute('aria-label','Volver a ver la portada');
+    back.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('.m33-ticket-action')){e.preventDefault();flip();}});
+    front.setAttribute('role','button');front.setAttribute('aria-label',data.flipPrompt||'Dar vuelta a la tarjeta');
+    front.addEventListener('click',()=>{if(!card.classList.contains('is-flipped'))flip();});
+    front.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!card.classList.contains('is-flipped')){e.preventDefault();flip();}});
+    front.setAttribute('aria-hidden',String(flipped));back.setAttribute('aria-hidden',String(!flipped));
+    front.tabIndex=flipped?-1:0;back.tabIndex=flipped?0:-1;
 
     return wrap;
   }
@@ -77,13 +82,13 @@
       function coverage(){const im=c.getImageData(0,0,canvas.width,canvas.height).data;let erased=0,total=0;const skip=Math.max(12,Math.floor(canvas.width/29));for(let y=0;y<canvas.height;y+=skip)for(let x=0;x<canvas.width;x+=skip){total++;if(im[(y*canvas.width+x)*4+3]<48)erased++;}return erased/Math.max(1,total);}
       function check(e){if(!active||completed)return;active=false;last=null;try{if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);}catch(_){}
         if(coverage()>=Math.max(.65,Math.min(.7,Number(data.scratchThreshold)||.68))){completed=true;canvas.classList.add('m33-scratch-cleared');save(ctx,'d01-scratch');save(ctx,'d01-card-revealed');
-          window.setTimeout(()=>{if(isLive(ctx))renderCinema(ctx,'front');},460);}}
+          window.setTimeout(()=>{if(isLive(ctx))renderCinema(ctx,'front',{animateTitle:true});},460);}}
       canvas.addEventListener('pointerdown',e=>{if(e.button!==0||completed)return;active=true;last=null;canvas.setPointerCapture(e.pointerId);brush(e);});
       canvas.addEventListener('pointermove',e=>{if(active)brush(e);});canvas.addEventListener('pointerup',check);canvas.addEventListener('pointercancel',check);
     });ctx.rafs.push(raf);
     return wrap;
   }
-  function renderCinema(ctx,mode){if(!isLive(ctx))return;ctx.mode=mode;const panel=mode==='ticket'?mountedTicket(ctx):mode==='scratch'?scratch(ctx):cinemaFront(ctx,mode==='back');setScene(ctx,panel);}
+  function renderCinema(ctx,mode,options={}){if(!isLive(ctx))return;ctx.mode=mode;const panel=mode==='ticket'?mountedTicket(ctx):mode==='scratch'?scratch(ctx):cinemaFront(ctx,mode==='back',!!options.animateTitle);setScene(ctx,panel);}
   function renderSecret(ctx){if(!isLive(ctx))return;const data=ctx.record.secret||{};
     if(has(ctx,'d02-found')){const wrap=$('section','m33-found-letter');wrap.append($('span','m33-found-seal','❤'),paragraphs(data.foundNote,'m33-found-note'));setScene(ctx,wrap);return;}
     if(!has(ctx,'d02-opened')){

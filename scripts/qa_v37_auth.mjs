@@ -35,7 +35,7 @@ const request=(path,{method='GET',code,cookie,ip='192.0.2.1',pairingCode,snapsho
 const run=(path,opts={})=>worker.fetch(request(path,opts),env,{});
 const status=async(path,options,expected)=>{const res=await run(path,options);assert.equal(res.status,expected,`${path} returned ${res.status}, expected ${expected}`);return res;};
 assert.equal((await status('/',{},200)).headers.get('content-type')?.startsWith('text/html'),true);
-let splash=await(await run('/')).text();assert.ok(splash.includes('Nuestro pequeño secreto'));
+let splash=await(await run('/')).text();assert.ok(splash.includes('id="code"') && splash.includes('inputmode="numeric"') && !splash.includes('numeritos'));
 assert.ok(!splash.includes('assets/aldea-base.png'));
 await status('/assets/aldea-base.png',{},401);await status('/api/progress',{method:'POST',pairingCode:'a'.repeat(32),snapshot:{}},401);
 await status('/api/auth',{method:'POST',code:'999999',ip:'192.0.2.2'},401);

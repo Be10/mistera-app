@@ -150,3 +150,91 @@ La prueba real `node scripts/qa_prd_private_gate_v38.mjs` devolvió 11/11 respue
 Tras pasar la prueba 11/11, no conectar CI/CD de PRD hasta que `test` y `main` tengan una versión aprobada y coherente. `wrangler.prd.jsonc` incluye ahora `preview_urls:false`, pero no está aplicado a la versión publicada hasta el siguiente despliegue o ajuste equivalente en el panel.
 
 Documentación (actualizada al 02/11/2026): https://developers.cloudflare.com/workers/configuration/cloudflare-access/
+
+## Estado operacional verificado - 25/11/2026, tras V39
+
+- El usuario compiló y publicó PRD V39: Worker `mistera-prd`, Version ID `577ea929-e9e0-4a5f-9e30-bfee29784ce0`, con `MISTERA_AUTH_REQUIRED=1`, D1 `mistera-prd` y solo días 01–02. GitHub rama `test`: commit `fb0111d`. No se ha promovido esta versión automáticamente a `main`.
+- El registro de la dedicatoria (`day=25`, `field='mistera-intro-seen'`, `value_json='true'`) se eliminó de forma específica. La consulta de verificación devolvió `recibos_restantes=0`. **NO repetir DELETE ni usar Time Travel restore.**
+- Aún no hay confirmación de que se limpiaran las marcas locales en todos los navegadores de PRD utilizados en las pruebas. Un navegador viejo con `mistera-welcome-seen-prd` o la marca dentro de `mistera-surprises-v23-progress` podría volver a publicar la lectura; seguir `GUIA_RESTAURAR_BIENVENIDA_PRD_V39.md` antes de abrir nuevamente una sesión antigua.
+- Última prueba real anónima `qa_prd_private_gate_v38.mjs`: `0/11 verificadas; 11 redirecciones; 0 fallos`, HTTP 302 al hostname `floral-truth-b889.cloudflareaccess.com` desde todas las rutas. Esto **confirma Access delante del Worker**, pero aún no prueba el bloqueo que realiza el Worker de MISTERA por sí solo. **No compartir PRD todavía.**
+
+### Cierre seguro de la protección PRD (sin tocar TEST)
+
+1. En una sesión de Chrome autorizada por Cloudflare Access, borrar solo la cookie de MISTERA `mistera_private_session` y comprobar (sin introducir el PIN) que `GET /api/auth` devuelve `{"required":true,"authenticated":false}`; que `GET /` presenta la casilla del PIN V39; y que la solicitud directa `GET /assets/aldea-base.png` responde HTTP 401, no imagen. Si falla, **no quitar Cloudflare Access**.
+2. Revisar en Cloudflare **Workers & Pages > mistera-prd > Access** qué regla está aplicándose. Jerarquía oficial: hostname/path > Worker > cuenta. Si es una regla del Worker, retirar solo su regla; si es una regla de cuenta (todos los Workers), aplicar **Make this Worker public** exclusivamente a `mistera-prd` (Worker-level bypass); si una aplicación por hostname tiene preferencia, ajustar solo el hostname exacto `mistera-prd.mistera-app.workers.dev`. **No cambiar las políticas de `mistera-staging` ni desactivar Protect all Workers.**
+3. Justo después del cambio, ejecutar `export NODE_USE_SYSTEM_CA=1` y `node scripts/qa_prd_private_gate_v38.mjs`. Exigir `11/11 verificadas; 0 redirecciones; 0 fallos`. Si cualquier ruta privada responde 200 o los secretos/configuración fallan, restablecer de inmediato la regla Access de PRD y detenerse.
+4. Probar en incógnito que TEST `mistera-staging.mistera-app.workers.dev` sigue redirigiendo a Access. Verificar que D1 PRD continúa sin la lectura de bienvenida; evitar pulsar `Cerrar` o abrir sorpresas en PRD.
+5. Cuando la prueba anónima pase, la URL pública mostrará **solamente la portada del PIN**, no los assets protegidos; un PIN de seis dígitos es un mecanismo de seguridad limitado y debe compartirse en privado.
+
+Documentación oficial (verificada 25/11/2026): https://developers.cloudflare.com/workers/configuration/cloudflare-access/
+
+
+## Cierre del bloqueo HTTP 302: PRD verificada directamente (25/11/2026)
+
+**Resultado aportado por el propietario desde Git Bash:** tras retirar la proteccion Cloudflare Access obsoleta **solo de PRD**, `node scripts/qa_prd_private_gate_v38.mjs` verifico:
+
+```text
+PASS 200 GET /
+PASS 200 GET /index.html
+PASS 200 GET /api/auth
+PASS 401 GET /api/status
+PASS 401 GET /api/progress
+PASS 401 GET /assets/aldea-base.png
+PASS 401 GET /content/mensaje-bienvenida.json
+PASS 401 GET /content/sorpresas-2026.json
+PASS 401 GET /data/sorpresas-2026.js
+PASS 401 GET /surprises-experience.js
+PASS 401 GET /editor/index.html
+RESULTADO: 11/11 verificadas; 0 redirecciones; 0 fallos.
+PASS PRD V38: cubierta de PIN y rutas privadas protegidas (prueba ANONIMA y de solo lectura).
+```
+
+Por tanto, **ya no se necesita resolver el 302** para ese Worker en el endpoint principal comprobado. Este resultado solo cubre solicitudes GET anonimas; no sustituye pruebas funcionales de inicio de sesion, ni verificaciones de seguridad futuras tras desplegar codigo.
+
+### Antes de compartir PRD
+
+1. Confirmar desde incognito que `https://mistera-staging.mistera-app.workers.dev/` **sigue exigiendo Cloudflare Access**; retirar Access de PRD no autoriza exponer el editor de TEST.
+2. Si se comprueba el PIN de PRD, utilizar una ventana privada sin progreso previo. Comprobar que `/api/auth` pasa a `authenticated:true`, carga la aplicacion y ofrece la bienvenida. **No pulsar 'Cerrar' ni abrir regalos** en PRD: eso escribe en el historial D1 definitivo. Cerrar la ventana.
+3. El recibo PRD `day=25, field=mistera-intro-seen` ya fue eliminado y la consulta posterior devolvio `0`. Verificar que en los navegadores usados para pruebas no queden marcas locales anteriores; no repetir el `DELETE` salvo nueva comprobacion precisa.
+4. Confirmar que los tres secretos siguen siendo de tipo **Secret** y no enviar capturas que incluyan el PIN. No rotar `MISTERA_PROGRESS_KEY` si ya hay avances.
+5. Conservar la rama `main` privada y sin publicar cambios no aprobados; no añadir borradores ni el editor a los recursos PRD.
+
+### Activar PRD CI/CD con GitHub (cuando PRD y TEST esten validados)
+
+La fuente actual del Worker PRD V39 esta en la rama `test` del repositorio privado, confirmada por el commit `fb0111d`; la situacion efectiva de `main` **se debe consultar**, no se presupone que este actualizada. PRD se publico hasta ahora mediante Wrangler local, asi que un Git `push` a `test` **no actualiza PRD**.
+
+Desde Git Bash en `MISTERA_Codigo`:
+
+```bash
+git status -sb
+git fetch origin
+git log -1 --oneline origin/test
+git log -1 --oneline origin/main
+git diff --stat origin/main..origin/test
+node scripts/qa_v37_auth.mjs
+node scripts/qa_v39_pin.mjs
+node scripts/qa_v38_welcome.mjs
+bash scripts/ci_build_prd.sh
+```
+
+Si existen archivos nuevos o modificados por SharePoint, revisar y registrar primero la documentacion operativa en `test` (nunca guardar secretos en Git); despues ejecutar `git push origin test` y confirmar Builds TEST. En GitHub crear PR con **base=`main`, compare=`test`**. Revisar diff y el historial `scripts/published-history.json` (los dias 01 y 02 no deben despublicarse); merge solo tras aprobar la version.
+
+**No conectar Builds PRD mientras `main` sea antigua**. Una vez aprobada V39 en `main`, conectar el Worker existente `mistera-prd` desde Settings > Build > Connect con:
+
+| Configuracion | Valor |
+|---|---|
+| Repositorio | `Be10/mistera-app` (privado) |
+| Production branch | `main` |
+| Root directory | `/` |
+| Build command | `bash scripts/ci_build_prd.sh` |
+| Deploy command | `npx --yes wrangler@4.168.0 deploy --config wrangler.prd.jsonc` |
+| Preview Builds | Desactivados |
+| Runtime secrets | Conservar los tres Secret existentes de PRD |
+| D1 | `mistera-prd`, sin reinicializar ni migrar |
+
+Si conectar la rama desencadena un despliegue, revisar los logs antes de avanzar. Despues de cualquier despliegue automatico, ejecutar de nuevo `node scripts/qa_prd_private_gate_v38.mjs`; debe obtener **11/11 PASS**, y comprobar que TEST mantiene Access y editor. No realizar un despliegue manual adicional por rutina: los siguientes despliegues PRD se promoveran mediante PR aprobado de `test` a `main`.
+
+Referencias oficiales (noviembre de 2026):
+- https://developers.cloudflare.com/workers/ci-cd/builds/
+- https://developers.cloudflare.com/workers/ci-cd/builds/build-branches/
+- https://developers.cloudflare.com/workers/configuration/cloudflare-access/

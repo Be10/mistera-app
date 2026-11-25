@@ -28,7 +28,7 @@ Los archivos publicados se preparan con `node scripts/build_worker_release.mjs t
 
 Los archivos de ambos entornos se generan en `.deploy/test` y `.deploy/prd` respectivamente. `.deploy` se ignora en Git y nunca se publica directamente.
 
-**Nunca** conectes los dos Workers a la misma rama. Desactiva las compilaciones de vista previa de otras ramas en ambos Workers si no las necesitas. PRD debe quedar protegido por Cloudflare Access, y la rama `main` solo recibirá cambios aprobados desde TEST.
+**Nunca** conectes los dos Workers a la misma rama. Desactiva las compilaciones de vista previa de otras ramas en ambos Workers si no las necesitas. PRD usa exclusivamente el acceso por PIN del Worker (sin Cloudflare Access adicional); TEST conserva Cloudflare Access. La rama `main` solo recibirá cambios aprobados desde TEST. La proteccion del Worker PRD debe comprobarse despues de cada despliegue con `node scripts/qa_prd_private_gate_v38.mjs`.
 
 ## Qué hacer una sola vez
 
@@ -38,7 +38,7 @@ Lee `GUIA_GIT_CLOUDFLARE.md` para crear un repositorio privado GitHub, conectar 
 
 1. Edita y prueba en la rama `test`.
 2. `git add . && git commit -m "Actualización de MISTERA" && git push origin test` para publicar TEST automáticamente.
-3. Revisa TEST. Cuando lo apruebes, crea un Pull Request de `test` hacia `main`, revisa y haz *merge*; Cloudflare publica PRD automáticamente.
+3. Revisa TEST. Cuando lo apruebes, crea un Pull Request de `test` hacia `main`, revisa y haz *merge*. Cloudflare publica PRD automaticamente **solo si** el Worker `mistera-prd` ya esta conectado a la rama `main` con Builds; hasta conectar ese Worker, PRD conserva su ultimo despliegue manual.
 
 La D1 de PRD no se recrea, se borra ni se migra automáticamente por cada `push`; el progreso queda separado de los despliegues. Si en el futuro cambia el esquema, se revisará una migración no destructiva por separado.
 
@@ -110,3 +110,15 @@ node scripts/build_worker_release.mjs prd
 ```
 
 Ambas compilaciones deben conservar solo los días 01 y 02 publicados; TEST retiene sus herramientas privadas cuando están autorizadas. **Compilar no despliega.** Probar en TEST antes de aprobar una publicación a PRD. Ver `CAMBIOS_MISTERA_V38.md` para seguimiento y política de seguridad.
+
+
+## Estado de seguridad PRD confirmado - 25/11/2026 (V39)
+
+- PRD fue desplegada desde Git Bash, version de Worker `577ea929-e9e0-4a5f-9e30-bfee29784ce0`; fuente promovible en la rama `test` con commit `fb0111d`. **No significa que `main` ya contenga V39**.
+- Se retiro exclusivamente la regla Cloudflare Access obsoleta de PRD. El Worker mantiene `MISTERA_AUTH_REQUIRED=1`, Static Assets `run_worker_first=true`, secretos de runtime y D1 exclusiva. No se debe restaurar una regla general que bloquee tambien a la destinataria.
+- Prueba real anonima y sin cookie: `node scripts/qa_prd_private_gate_v38.mjs` = **11/11 PASS, 0 redirecciones, 0 fallos**. La portada `/`, `/index.html` y `/api/auth` responden HTTP 200; las ocho rutas de recursos/API privados responden HTTP 401. Esta prueba **no** verifica que TEST mantenga Access ni la experiencia completa del PIN.
+- En D1 PRD se elimino **solo** el recibo de la dedicatoria `day=25, field=mistera-intro-seen`. Consulta posterior: `recibos_restantes=0`. Conservar cerrados o limpiar los navegadores de prueba que tengan una marca local `true`; la sincronizacion podria reinsertarla.
+- D1 PRD, los secretos y regalos no se modifican al promocionar codigo. `MISTERA_PROGRESS_KEY` es permanente y no debe rotarse sin migracion. El PIN aparecio antes en una captura: considerar cambiarlo antes de compartir el enlace.
+- **Pendiente:** confirmar Access de TEST desde incognito; comprobar la experiencia de PIN PRD sin pulsar `Cerrar` ni abrir regalos; revisar `git diff origin/main..origin/test`; aprobar PR `test` -> `main`; solo despues conectar `mistera-prd` a Builds con rama `main` y Preview Builds desactivados. Despues de cualquier build repetir la prueba 11/11.
+
+Detalles y orden de operaciones: `GUIA_PREPARACION_PRD_V38.md`.

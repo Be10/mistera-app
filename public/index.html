@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#010e31" />
   <meta name="mistera-cloud" content="on" />
   <meta name="robots" content="noindex,nofollow,noarchive" />
-  <meta name="description" content="MISTERA · Villa navideña interactiva · Adviento 2026." />
-  <title>MISTERA · Nuestro Adviento · Escena V34</title>
+  <meta name="description" content="MISTERA · Una sorpresa de Adviento hecha con amor." />
+  <title>MISTERA · Calendario de Adviento</title>
   <style>html.mistera-preparing,body.mistera-booting{background:#010e31}body.mistera-booting #app{visibility:hidden;pointer-events:none}</style>
   <link rel="preload" as="image" href="assets/aldea-base.png" />
   <link rel="preload" as="image" href="assets/arbol-apagado.png" />
@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="mistera-loader.css" />
   <link rel="stylesheet" href="mistera-v34.css" />
   <link rel="stylesheet" href="mistera-v35.css" />
+  <link rel="stylesheet" href="mistera-v37.css" />
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js" referrerpolicy="no-referrer"></script>
   <script src="bootstrap-diagnostics.js" defer></script>
   <script src="data/mapa-casas.js" defer></script>
@@ -43,12 +44,13 @@
   <script src="mistera-fullscreen.js" defer></script>
   <script src="mistera-cloud-sync.js" defer></script>
   <script src="mistera-star-sound.js" defer></script>
+  <script src="mistera-welcome.js" defer></script>
   <script src="mistera-loader.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body class="mistera-booting">
 <!-- MISTERA V28: loading scene. No future-day media or spoiler is shown. -->
-<section id="mistera-loader" role="region" aria-label="Preparando nuestra villa de Navidad">
+<section id="mistera-loader" role="region" aria-label="Preparando nuestra Navidad">
   <div class="m-loader-stars" aria-hidden="true">
     <i style="--x:14%;--y:13%;--s:2px;--a:.43;--d:5s"></i>
     <i style="--x:77%;--y:12%;--s:3px;--a:.38;--delay:-2s;--d:7s"></i>
@@ -82,7 +84,7 @@
     <p class="m-loader-subtitle">Calendario de Adviento</p>
     <div class="m-loader-progress" id="mistera-loader-progress">
       <p id="mistera-loader-message" class="m-loader-message" role="status" aria-live="polite">Tu pollito preparó muchas cosas…</p>
-      <div id="mistera-loader-track" class="m-loader-track" role="progressbar" aria-label="Preparación de la villa" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div id="mistera-loader-track" class="m-loader-track" role="progressbar" aria-label="Preparación de MISTERA" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <div id="mistera-loader-fill" class="m-loader-fill"></div>
       </div>
       <div class="m-loader-progress-footer" aria-hidden="true"><span>PREPARANDO</span><span id="mistera-loader-percent">0 %</span></div>
@@ -93,9 +95,15 @@
     </button>
     <p id="mistera-loader-foot" class="m-loader-foot" aria-live="polite"></p>
   </div>
+  <section id="mistera-welcome" class="m37-welcome" hidden aria-label="Mensaje especial">
+    <div class="m37-letter" tabindex="0" aria-label="Leer mensaje especial"><div id="mistera-welcome-message" class="m37-message"></div></div>
+    <button type="button" id="mistera-welcome-close" class="m37-close" hidden aria-label="Cerrar mensaje y entrar a MISTERA">
+      <svg viewBox="0 0 24 24" aria-hidden="true" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg><span>Cerrar</span>
+    </button>
+  </section>
   <button type="button" id="mistera-fullscreen-entrance" class="m34-fullscreen-entrance" aria-label="Activar pantalla completa para disfrutar la Navidad">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3"/></svg>
-    <span><strong>Vive nuestra Navidad a pantalla completa</strong><small>Una villa solo para nosotros ✨</small></span>
+    <span><strong>Vive nuestra Navidad a pantalla completa</strong></span>
   </button>
 </section>
 
@@ -182,7 +190,7 @@
           <button type="button" class="dock-control dock-ambient-sound" id="dock-ambient-sound"
             aria-label="Abrir ajustes" aria-expanded="false" title="Ajustes">
             <svg class="dock-gear-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M19.4 15a1.8 1.8 0 0 1 .36 2l-.1.2-1.5 1.5a1.8 1.8 0 0 1-2 .35l-.24-.13a2 2 0 0 0-1.7.7l-.1.45a2 2 0 0 1-2 1.65h-.4a2 2 0 0 1-2-1.65l-.1-.45a2 2 0 0 0-1.7-.7l-.24.13a1.8 1.8 0 0 1-2-.35l-1.5-1.5a1.8 1.8 0 0 1-.35-2l.13-.24a2 2 0 0 0-.7-1.7l-.45-.1a2 2 0 0 1-1.65-2v-.4a2 2 0 0 1 1.65-2l.45-.1a2 2 0 0 0 .7-1.7l-.13-.24a1.8 1.8 0 0 1 .35-2l1.5-1.5a1.8 1.8 0 0 1 2-.35l.24.13a2 2 0 0 0 1.7-.7l.1-.45a2 2 0 0 1 2-1.65h.4a2 2 0 0 1 2 1.65l.1.45a2 2 0 0 0 1.7.7l.24-.13a1.8 1.8 0 0 1 2 .35l1.5 1.5a1.8 1.8 0 0 1 .35 2l-.13.24a2 2 0 0 0 .7 1.7l.45.1a2 2 0 0 1 1.65 2v.4a2 2 0 0 1-1.65 2l-.45.1a2 2 0 0 0-.7 1.7Z"/></svg>
-            <svg class="dock-return-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M12 3v18M7 9l5-6 5 6M5 13l7-6 7 6M5 17l7-6 7 6"/></svg>
+            <svg class="dock-return-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7M12 8v13M12 8H7.5a2.5 2.5 0 1 1 2.45-3c.5 1.6 2.05 3 2.05 3Zm0 0h4.5a2.5 2.5 0 1 0-2.45-3C13.55 6.6 12 8 12 8Z"/></svg>
           </button>
           <button type="button" class="dock-control dock-close" id="dock-close" aria-label="Cerrar navegación" title="Cerrar">
             <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>

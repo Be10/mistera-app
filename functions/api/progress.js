@@ -24,7 +24,7 @@ function fields(snapshot){
   }
   return rows;
 }
-export async function onRequestPost({request,env}){
+export async function onRequestPost({request,env,progressUserHash=null}){
   if(!env.MISTERA_DB)return answer(503,{error:'D1 no configurada'});
   if((Number(request.headers.get('content-length'))||0)>28000)return answer(413,{error:'Solicitud demasiado grande'});
   const origin=request.headers.get('origin');
@@ -32,7 +32,7 @@ export async function onRequestPost({request,env}){
   let input;
   try{input=await request.json();}catch(_){return answer(400,{error:'JSON inválido'});}
   if(!safeToken(input?.pairingCode))return answer(401,{error:'Código de vinculación inválido'});
-  const id=await hash(input.pairingCode);
+  const id=progressUserHash || await hash(input.pairingCode);
   const proposed=fields(input.snapshot),db=env.MISTERA_DB;
   try{
     if(proposed.length){

@@ -54,6 +54,14 @@
       putJSON(PROGRESS_KEY,progress);
       window.dispatchEvent(new Event('mistera:progress-merged'));
     },
+    replaceProgressFromLink(next){
+      // Only for an explicit account/device pairing. Remote history is the
+      // source of truth; do not mix a different local account into D1.
+      if(!next||typeof next!=='object'||Array.isArray(next))return false;
+      progress={};
+      api.importProgress(next);
+      return true;
+    },
     applyPublished(next){
       if(!valid(next))return false;
       // Public content is refreshed quietly on every entry and never clears progress.

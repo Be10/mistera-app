@@ -8,3 +8,10 @@ CREATE TABLE IF NOT EXISTS gift_progress (
   PRIMARY KEY(user_hash,day,field)
 );
 CREATE INDEX IF NOT EXISTS gift_progress_user ON gift_progress(user_hash);
+
+-- No personal code or identifiable data is stored. Counters expire by 15-minute window.
+CREATE TABLE IF NOT EXISTS mistera_auth_attempts (
+  bucket TEXT PRIMARY KEY,
+  attempts INTEGER NOT NULL DEFAULT 0,
+  window_start INTEGER NOT NULL
+);

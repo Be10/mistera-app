@@ -5,8 +5,8 @@
 - Cuenta Cloudflare autorizada localmente con Wrangler.
 - Worker TEST existente: `mistera-staging`.
 - Worker histórico: `shy-recipe-28ed`; no usar.
-- D1 TEST existente: `mistera-dev` (`683018d0-4a53-4ddc-9f63-7611ebcb3005`), inicialmente con 0 tablas.
-- Worker PRD `mistera-prd` y base D1 `mistera-prd`: aún no creados.
+- D1 TEST exclusiva: `mistera-test-progress` (`4dc0b767-144a-4499-ad12-a79ec3d7c468`), creada el 25/11/2026.
+- D1 PRD exclusiva: `mistera-prd` (`ec5b19c8-4b50-4c5a-b9ed-e878d9338473`), creada el 25/11/2026. Worker PRD pendiente de despliegue.
 - Código fuente permanente en OneDrive: `Mistera_App/MISTERA_Codigo` (carpeta por sincronizar).
 
 ## Única preparación local del repositorio (necesita tu cuenta GitHub)
@@ -27,11 +27,22 @@ git push -u origin test
 
 El repositorio privado de MISTERA es `Be10/mistera-app`. Ejecuta Git dentro de `MISTERA_Codigo` y nunca en la carpeta padre `Mistera_App`. Si la carpeta ya tiene `.git`, **no repitas `git init`**; consulta `git remote -v` y `git branch` primero. No compartas credenciales. La carpeta usa `.gitignore` para impedir que salgan credenciales, paquetes ZIP y `.deploy`.
 
+## Terminal corporativa sin Python
+
+El proceso completo de compilación y publicación está implementado usando Node.js; no hay que instalar Python. Para el despliegue manual inicial en TEST, dentro de `MISTERA_Codigo`:
+
+```bash
+export NODE_USE_SYSTEM_CA=1
+bash scripts/deploy_test.sh
+```
+
+Cuando pregunte, escribe `TEST`. Asegúrate de que OneDrive haya sincronizado `scripts/build_worker_release.mjs` y los scripts actualizados, y luego sube esos cambios a la rama `test` para que Cloudflare use también la versión sin Python al compilar automáticamente.
+
 ## TEST — configuración única
 
 1. Inicializa D1 existente desde la terminal autenticada (solo una vez):
 
-   `npx wrangler d1 execute mistera-dev --remote --file=db/schema.sql`
+   `bash scripts/init_d1_progress.sh test`
 
 2. En Cloudflare abre **Workers & Pages → mistera-staging → Settings → Builds → Connect**. Autoriza GitHub y selecciona el repositorio privado `mistera-app`.
 3. Selecciona la rama de producción de **este Worker** `test` (no `main`) en Branch control.
@@ -48,14 +59,11 @@ El repositorio privado de MISTERA es `Be10/mistera-app`. Ejecuta Git dentro de `
 
 ## PRD — configuración única, DESPUÉS de aprobar TEST
 
-1. Crea D1 exclusiva desde tu terminal:
+1. La D1 exclusiva `mistera-prd` ya existe, con UUID registrado en `wrangler.prd.jsonc`. No volver a crearla.
+2. Verifica que el UUID de PRD siga siendo distinto de TEST y que no se haya cambiado el binding `MISTERA_DB`.
+3. Inicializa su esquema de forma no destructiva y sin subir archivos `.sql`:
 
-   `npx wrangler d1 create mistera-prd`
-
-2. Copia el UUID devuelto al campo `database_id` de **`wrangler.prd.jsonc`**. El UUID de PRD no puede ser el mismo de TEST.
-3. Inicializa su esquema sin borrar datos:
-
-   `npx wrangler d1 execute mistera-prd --remote --file=db/schema.sql`
+   `bash scripts/init_d1_progress.sh prd`
 
 4. Publica a `test` la configuración actualizada, valídala y promuévela a `main` con un Pull Request aprobado.
 5. En Cloudflare crea un Worker nuevo `mistera-prd` con GitHub, usando **el mismo repositorio privado**. Selecciona la rama `main` y el mismo directorio raíz `/`.
@@ -98,3 +106,15 @@ Documentación oficial:
 - https://developers.cloudflare.com/workers/ci-cd/builds/build-branches/
 - https://developers.cloudflare.com/workers/configuration/cloudflare-access/
 - https://developers.cloudflare.com/d1/get-started/
+
+## Bloqueo de uploads SQL por seguridad corporativa
+
+NTT DATA Zscaler bloquea el host de subida de archivos usado por `wrangler d1 execute --file=...`. Este error no implica que las bases D1 hayan fallado. Los dos UUID estan ya en `wrangler.test.jsonc` y `wrangler.prd.jsonc`. Para configurar una sola vez las tablas de cada entorno ejecuta los scripts oficiales de MISTERA basados en `--command` (Cloudflare D1 REST, sin upload de archivos):
+
+```bash
+export NODE_USE_SYSTEM_CA=1
+bash scripts/init_d1_progress.sh test
+bash scripts/init_d1_progress.sh prd
+```
+
+Cada script valida nombre, UUID y binding, y aplica solo `CREATE TABLE IF NOT EXISTS` y `CREATE INDEX IF NOT EXISTS`, conservando los registros existentes. Si la politica corporativa bloquea tambien estas consultas, no intentes eludirla: solicita una excepcion autorizada al administrador de red o inicializa manualmente en el editor SQL de D1 del panel de Cloudflare si esta permitido.

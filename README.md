@@ -2,7 +2,7 @@
 
 Esta es la **carpeta fuente estable** de MISTERA. Ya no es necesario crear un ZIP ni copiar versiones para publicar. No uses `Escena_Villa_Interactiva_VXX` como raíz de despliegue.
 
-- Rama `test` → Cloudflare Worker `mistera-staging` + D1 `mistera-dev`.
+- Rama `test` → Cloudflare Worker `mistera-staging` + D1 `mistera-test-progress`.
 - Rama `main` → Cloudflare Worker `mistera-prd` + D1 `mistera-prd`.
 - `shy-recipe-28ed` queda como archivo histórico, sin despliegues nuevos.
 
@@ -51,3 +51,14 @@ La D1 de PRD no se recrea, se borra ni se migra automáticamente por cada `push`
 - Antes de habilitar pruebas con borradores en TEST, protege `mistera-staging` con Cloudflare Access y verifica el bloqueo en una ventana de incógnito.
 - PRD no contiene el editor ni permite habilitar el modo Pruebas por URL.
 - No compartas tokens de GitHub, Cloudflare, códigos de progreso o claves de vinculación.
+
+## Inicializacion D1 sin archivo SQL
+
+En Git Bash (NTT DATA/Zscaler puede bloquear uploads de `.sql`):
+
+```bash
+bash scripts/init_d1_progress.sh test
+bash scripts/init_d1_progress.sh prd
+```
+
+Los comandos usan la API oficial `wrangler d1 execute --command` con SQL no destructivo (`IF NOT EXISTS`), en vez de subir un archivo `.sql`. TEST y PRD mantienen UUID de D1 independientes. Verifica `/api/status` despues de publicar la configuracion. Nunca ejecutes estas operaciones contra la antigua `mistera-dev`.

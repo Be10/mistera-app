@@ -8,7 +8,7 @@ const c = JSON.parse(fs.readFileSync('wrangler.prd.jsonc','utf8'));
 const db = c.d1_databases?.[0];
 if (c.name !== 'mistera-prd' || c.assets?.directory !== './.deploy/prd') throw new Error('PRD: Worker inesperado.');
 if (db?.binding !== 'MISTERA_DB' || db?.database_name !== 'mistera-prd') throw new Error('PRD: D1 incorrecta.');
-if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(db.database_id || '') || db.database_id === '683018d0-4a53-4ddc-9f63-7611ebcb3005') throw new Error('PRD: falta configurar UUID real de D1 exclusiva.');
+if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(db.database_id || '') || db.database_id !== 'ec5b19c8-4b50-4c5a-b9ed-e878d9338473' || db.database_id === '4dc0b767-144a-4499-ad12-a79ec3d7c468') throw new Error('PRD: falta configurar UUID real de D1 exclusiva.');
 JS
 node scripts/build_worker_release.mjs prd
 node --input-type=module <<'JS'

@@ -13,7 +13,7 @@ if [[ -n "$DRAFT_FLAG" && ( "$ENVIRONMENT" != test || "$DRAFT_FLAG" != '--drafts
 fi
 if ! command -v node >/dev/null; then echo 'ERROR: falta Node.js; no se requiere Python'; exit 2; fi
 if [[ "$ENVIRONMENT" == test ]]; then
-  echo 'Destino TEST: mistera-staging; D1: mistera-dev; PRD intacta.'
+  echo 'Destino TEST: mistera-staging; D1: mistera-test-progress; PRD intacta.'
   read -r -p 'Escribe TEST para continuar: ' ACK
   [[ "$ACK" == TEST ]] || { echo 'Cancelado'; exit 2; }
   if [[ "$DRAFT_FLAG" == "--drafts" ]]; then

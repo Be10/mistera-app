@@ -7,13 +7,15 @@
   "assets": {
     "directory": "./.deploy/prd",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": [
+      "/api/*"
+    ]
   },
   "d1_databases": [
     {
       "binding": "MISTERA_DB",
       "database_name": "mistera-prd",
-      "database_id": "REEMPLAZAR_CON_UUID_D1_PRD"
+      "database_id": "ec5b19c8-4b50-4c5a-b9ed-e878d9338473"
     }
   ]
 }
